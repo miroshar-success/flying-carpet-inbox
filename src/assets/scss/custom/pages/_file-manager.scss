@@ -1,0 +1,23 @@
+// 
+// file-manager.scss
+// 
+
+.file-search {
+    .search-input {
+        background-color: $gray-100;
+        padding-left: 40px;
+    }
+    .icon-search {
+        z-index: 9;
+        position: absolute;
+    }
+}
+
+// responsive
+@media (max-width: 768px) {
+    .recent-data{
+        margin-left: 0px !important;
+        padding: 0px !important;
+    }
+}
+

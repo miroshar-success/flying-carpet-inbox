@@ -1,0 +1,329 @@
+//
+// formm-wizard.scss
+//
+
+.sw-main{
+    box-shadow: none;
+    border: 1px solid darken($gray-300, 2%);
+    
+    .sw-toolbar{
+        background: transparent;
+        padding: 10px;
+    }
+    .step-content{
+        background-color: transparent !important;
+        text-align: left;
+    }
+}
+
+// sw-theme-default
+
+.sw-theme-default{
+    .step-content{
+        background-color: transparent;
+    }
+
+    >ul.step-anchor{
+        >li{
+            >a{
+                color: $gray-600;
+                &:hover{
+                    color: $gray-600; 
+                }
+                &:after{
+                    background: $primary;
+                }
+            }
+            &.active{
+                >a{
+                    color: $primary !important;
+                }
+            }
+            &.done{
+                >a{
+                    color: $gray-600 !important;
+                    &:after{
+                        background: $success;
+                    }
+                }
+            }
+        }
+    }
+}
+
+// sw-theme-arrows
+
+.sw-theme-arrows{
+    >ul.step-anchor{
+        background: $gray-300;
+        border-bottom-color: $gray-300;
+        >li{
+            a{
+                padding: 10px 0 10px 45px;
+                &:hover{
+                    padding: 10px 0 10px 45px;
+                    isolation: inherit;
+                }
+            }
+
+            &:first-child{
+                a{
+                    padding-left: 15px;
+                }
+            }
+
+            >a, >a:hover{
+                background: $gray-300;
+                color: $gray-600;
+            }
+
+            >a{
+                &::after{
+                    border-left-color: $gray-300 !important;
+                    content: " ";
+                    display: block;
+                    width: 0;
+                    height: 0;
+                    border-top: 50px solid transparent;
+                    border-bottom: 50px solid transparent;
+                    border-left: 30px solid transparent;
+                    border-right: 0;
+                    position: absolute;
+                    top: 50%;
+                    margin-top: -50px;
+                    left: 100%;
+                    z-index: 2;
+                }
+                &::before{
+                    border-left-color: $gray-300 !important;
+                    content: " ";
+                    display: block;
+                    width: 0;
+                    height: 0;
+                    border-top: 50px solid transparent;
+                    border-bottom: 50px solid transparent;
+                    border-left: 30px solid transparent;
+                    border-right: 0;
+                    position: absolute;
+                    top: 50%;
+                    margin-top: -50px;
+                    margin-left: 1px;
+                    left: 100%;
+                    z-index: 1;
+                }
+            }
+            &.active{
+                >a{
+                    background: $primary !important;
+                    border-color: $primary !important;
+                    isolation: inherit;
+                    &:after{
+                        border-left-color: $primary !important;
+                        border-right: 0 !important;
+                    }
+                }
+            }
+
+            &.done{
+                >a{
+                    background: lighten($primary, 24%) !important;
+                    border-color: lighten($primary, 24%) !important;
+                    color: $primary !important;
+                    &:after{
+                        border-left-color: lighten($primary, 24%) !important;
+                        border-right: 0 !important;
+                    }
+                    &::before{
+                        border-left-color: lighten($primary, 24%) !important;
+                        border-right: 0 !important;
+                    }
+                }
+            }
+        }
+    }
+}
+
+// sw-theme-circles
+
+.sw-theme-circles{
+    >ul.step-anchor{
+        margin-top: 30px;
+        background-color: transparent;
+        &:before{
+            background-color:$gray-300;
+        }
+        >li{
+            margin-left: 40px;
+            margin-right: 0;
+            >a{
+                font-size: 14px;
+                width: 40px;
+                height: 40px;
+                padding: 12px 0;
+                background-color:$gray-300;
+                border-color: $gray-200 !important;
+                box-shadow: none !important;
+                &:hover{
+                    background-color:$gray-300;
+                    
+                }
+
+                small {
+                    bottom: -20px;
+                    width: 100%;
+                }
+            }
+
+            >a, >a:hover{
+                color: $gray-600;
+                small{
+                    color: $gray-600;
+                }
+            }
+            &.active{
+                >a{
+                    background: $primary !important;
+                    border-color: $primary !important;
+                    color: $white !important;
+                    >small{
+                        color: $primary;
+                    }
+                }
+            }
+
+            &.done{
+                >a{
+                    background: $success !important;
+                    border-color: $success !important;
+                    color: $white !important;
+                    >small{
+                        color: $success;
+                    }
+                }
+            }
+        }
+    }
+}
+
+// sw-theme-dots
+
+.sw-theme-dots{
+    >ul.step-anchor{
+        background-color: transparent;
+        &:before{
+            background-color: $gray-300;
+        }
+        >li{
+            >a{
+                &:before{
+                    bottom: -6px;
+                    background: $gray-300;
+                }
+
+                &:after{
+                    left: 44%;
+                    bottom: -8px;
+                    background: $gray-400;
+                }
+            }
+            >a, >a:hover, >a:focus{
+                color: $gray-600;
+            }
+            &.active{
+                >a{
+                    color: $primary;
+                    &:after{
+                        background: $primary;
+                    }
+                }
+            }
+            &.done{
+                >a{
+                    color: $success;
+                    &:after{
+                        background: $success;
+                    }
+                }
+            }
+        }
+    }
+}
+[dir="rtl"] .sw-theme-dots{
+    >ul.step-anchor{
+        >li{
+            >a{
+                &:after{
+                    left: 40%;
+                }
+            }
+        }
+    }
+}
+
+
+
+// responsive
+
+@media (max-width: 768px){
+    .sw-main{
+        >ul.step-anchor{
+            >li{
+                display: block;
+                width: 100%;
+            }
+        }
+    }
+    .sw-theme-arrows{
+        >ul.step-anchor{            
+            >li{
+                a{
+                    padding: 10px 15px;
+                }
+            }
+        }
+    }
+    .sw-theme-circles{
+        >ul.step-anchor{
+            margin-bottom: 10px;
+            &::before{
+                width: 0px;
+            }
+            >li{
+                margin-bottom: 10px;
+                >a{
+                    >small{
+                        bottom: 14px;
+                        left: 76px;
+                    }
+                }
+            }
+        }
+    }
+    .sw-theme-dots{
+        >ul.step-anchor{
+            &::before{
+                left: 10px;
+                right: 0;
+                margin-right: 10px;
+                margin-left: 0px;
+            }
+            >li{
+                margin: 0 20px;
+                >a{
+                    text-align: left;
+                    &::before{
+                        left: -23px;
+                        margin-right: 10px;
+                        margin-left: 0px;
+                    }
+                    &::after {
+                        top: -36px;
+                        left: -35px !important;
+                        margin-right: 10px;
+                        margin-left: 0px;
+                    }
+                }
+            }
+        }
+    }   
+}

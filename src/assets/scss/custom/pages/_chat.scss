@@ -1,0 +1,151 @@
+// 
+//  chat.scss
+// 
+
+ /* Search */
+ .chat-search {
+    height: $topbar-height;
+    display: table;
+    width: 100%;
+    .chat-search-box {
+        display: table-cell;
+        vertical-align: middle;
+        position: relative;
+    }
+    .form-control {        
+        padding: 0;
+        box-shadow: none;
+        background-color: $chat-secondary-user-bg !important;
+        border-color: $chat-secondary-user-bg !important;
+        &::placeholder {
+            color: darken($gray-500, 10%);
+        }
+    }
+
+    .btn {
+        box-shadow: none !important;
+        background-color: $chat-secondary-user-bg;
+        color: $gray-600;
+    }
+}
+
+.user-status {
+    position: absolute;
+    height: 11px;
+    width: 11px;
+    background-color: $gray-400;
+    border: 2.5px solid $white;
+    border-radius: 50%;
+    bottom: 0;
+    left: 35px;
+}
+
+.video-call{
+    background-image: url("../../../images/users/chat.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 450px;
+    position: relative;    
+    .video-call-head{
+        img{
+            height: 4rem;
+            width: 4rem;
+        }
+    }
+    .video-call-action{
+        position: absolute;
+        bottom: 0px;
+        left: 0;
+        right: 0;
+        padding: 60px 0 16px;
+        background: linear-gradient(to top, $black 0, rgba($black, 0) 90%);
+    }
+}
+
+.voice-call{
+    height: 450px;
+    position: relative;
+    .voice-call-head{
+        img{
+            width: 6rem;
+            height: 6rem;
+        }
+    }
+    .voice-call-action{
+        position: absolute;
+        bottom: 0px;
+        left: 0;
+        right: 0;
+    }
+}
+
+.conversation-list {
+    list-style: none;
+    padding: 0 15px;
+    outline: none;
+    li {
+        margin-bottom: 20px;
+        .conversation-actions {
+            display: none;
+        }
+        &:hover{
+            .conversation-actions {
+                display: block;
+            }
+        }
+                
+    }
+    .ctext-wrap {
+        background: $chat-secondary-user-bg;
+        color: $gray-600;
+        border-radius: 3px;
+        display: inline-block;
+        padding: 7px 12px;
+        position: relative;
+        i {
+            display: block;
+            font-size: 12px;
+            font-style: normal;
+            font-weight: bold;
+            position: relative;
+        }
+        p {
+            margin: 0;
+            padding: 0;
+        }
+        &:after {
+            left: -11px;
+            top: 0;
+            border: solid transparent;
+            content: " ";
+            height: 0;
+            width: 0;
+            position: absolute;
+            pointer-events: none;
+            border-width: 6px;
+            margin-right: -1px;
+        }
+    }
+    .conversation-text {
+        float: left;
+        font-size: 13px;
+        margin-left: 12px;
+        width: 80%;
+    }
+    .odd {
+        .conversation-text {
+            float: right !important;
+            text-align: right !important;
+            width: 70% !important;
+        }
+        .ctext-wrap {
+            background-color: $chat-primary-user-bg;
+            color: $gray-700;
+            &:after {
+                border-color: transparent;
+                right: -10px;
+                left: auto;
+            }
+        }
+    }
+}

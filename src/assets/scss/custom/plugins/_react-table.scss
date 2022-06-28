@@ -1,0 +1,55 @@
+//
+// react-table.scss
+//
+
+.react-table {
+    th, td {
+        white-space: nowrap;
+    }
+    th {
+        padding-left: $table-cell-padding-y;
+        padding-right: 30px;
+    }
+
+    .sortable {
+        position: relative;
+        cursor: pointer;
+        &:before {
+            position: absolute;
+            right: 1rem;
+            left: auto;
+            content: "\2191";
+            font-family: "Material Design Icons";
+            font-size: 1rem;
+            top: 12px;
+            opacity: 0.3;
+        }
+        &:after {
+            position: absolute;
+            right: .5em;
+            left: auto;
+            content: "\2193";
+            font-family: "Material Design Icons";
+            top: 12px;
+            opacity: 0.3;
+            font-size: 1rem;
+        }
+            &.sorting_asc{
+                &:before {
+                    opacity: 1;
+                }
+            }
+            &.sorting_desc{
+                &:after{
+                    opacity: 1;
+                }
+            }
+        }
+        
+    @include media-breakpoint-down(lg) {
+        li.paginate_button.previous,li.paginate_button.next {
+            display: inline-block;
+            font-size: 1.5rem;
+        }
+    }
+}
