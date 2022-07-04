@@ -154,7 +154,7 @@ const emailAppRoutes: RoutesProps = {
             route: PrivateRoute,
         },
         {
-            path: '/apps/email/details',
+            path: '/apps/email/details/:userId/:context',
             name: 'Email Details',
             component: EmailDetail,
             route: PrivateRoute,
