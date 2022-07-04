@@ -34,8 +34,8 @@ stages:
   displayName: 'Deploy the Fc Shared Inbox to backend6'
   dependsOn: Build
   jobs:
-  - deployment: 'DeployToBackend6'
-    displayName: 'Deploy the Fc Shared Inbox to the BackendGroup environment'
+  - deployment: 'DeployToFcSharedInboxServer'
+    displayName: 'Deploy the Fc Shared Inbox to the FcSharedInbox environment'
     variables:
       Parameters.IISDeploymentType: 'iISWebsite'
       Parameters.ActionIISWebsite: 'CreateOrUpdateWebsite'
@@ -46,9 +46,8 @@ stages:
       #Parameters.XmlTransformation: true
       #Parameters.XmlVariableSubstitution: true
     environment:
-      name: BackendGroup
+      name: FcSharedInbox
       resourceType: VirtualMachine
-      tags: fcSharedInbox
     strategy:
       runOnce:
         deploy:
