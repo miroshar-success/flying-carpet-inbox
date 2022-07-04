@@ -11,9 +11,9 @@ const Root = () => {
 
         // check if user logged in or not and return url accordingly
         if (api.isUserAuthenticated() === false) {
-            url = 'landing';
+            url = 'auth/login';
         } else {
-            url = 'dashboard/ecommerce';
+            url = 'apps/email/inbox';
         }
         return url;
     };

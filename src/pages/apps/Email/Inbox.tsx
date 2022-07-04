@@ -11,9 +11,10 @@ import LeftBar from './LeftBar';
 // dafault data
 import { emails as mails, chatUsers } from './data';
 
+
 const Email = ({ email }: { email: EmailItems }) => {
     return (
-        <li className={classNames({ unread: !email.is_read })}>
+        <li className={classNames({ })}>
             <div className="col-mail col-mail-1">
                 <div className="checkbox-wrapper-mail">
                     <input type="checkbox" className="form-check-input" id={'mail' + email.id} />
@@ -21,17 +22,19 @@ const Email = ({ email }: { email: EmailItems }) => {
                 </div>
                 <span
                     className={classNames('star-toggle', 'uil', 'uil uil-star', {
-                        'text-warning': email.is_important,
+                        'text-warning':"",
                     })}></span>
-                <Link to="/apps/email/details" className="title">
-                    {email.from_name}
-                    {email.number_of_reply > 1 && <span> ({email.number_of_reply})</span>}
+                <Link to={"/apps/email/details/"+email.chatName+"/"+email.body} className="title">
+                    {
+                        email.fromMe == 1 ? "me, "+email.chatName : email.senderName
+                    }
+                    
                 </Link>
             </div>
             <div className="col-mail col-mail-2">
-                <Link to="/apps/email/details" className="subject">
-                    {email.subject} &nbsp;&ndash;&nbsp;
-                    <span className="teaser">{email.teaser}</span>
+                <Link to={"/apps/email/details/"+email.chatName+"/"+email.body} className="subject">
+                    {email.body} &nbsp;&ndash;&nbsp;
+                    {/* <span className="teaser">{email.teaser}</span> */}
                 </Link>
                 <div className="date">{email.time}</div>
             </div>
@@ -39,82 +42,115 @@ const Email = ({ email }: { email: EmailItems }) => {
     );
 };
 
+// interface EmailItems {
+//     id: number;
+//     from_name: string;
+//     from_email: string;
+//     subject: string;
+//     teaser: string;
+//     number_of_reply: number;
+//     is_important: boolean;
+//     is_read: boolean;
+//     time: string;
+//     date: string;
+// }
+
 interface EmailItems {
-    id: number;
-    from_name: string;
-    from_email: string;
-    subject: string;
-    teaser: string;
-    number_of_reply: number;
-    is_important: boolean;
-    is_read: boolean;
-    time: string;
-    date: string;
+    author: string,
+    body: string,
+    caption: string,
+    chatId: string,
+    chatName: string,
+    fromMe: number
+    id: string,
+    isForwarded: number
+    messageNumber: number,
+    meta: string
+    quotedMsgId: string,
+    self: number,
+    senderName: string,
+    time: number
+    type: string
 }
 
 // Inbox
 const Inbox = () => {
-    const [emails] = useState<Array<EmailItems>>(mails);
+    // const [emails] = useState<Array<EmailItems>>(mails);
     const [totalEmails] = useState<number>(mails.length);
     const [startIndex, setStartIndex] = useState<number>(1);
     const [endIndex, setEndIndex] = useState<number>(20);
     const [totalUnreadEmails] = useState<number>(mails.filter((e: any) => e.is_read === false).length);
 
-    const unreadEmails = emails.filter((email) => !email.is_read);
-    const importantEmails = emails.filter((email) => email.is_important);
-    const otherEmails = emails.filter((email) => email.is_read && !email.is_important);
+    // const unreadEmails = emails.filter((email) => !email.is_read);
+    // const importantEmails = emails.filter((email) => email.is_important);
+    // const otherEmails = emails.filter((email) => email.is_read && !email.is_important);
+
+    const token = "3px6cypvje3xsjmc";
+    const instance = "7827";
+    /**
+     * get emails from your whatsapp
+     */
+    const fetchemailurl = "https://api.chat-api.com/instance7827/messages?&token=3px6cypvje3xsjmc";
+    
+    fetch(fetchemailurl)
+        .then((res)=>res.json())
+        .then((json)=>{
+            console.log(json.messages);
+            setEmailList(json.messages)
+        })
+
 
     /**
      * get start index for other emails
      */
-    const getStartIndex = useCallback(
-        (index) => {
-            let start = index - 1;
-            if (start === 0) {
-                return start;
-            } else {
-                return start - unreadEmails.length - importantEmails.length;
-            }
-        },
-        [unreadEmails.length, importantEmails.length]
-    );
+    // const getStartIndex = useCallback(
+    //     (index) => {
+    //         let start = index - 1;
+    //         if (start === 0) {
+    //             return start;
+    //         } else {
+    //             return start - unreadEmails.length - importantEmails.length;
+    //         }
+    //     },
+    //     [unreadEmails.length, importantEmails.length]
+    // );
 
     /**
      * get end index for other emails
      */
-    const getEndIndex = useCallback(
-        (index) => {
-            let end = index;
-            return end - unreadEmails.length - importantEmails.length;
-        },
-        [importantEmails.length, unreadEmails.length]
-    );
+    // const getEndIndex = useCallback(
+    //     (index) => {
+    //         let end = index;
+    //         return end - unreadEmails.length - importantEmails.length;
+    //     },
+    //     [importantEmails.length, unreadEmails.length]
+    // );
 
     const [emailList, setEmailList] = useState<EmailItems[]>(
-        otherEmails.slice(getStartIndex(startIndex), getEndIndex(endIndex))
+        // otherEmails.slice(getStartIndex(startIndex), getEndIndex(endIndex))
     );
 
     /**
      * Gets the next page
      */
-    const getNextPage = () => {
-        const startIdx = startIndex + 20;
-        const endIdx = endIndex + 20;
-        setStartIndex(startIdx);
-        setEndIndex(endIdx);
-        setEmailList(otherEmails.slice(getStartIndex(startIdx), getEndIndex(endIdx)));
-    };
+    // const getNextPage = () => {
+    //     const startIdx = startIndex + 20;
+    //     const endIdx = endIndex + 20;
+    //     setStartIndex(startIdx);
+    //     setEndIndex(endIdx);
+    //     setEmailList(otherEmails.slice(getStartIndex(startIdx), getEndIndex(endIdx)));
+    // };
 
     /**
      * Gets the prev page
      */
-    const getPrevPage = () => {
-        const startIdx = startIndex - 20;
-        const endIdx = endIndex - 20;
-        setStartIndex(startIdx);
-        setEndIndex(endIdx);
-        setEmailList(otherEmails.slice(getStartIndex(startIdx), getEndIndex(endIdx)));
-    };
+    // const getPrevPage = () => {
+    //     const startIdx = startIndex - 20;
+    //     const endIdx = endIndex - 20;
+    //     setStartIndex(startIdx);
+    //     setEndIndex(endIdx);
+    //     setEmailList(otherEmails.slice(getStartIndex(startIdx), getEndIndex(endIdx)));
+    // };
 
     return (
         <>
@@ -129,12 +165,12 @@ const Inbox = () => {
             <Row>
                 <Col>
                     <div className="email-container bg-transparent">
-                        <Card className="inbox-leftbar">
+                        {/* <Card className="inbox-leftbar">
                             <Link to="/apps/email/compose" className="btn btn-danger d-block">
                                 Compose
                             </Link>
-                            <LeftBar totalUnreadEmails={totalUnreadEmails} chatUsers={chatUsers} />
-                        </Card>
+                            {/* <LeftBar totalUnreadEmails={totalUnreadEmails} chatUsers={chatUsers} /> */}
+                        {/* </Card> */} 
                         <div className="inbox-rightbar">
                             <ButtonGroup className="mb-2 me-1">
                                 <OverlayTrigger placement="top" overlay={<Tooltip id="archived">Archived</Tooltip>}>
@@ -210,7 +246,7 @@ const Inbox = () => {
                                         Showing {startIndex} - {endIndex} of {totalEmails}
                                     </Col>
                                     <Col xs={4}>
-                                        <ButtonGroup className="float-end">
+                                        {/* <ButtonGroup className="float-end">
                                             {startIndex === 1 ? (
                                                 <Button variant="white" className="btn-sm" disabled>
                                                     <i className="uil uil-angle-left"></i>
@@ -229,13 +265,13 @@ const Inbox = () => {
                                                     <i className="uil uil-angle-right"></i>
                                                 </Button>
                                             )}
-                                        </ButtonGroup>
+                                        </ButtonGroup> */}
                                     </Col>
                                 </Row>
                             </div>
 
                             <div className="mt-2">
-                                {startIndex === 1 && (
+                                {/* {startIndex === 1 && (
                                     <>
                                         {' '}
                                         <h5 className="mt-3 mb-2 fs-16">Unread</h5>
@@ -251,9 +287,9 @@ const Inbox = () => {
                                             })}
                                         </ul>
                                     </>
-                                )}
+                                )} */}
                                 <h5 className={classNames('mb-2', 'fs-16', startIndex === 1 ? 'mt-4' : 'mt-3')}>
-                                    Everything Else
+                                    {/* Everything Else */}
                                 </h5>
                                 <ul className="message-list">
                                     {(emailList || []).map((email, idx) => {

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link,Redirect } from 'react-router-dom';
 import { Row, Col, Dropdown, ButtonGroup, Button, OverlayTrigger, Tooltip } from 'react-bootstrap';
 
 // Form Editor
@@ -14,8 +14,13 @@ import PageTitle from '../../../components/PageTitle';
 
 import LeftBar from './LeftBar';
 
+import {convertToRaw} from 'draft-js';
+import draftToHtml from 'draftjs-to-html';
+
 // dummy data
 import { emails } from './data';
+
+import axios from 'axios';
 
 // images
 import avatarImg from '../../../assets/images/users/avatar-2.jpg';
@@ -38,8 +43,11 @@ interface EmailItems {
 }
 
 // EmailDetail
-const EmailDetail = () => {
-    const [totalUnreadEmails] = useState<number>(emails.filter((e: any) => e.is_read === false).length);
+const EmailDetail = (props : any) => {
+    const {userId, context} = props.match.params;
+    // const [totalUnreadEmails] = useState<number>(emails.filter((e: any) => e.is_read === false).length);
+    const [ucontext , setucontext] = useState<string>("");
+    
     const [email] = useState<EmailItems>({
         avatar: avatarImg,
         subject: 'Your elite author Graphic Optimization reward is ready!',
@@ -56,12 +64,7 @@ const EmailDetail = () => {
     const [editorState, setEditorState] = useState<any>();
 
     useEffect(() => {
-        const html = `<h3>This is an Air-mode editable area.</h3>
-            <ul>
-                <li>Select a text to reveal the toolbar.</li>
-                <li>Edit rich document on-the-fly, so elastic!</li>
-            </ul>
-            <p>End of air-mode area</p>`;
+        const html = ``;
         const contentBlock = htmlToDraft(html);
         if (contentBlock) {
             const contentState = ContentState.createFromBlockArray(contentBlock.contentBlocks);
@@ -76,6 +79,38 @@ const EmailDetail = () => {
         setEditorState(editorStates);
     };
 
+
+    const sendMessage = () => {
+        
+        const currentContent = editorState.getCurrentContent();
+        const contentRaw = convertToRaw(currentContent);
+        const Mvalue = currentContent.hasText() ? draftToHtml(contentRaw) : "";
+
+        const tdpara = document.createElement("p");
+        tdpara.innerHTML = Mvalue;
+        const sendMes = tdpara.innerText;
+        const fetchUrl = "https://api.chat-api.com/instance7827/sendMessage?token=3px6cypvje3xsjmc";
+        const dData = {body : sendMes, phone : userId};
+        
+        fetch(fetchUrl, {
+            method: 'POST', // *GET, POST, PUT, DELETE, etc.
+            mode: 'cors', // no-cors, *cors, same-origin
+            cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+            credentials: 'same-origin', // include, *same-origin, omit
+            headers: {
+              'Content-Type': 'application/json'
+              // 'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            redirect: 'follow', // manual, *follow, error
+            referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+            body: JSON.stringify(dData) // body data type must match "Content-Type" header
+          })
+          .then(res => {
+                props.history.push("/apps/email/inbox")
+          })
+          
+    }
+
     return (
         <>
             <PageTitle
@@ -89,12 +124,12 @@ const EmailDetail = () => {
             <Row>
                 <Col lg={12}>
                     <div className="email-container">
-                        <div className="inbox-leftbar">
+                        {/* <div className="inbox-leftbar">
                             <Link to="/apps/email/compose" className="btn btn-danger d-block">
                                 Compose
                             </Link>
                             <LeftBar showChatDetails={false} totalUnreadEmails={totalUnreadEmails} />
-                        </div>
+                        </div> */}
 
                         <div className="inbox-rightbar p-4">
                             <ButtonGroup className="mb-2 me-1">
@@ -166,11 +201,11 @@ const EmailDetail = () => {
                             </OverlayTrigger>
 
                             <div className="mt-2">
-                                <h5>Hi Bro, How are you?</h5>
+                                <h5>{userId}</h5>
 
                                 <hr />
 
-                                <div className="d-sm-flex mb-4 mt-1">
+                                {/* <div className="d-sm-flex mb-4 mt-1">
                                     <img
                                         className="me-2 rounded-circle avatar-sm mb-sm-0 mb-3"
                                         src={email.avatar}
@@ -181,61 +216,17 @@ const EmailDetail = () => {
                                         <h6 className="m-0">{email.from_name}</h6>
                                         <small className="text-muted">From: {email.from_email}</small>
                                     </div>
-                                </div>
+                                </div> */}
 
                                 <p>
                                     <b>Hi Bro...</b>
                                 </p>
                                 <div className="text-muted">
-                                    <p>
-                                        Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula
-                                        eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient
-                                        montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque
-                                        eu, pretium quis, sem.
-                                    </p>
-                                    <p>
-                                        Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec,
-                                        vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae,
-                                        justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras
-                                        dapibus. Vivamus elementum semper nisi.
-                                    </p>
-                                    <p>
-                                        Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat
-                                        vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat
-                                        a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum.
-                                        Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper
-                                        ultricies nisi. Nam eget dui. Etiam rhoncus. Maecenas tempus, tellus eget
-                                        condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed
-                                        ipsum. Nam quam nunc, blandit vel, luctus pulvinar,
-                                    </p>
+                                    {context}
                                 </div>
 
                                 <hr />
-
-                                <h6>
-                                    {' '}
-                                    <i className="fa fa-paperclip mb-2"></i> Attachments <span>(3)</span>{' '}
-                                </h6>
-                                <Row>
-                                    <Col xl={2} sm={4}>
-                                        <Link to="#">
-                                            {' '}
-                                            <img src={img1} alt="attachment" className="img-thumbnail img-responsive" />
-                                        </Link>
-                                    </Col>
-                                    <Col xl={2} sm={4} className="mt-3 mt-sm-0">
-                                        <Link to="#">
-                                            {' '}
-                                            <img src={img2} alt="attachment" className="img-thumbnail img-responsive" />
-                                        </Link>
-                                    </Col>
-                                    <Col xl={2} sm={4} className="mt-3 mt-sm-0">
-                                        <Link to="#">
-                                            {' '}
-                                            <img src={img3} alt="attachment" className="img-thumbnail img-responsive" />
-                                        </Link>
-                                    </Col>
-                                </Row>
+                                
 
                                 <div className="d-flex mb-0 mt-5">
                                     <img src={avatarImg2} className="me-3 rounded-circle avatar-sm" alt="" />
@@ -254,7 +245,7 @@ const EmailDetail = () => {
                                 </div>
 
                                 <div className="text-end">
-                                    <Button variant="primary" className="rounded-pill width-sm">
+                                    <Button variant="primary" className="rounded-pill width-sm" onClick={sendMessage}>
                                         Send
                                     </Button>
                                 </div>

@@ -1,3 +1,5 @@
 {
-    "js/ts.implicitProjectConfig.module": "ESNext"
+    "i18n-ally.localesPaths": [
+        "src/locales"
+    ]
 }
