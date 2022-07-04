@@ -54,5 +54,14 @@ stages:
           steps:
           - download: current
             artifact: fcSharedInbox
-            
+          - task: IISWebAppDeploymentOnMachineGroup@0
+            displayName: 'IIS Web App Deploy'
+            inputs:
+              WebSiteName: '$(Parameters.WebsiteName)'
+              #VirtualApplication: '$(Parameters.VirtualApplication)'
+              Package: '$(Parameters.Package)'
+              RemoveAdditionalFilesFlag: $(Parameters.RemoveAdditionalFilesFlag)
+              TakeAppOfflineFlag: $(Parameters.TakeAppOfflineFlag)
+              #XmlTransformation: $(Parameters.XmlTransformation)
+              #XmlVariableSubstitution: $(Parameters.XmlVariableSubstitution)            
           
