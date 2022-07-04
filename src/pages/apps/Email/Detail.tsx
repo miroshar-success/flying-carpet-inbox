@@ -8,6 +8,8 @@ import { EditorState, ContentState } from 'draft-js';
 import htmlToDraft from 'html-to-draftjs';
 // styles
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+import classNames from 'classnames';
+
 
 // components
 import PageTitle from '../../../components/PageTitle';
@@ -44,7 +46,23 @@ interface EmailItems {
 
 // EmailDetail
 const EmailDetail = (props : any) => {
-    const {userId, context} = props.match.params;
+    const {userId, context,time} = props.match.params;
+
+    const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+    let timedate = new Date(time*1000);
+    let year = timedate.getFullYear();
+    let monthnum = timedate.getMonth();
+    let month = months[monthnum];
+    let date = timedate.getDate();
+    let hour = timedate.getHours();
+    let min = timedate.getMinutes();
+    let tmp = " AM";
+    if (hour > 12) {
+        hour -= 12;
+        tmp = " PM";
+    }
+    let timespan = month +" "+ date + " "+ year + ","+hour+" : "+min+tmp; 
     // const [totalUnreadEmails] = useState<number>(emails.filter((e: any) => e.is_read === false).length);
     const [ucontext , setucontext] = useState<string>("");
     
@@ -201,22 +219,22 @@ const EmailDetail = (props : any) => {
                             </OverlayTrigger>
 
                             <div className="mt-2">
-                                <h5>{userId}</h5>
+                                <h5>Hi Bro, How are you?</h5>
 
                                 <hr />
 
-                                {/* <div className="d-sm-flex mb-4 mt-1">
-                                    <img
-                                        className="me-2 rounded-circle avatar-sm mb-sm-0 mb-3"
-                                        src={email.avatar}
-                                        alt={email.from_name}
-                                    />
+                                <div className="d-sm-flex mb-4 mt-1">
+                                <span
+                                    className={classNames('star-toggle', 'uil', 'uil uil-user-plus', {
+                                        'text-warning':"",
+                                    })}    
+                                ></span>
                                     <div className="flex-grow-1">
-                                        <small className="float-end">{email.recieved_on}</small>
-                                        <h6 className="m-0">{email.from_name}</h6>
-                                        <small className="text-muted">From: {email.from_email}</small>
+                                        <small className="float-end">{timespan}</small>
+                                        <h6 className="m-0">{userId} @c.us</h6>
+                                        {/* <small className="text-muted">From: {userId} @c.us</small> */}
                                     </div>
-                                </div> */}
+                                </div>
 
                                 <p>
                                     <b>Hi Bro...</b>
