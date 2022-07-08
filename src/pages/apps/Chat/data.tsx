@@ -9,7 +9,7 @@ import avatar9 from '../../../assets/images/users/avatar-9.jpg';
 import avatar10 from '../../../assets/images/users/avatar-10.jpg';
 
 export interface ChatUserType {
-    id?: number;
+    id?: string;
     name?: string;
     avatar?: string;
     lastMessage?: string;
@@ -27,6 +27,7 @@ export interface MessageItem {
         value?: any;
     }[];
     sendOn?: string;
+    sendDate? : string;
 }
 
 export interface ChatMessage {
@@ -38,81 +39,46 @@ export interface ChatMessage {
 // list of chat users
 const USERS: ChatUserType[] = [
     {
-        id: 1,
+        id: '1',
         name: 'Brandon Smith',
         avatar: avatar2,
-        lastMessage: 'How are you today?',
-        totalUnread: 3,
-        lastMessageOn: '5:30am',
+        // lastMessage: 'How are you today?',
+        // totalUnread: 3,
+        // lastMessageOn: '5:30am',
         userStatus: 'offline',
     },
     {
-        id: 2,
+        id: '2',
         name: 'Maria C',
         avatar: avatar10,
-        lastMessage: "Hey! a reminder for tomorrow's meeting?",
-        totalUnread: 0,
-        lastMessageOn: 'Thu',
+        // lastMessage: "Hey! a reminder for tomorrow's meeting?",
+        // totalUnread: 0,
+        // lastMessageOn: 'Thu',
         userStatus: 'online',
     },
     {
-        id: 3,
+        id: '3',
         name: 'Dominic A',
         avatar: avatar8,
-        lastMessage: "Are we going to have this week's planning meeting?",
-        totalUnread: 0,
-        lastMessageOn: '4:30 am',
+        // lastMessage: "Are we going to have this week's planning meeting?",
+        // totalUnread: 0,
+        // lastMessageOn: '4:30 am',
         userStatus: 'busy',
     },
     {
-        id: 4,
+        id: '4',
         name: 'Ronda D',
         avatar: avatar9,
-        lastMessage: 'Please check these design assets..',
-        totalUnread: 0,
-        lastMessageOn: 'Wed',
+        // lastMessage: 'Please check these design assets..',
+        // totalUnread: 0,
+        // lastMessageOn: 'Wed',
         userStatus: 'online',
     },
-    {
-        id: 5,
-        name: 'Michael H',
-        avatar: avatar3,
-        lastMessage: 'Are you free for 15 mins? I would like to discuss something',
-        totalUnread: 25,
-        lastMessageOn: 'Tue',
-        userStatus: 'offline',
-    },
-    {
-        id: 6,
-        name: 'Thomas R',
-        avatar: avatar5,
-        lastMessage: "Let's have meeting today between me, you and Tony...",
-        totalUnread: 0,
-        lastMessageOn: 'Tue',
-        userStatus: 'offline',
-    },
-    {
-        id: 7,
-        name: 'Thomas J',
-        avatar: avatar6,
-        lastMessage: 'How are you?',
-        totalUnread: 1,
-        lastMessageOn: 'Tue',
-        userStatus: 'offline',
-    },
-    {
-        id: 8,
-        name: 'Rikcy J',
-        avatar: avatar1,
-        lastMessage: 'Are you interested in learning?',
-        totalUnread: 0,
-        lastMessageOn: 'Mon',
-        userStatus: 'away',
-    },
+
 ];
 
 const defaultTo: ChatUserType = {
-    id: 9,
+    id:'9',
     name: 'Shreyu N',
     avatar: avatar2,
 };
@@ -140,6 +106,10 @@ for (const user of USERS) {
                 {
                     type: 'text',
                     value: 'Hi, How are you? What about our next meeting?',
+                },
+                {
+                    type: 'text',
+                    value: 'aaaa',
                 },
             ],
             to: user,

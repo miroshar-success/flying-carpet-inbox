@@ -13,7 +13,7 @@ const Root = () => {
         if (api.isUserAuthenticated() === false) {
             url = 'auth/login';
         } else {
-            url = 'apps/email/inbox';
+            url = 'apps/chat';
         }
         return url;
     };

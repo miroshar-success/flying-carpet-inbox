@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Card, Dropdown } from 'react-bootstrap';
 import classNames from 'classnames';
+
+import { API_Key } from '../../../config/index';
 
 // components
 import Scrollbar from '../../../components/Scrollbar';
@@ -14,15 +16,21 @@ import profilePic from '../../../assets/images/users/avatar-2.jpg';
 
 interface ChatUsersProps {
     onUserSelect: (value: ChatUserType) => void;
+    admin : ChatUserType;
+    user : ChatUserType[];
+    onSearch : (value : string) => void
 }
 
 // ChatUsers
-const ChatUsers = ({ onUserSelect }: ChatUsersProps) => {
-    const [user, setUser] = useState<ChatUserType[]>([...USERS]);
-    const [selectedUser, setSelectedUser] = useState<ChatUserType>(USERS[1]);
-
+const ChatUsers = ({ onUserSelect,admin,user,onSearch }: ChatUsersProps) => {
+    console.log(user,admin);
+    // const [user, setUser] = useState<ChatUserType[]>(user);
+    const [selectedUser, setSelectedUser] = useState<ChatUserType>(user[1]);
     const [dropdownOpen, setDropdownOpen] = useState<boolean>(false);
 
+    
+    
+    
     /*
      * toggle apps-dropdown
      */
@@ -34,9 +42,9 @@ const ChatUsers = ({ onUserSelect }: ChatUsersProps) => {
      * Search the user
      * @param {*} text
      */
-    const search = (text: string) => {
-        setUser(text ? [...USERS].filter((u) => u.name!.toLowerCase().indexOf(text.toLowerCase()) >= 0) : [...USERS]);
-    };
+    // const search = (text: string) => {
+    //     setUser(text ? [...USERS].filter((u) => u.name!.toLowerCase().indexOf(text.toLowerCase()) >= 0) : [...USERS]);
+    // };
 
     /**
      * Activates the user
@@ -54,9 +62,9 @@ const ChatUsers = ({ onUserSelect }: ChatUsersProps) => {
             <Card>
                 <Card.Body>
                     <div className="d-flex pb-2 border-bottom align-items-center">
-                        <img src={profilePic} className="me-2 rounded-circle" height="48" alt="" />
+                        <img src={admin.avatar} className="me-2 rounded-circle" height="48" alt="" />
                         <div>
-                            <h5 className="my-0 fs-14">Shreyu N</h5>
+                            <h5 className="my-0 fs-14">{(admin == undefined) ? "" : admin.name}</h5>
                         </div>
 
                         <div className="flex-grow-1">
@@ -111,7 +119,7 @@ const ChatUsers = ({ onUserSelect }: ChatUsersProps) => {
                                         className="form-control"
                                         placeholder="Search..."
                                         id="top-search"
-                                        onKeyUp={(e: any) => search(e.target.value)}
+                                        onKeyUp={(e: any) => onSearch(e.target.value)}
                                     />
                                 </div>
                             </div>
@@ -121,6 +129,7 @@ const ChatUsers = ({ onUserSelect }: ChatUsersProps) => {
                     <div className="pe-2">
                         <Scrollbar style={{ height: '549px', width: '100%' }}>
                             {(user || []).map((user, index) => {
+                                // console.log(user);
                                 return (
                                     <Link
                                         to="#"
@@ -130,9 +139,7 @@ const ChatUsers = ({ onUserSelect }: ChatUsersProps) => {
                                             activateUser(user);
                                         }}>
                                         <div
-                                            className={classNames('d-flex', 'align-items-start', 'p-2', {
-                                                'bg-light': user.id === selectedUser.id,
-                                            })}>
+                                            className={classNames('d-flex', 'align-items-start', 'p-2')}>
                                             <div className="position-relative">
                                                 <span
                                                     className={classNames('user-status', {
@@ -140,12 +147,20 @@ const ChatUsers = ({ onUserSelect }: ChatUsersProps) => {
                                                         'bg-danger': user.userStatus === 'busy',
                                                         'bg-warning': user.userStatus === 'away',
                                                     })}></span>
-                                                <img
-                                                    src={user.avatar}
-                                                    className="me-2 rounded-circle"
-                                                    height="48"
-                                                    alt=""
-                                                />
+                                                    {user.avatar ? (
+                                                        <img
+                                                            src={user.avatar}
+                                                            alt=""
+                                                            className="avatar-sm rounded-circle"
+                                                        />
+                                                    ) : (
+                                                        <div className="avatar-sm fw-bold d-inline-block">
+                                                            <span
+                                                                className={`avatar-title rounded-circle bg-soft-success text-sucess`}>
+                                                                {user.name}
+                                                            </span>
+                                                        </div>
+                                                    )}
                                             </div>
 
                                             <div className="w-100 overflow-hidden">
