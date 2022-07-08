@@ -50,7 +50,7 @@ const Routes = (props: RoutesProps) => {
         <BrowserRouter>
             <Switch>
                 <Route path={publicProtectedFlattenRoutes.map((r: any) => r['path'])}>
-                    {/* <DefaultLayout {...props} layout={layout}> */}
+                    <DefaultLayout {...props} layout={layout}>
                         <Switch>
                             {publicProtectedFlattenRoutes.map((route: any, index: number) => {
                                 return (
@@ -66,11 +66,11 @@ const Routes = (props: RoutesProps) => {
                                 );
                             })}
                         </Switch>
-                    {/* </DefaultLayout> */}
+                    </DefaultLayout>
                 </Route>
 
                 <Route path={authProtectedFlattenRoutes.map((r: any) => r['path'])}>
-                    {/* <Layout {...props}> */}
+                    <Layout {...props}>
                         <Switch>
                             {authProtectedFlattenRoutes.map((route: any, index: number) => {
                                 return (
@@ -86,7 +86,7 @@ const Routes = (props: RoutesProps) => {
                                 );
                             })}
                         </Switch>
-                    {/* </Layout> */}
+                    </Layout>
                 </Route>
             </Switch>
         </BrowserRouter>
