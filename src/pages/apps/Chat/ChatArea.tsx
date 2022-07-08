@@ -52,9 +52,9 @@ const ChatHeader = ({ selectedUser }: ChatHeaderProps) => {
     return (
         <>
             <div className="d-flex pb-2 border-bottom align-items-center">
-                <img src={selectedUser.avatar} className="me-2 rounded-circle" height="48" alt="" />
+                {/* <img src={""} className="me-2 rounded-circle" height="48" alt="" /> */}
                 <div>
-                    <h5 className="mt-0 mb-0 fs-14">{selectedUser.name}</h5>
+                    <h5 className="mt-0 mb-0 fs-14">{selectedUser == undefined ? "" : selectedUser.name}</h5>
                     <p className="mb-0">Online</p>
                 </div>
                 <div className="flex-grow-1">
@@ -273,6 +273,7 @@ const ChatArea = ({ selectedUser,admin,setUser,user }: ChatAreaProps) => {
     },[chatHistory])
 
     const fetchData = () => {
+        if (selectedUser == undefined) return;
         const chatId = selectedUser.id;
         let fetchemailurl;
         if (chatId != '') {
@@ -296,7 +297,9 @@ const ChatArea = ({ selectedUser,admin,setUser,user }: ChatAreaProps) => {
                 const time = total[i].time;
 
                 const timedate = new Date(time*1000);
-                const timespan = getDateStr(timedate);
+                const nowdate = new Date();
+                
+                let timespan = getDateStr(timedate);
                 let hour = timedate.getHours();
                 let min = timedate.getMinutes();
                 let tmp = " AM";
@@ -304,6 +307,11 @@ const ChatArea = ({ selectedUser,admin,setUser,user }: ChatAreaProps) => {
                     hour -= 12;
                     tmp = " PM";
                 }
+
+                if (getDateStr(timedate) == getDateStr(nowdate)) {
+                    timespan = "Today";
+                }
+
                 if (dates.indexOf(timespan) == -1) {
                     dates.push(timespan);  
                 }
@@ -556,9 +564,9 @@ const ChatArea = ({ selectedUser,admin,setUser,user }: ChatAreaProps) => {
                                             control={control}
                                         />
                                     </div>
-                                    {/* <div className="col-sm-auto" >
+                                    <div className="col-sm-auto" >
                                         <div className="btn-group">
-                                            <Link to="#" className="btn btn-light">
+                                            {/* <Link to="#" className="btn btn-light">
                                                 <i className="bi bi-emoji-smile fs-18"></i>
                                             </Link>
                                             <div className="btn btn-light" onClick={() => setModal(true)}>
@@ -566,12 +574,12 @@ const ChatArea = ({ selectedUser,admin,setUser,user }: ChatAreaProps) => {
                                             </div>
                                             <Link to="#" className="btn btn-light">
                                                 <i className="bi bi-camera fs-18"></i>
-                                            </Link>
+                                            </Link> */}
                                             <button type="submit" className="btn btn-success chat-send">
                                                 <i className="uil uil-message"></i>
                                             </button>
                                         </div>
-                                    </div> */}
+                                    </div>
                                 </div>
                             </form>
                         </div>

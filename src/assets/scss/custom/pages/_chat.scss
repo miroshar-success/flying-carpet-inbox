@@ -37,9 +37,12 @@
     border: 2.5px solid $white;
     border-radius: 50%;
     bottom: 0;
-    left: 35px;
+    right: 0;
 }
 
+.avatar-area {
+    margin-right: 12px;
+}
 .video-call{
     background-image: url("../../../images/users/chat.jpg");
     background-repeat: no-repeat;

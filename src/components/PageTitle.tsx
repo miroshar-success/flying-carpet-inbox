@@ -23,7 +23,7 @@ const PageTitle = (props: PageTitleProps) => {
                     <h4 className="page-title">{props.title}</h4>
                     <div className="page-title-right">
                         <Breadcrumb listProps={{ className: 'm-0' }}>
-                            <Breadcrumb.Item href="/">Shreyu</Breadcrumb.Item>
+                            <Breadcrumb.Item href="/"></Breadcrumb.Item>
 
                             {(props.breadCrumbItems || []).map((item, index) => {
                                 return item.active ? (

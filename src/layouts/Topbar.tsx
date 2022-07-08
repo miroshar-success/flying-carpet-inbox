@@ -223,16 +223,16 @@ const Topbar = ({ hideLogo, navCssClasses, openLeftMenuCallBack, topbarDark }: T
 
                     <ul className="list-unstyled topnav-menu float-end mb-0">
                         <li className="d-none d-lg-block">
-                            <TopbarSearch items={SearchResults} />
+                            {/* <TopbarSearch items={SearchResults} /> */}
                         </li>
 
-                        <li className="dropdown d-inline-block d-lg-none">
+                        {/* <li className="dropdown d-inline-block d-lg-none">
                             <SearchDropdown />
-                        </li>
+                        </li> */}
                         <li className="dropdown d-none d-lg-inline-block">
                             <MaximizeScreen />
                         </li>
-                        <li className="dropdown d-none d-lg-inline-block topbar-dropdown">
+                        {/* <li className="dropdown d-none d-lg-inline-block topbar-dropdown">
                             <AppsDropdown />
                         </li>
                         <li className="dropdown d-none d-lg-inline-block topbar-dropdown">
@@ -240,7 +240,7 @@ const Topbar = ({ hideLogo, navCssClasses, openLeftMenuCallBack, topbarDark }: T
                         </li>
                         <li className="dropdown notification-list topbar-dropdown">
                             <NotificationDropdown notifications={Notifications} />
-                        </li>
+                        </li> */}
                         <li className="dropdown notification-list topbar-dropdown">
                             <ProfileDropdown profilePic={profilePic} menuItems={ProfileMenus} username={'Nik Patel'} />
                         </li>

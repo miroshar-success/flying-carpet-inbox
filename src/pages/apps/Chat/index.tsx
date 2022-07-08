@@ -31,6 +31,11 @@ const ChatApp = () => {
         getUsers();
     },[])
 
+    useEffect(() => {
+        setSelectedUser(user[0])
+
+    },[user])
+
     const getMe = () => {
         const fetchemailurl = `https://api.chat-api.com/instance${API_Key.instance}/me?token=${API_Key.token}`;
         fetch(fetchemailurl)
@@ -126,8 +131,8 @@ const ChatApp = () => {
         <>
             <PageTitle
                 breadCrumbItems={[
-                    { label: 'Apps', path: '/apps/chat' },
-                    { label: 'Chat', path: '/apps/chat', active: true },
+                    // { label: 'Apps', path: '/apps/chat' },
+                    // { label: 'Chat', path: '/apps/chat', active: true },
                 ]}
                 title={'Chat'}
             />

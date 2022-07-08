@@ -68,7 +68,7 @@ const ChatUsers = ({ onUserSelect,admin,user,onSearch }: ChatUsersProps) => {
                         </div>
 
                         <div className="flex-grow-1">
-                            <ul className="list-inline text-end mb-0">
+                            {/* <ul className="list-inline text-end mb-0">
                                 <Dropdown
                                     show={dropdownOpen}
                                     as="li"
@@ -103,7 +103,7 @@ const ChatUsers = ({ onUserSelect,admin,user,onSearch }: ChatUsersProps) => {
                                         </Dropdown.Item>
                                     </Dropdown.Menu>
                                 </Dropdown>
-                            </ul>
+                            </ul> */}
                         </div>
                     </div>
 
@@ -140,7 +140,7 @@ const ChatUsers = ({ onUserSelect,admin,user,onSearch }: ChatUsersProps) => {
                                         }}>
                                         <div
                                             className={classNames('d-flex', 'align-items-start', 'p-2')}>
-                                            <div className="position-relative">
+                                            <div className="position-relative avatar-area">
                                                 <span
                                                     className={classNames('user-status', {
                                                         'bg-success': user.userStatus === 'online',
@@ -157,7 +157,7 @@ const ChatUsers = ({ onUserSelect,admin,user,onSearch }: ChatUsersProps) => {
                                                         <div className="avatar-sm fw-bold d-inline-block">
                                                             <span
                                                                 className={`avatar-title rounded-circle bg-soft-success text-sucess`}>
-                                                                {user.name}
+                                                                {/* {user.name} */}
                                                             </span>
                                                         </div>
                                                     )}
