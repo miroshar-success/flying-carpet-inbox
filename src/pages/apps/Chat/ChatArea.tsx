@@ -332,14 +332,15 @@ const ChatArea = ({ selectedUser,admin,setUser,user,scrollref }: ChatAreaProps) 
         const chatId = selectedUser.id;
         let fetchemailurl;
         if (chatId != '') {
-             fetchemailurl = `https://api.chat-api.com/instance${API_Key.instance}/messages?chatId=${chatId}@c.us&token=${API_Key.token}`;
+             fetchemailurl = `https://api.chat-api.com/instance${API_Key.instance}/messages?chatId=${chatId}@c.us&token=${API_Key.token}&limit=0`;
         }else{
-             fetchemailurl = `https://api.chat-api.com/instance${API_Key.instance}/messages?token=${API_Key.token}`;
+             fetchemailurl = `https://api.chat-api.com/instance${API_Key.instance}/messages?limit=0&token=${API_Key.token}`;
         }
         fetch(fetchemailurl)
         .then((res)=> res.json())
         .then((json)=>{
             const total = [...json.messages];
+            console.log(total);
             let from : ChatUserType;
             let to : ChatUserType;
             let messages : MessageItem[] = [];
@@ -359,6 +360,9 @@ const ChatArea = ({ selectedUser,admin,setUser,user,scrollref }: ChatAreaProps) 
                 if (hour > 12) {
                     hour -= 12;
                     tmp = " PM";
+                }
+                if (hourtxt.length == 1) {
+                    hourtxt = '0'+hour;  
                 }
                 if (min.length == 1) {
                     min = "0" + min;
@@ -558,6 +562,7 @@ const ChatArea = ({ selectedUser,admin,setUser,user,scrollref }: ChatAreaProps) 
             dData['body'] = await getBase64(files[i]);
             send(dData);
         }
+        setModal(false)
         
     }
 
@@ -664,7 +669,7 @@ const ChatArea = ({ selectedUser,admin,setUser,user,scrollref }: ChatAreaProps) 
             </Card>
             <Modal show={showModal} onHide={() => setModal(false)} centered>
                 <Modal.Header onHide={() => setModal(false)} closeButton>
-                    <Modal.Title as="h5">Adding File</Modal.Title>
+                    <Modal.Title as="h5">Modal</Modal.Title>
                 </Modal.Header>
                 <Modal.Body className="text-center">
                     <FileUploader
