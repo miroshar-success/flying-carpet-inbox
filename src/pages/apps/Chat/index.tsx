@@ -63,6 +63,7 @@ const ChatApp = () => {
         .then((res)=> res.json())
         .then((json)=>{
             const total = [...json.messages];
+            console.log(total);
             let userdata : ChatUserType[] = [];
             let tempdata = [];
             total.sort((a : any, b : any) => b.time - a.time);
