@@ -31,7 +31,6 @@ interface ChatHeaderProps {
 }
 
 const ChatHeader = ({ selectedUser }: ChatHeaderProps) => {
-    console.log(selectedUser);
     // handle profile modal
     const [showProfileModal, setShowProfileModal] = useState<boolean>(false);
 
@@ -132,7 +131,17 @@ interface UserMessageProps {
 }
 // user messages
 const UserMessage = ({ message, toUser }: UserMessageProps) => {
-    // console.log(message,toUser);
+
+    const  validURL = (str : string) => {
+        let pattern = new RegExp('^(https?:\\/\\/)?'+ // protocol
+          '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'+ // domain name
+          '((\\d{1,3}\\.){3}\\d{1,3}))'+ // OR ip (v4) address
+          '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ // port and path
+          '(\\?[;&a-z\\d%_.~+=-]*)?'+ // query string
+          '(\\#[-a-z\\d_]*)?$','i'); // fragment locator
+        return !!pattern.test(str);
+      }
+
     return (
         <>
             {(message.messages || []).map((item, index) => {
@@ -172,7 +181,10 @@ const UserMessage = ({ message, toUser }: UserMessageProps) => {
 
                                 {item.type === 'text' && (
                                     <div className="ctext-wrap">
-                                        <p>{item.value}</p>
+                                        {
+                                            validURL(item.value) == true ? <a href={"http://"+item.value}>{item.value}</a> : item.value
+                                        }
+                                        
                                     </div>
                                 )}
 
@@ -182,13 +194,13 @@ const UserMessage = ({ message, toUser }: UserMessageProps) => {
                                             <Row className="align-items-center">
                                                 <Col className="col-auto">
                                                     <div className="avatar-sm bg-primary text-white">
-                                                        <span className="avatar-title rounded">.ZIP</span>
+                                                        <span className="avatar-title rounded">.File</span>
                                                     </div>
                                                 </Col>
                                                 <Col className="ps-0">
-                                                    <Link to={item.value} className="text-muted fw-bold">
+                                                    <a href={item.value} className="text-muted fw-bold">
                                                         {item.value}
-                                                    </Link>
+                                                    </a>
                                                     <p className="mb-0">{item.value.size}</p>
                                                 </Col>
                                                 <Col className="col-auto">
@@ -243,26 +255,37 @@ interface ChatAreaProps {
     selectedUser: ChatUserType;
     admin : ChatUserType;
     setUser : (value: ChatUserType[]) => void;
-    user : ChatUserType[]
+    user : ChatUserType[];
+    scrollref : any
 }
 
 // ChatArea
-const ChatArea = ({ selectedUser, admin, setUser, user }: ChatAreaProps) => {
-    console.log(selectedUser);
-    const [loading, setLoading] = useState<boolean>(false);
-    const [chatHistory, setChatHistory] = useState<ChatMessage[]>([]);
-    const [real, setreal] = useState<any[]>([]);
-    const [files, setfiles] = useState<any[]>([]);
+const ChatArea = ({ selectedUser,admin,setUser,user,scrollref }: ChatAreaProps) => {
+    const [loading, setLoading] = useState<boolean>(false);//show loading
+    const [chatHistory, setChatHistory] = useState<ChatMessage[]>([]);//messages
+    const [real,setreal] = useState<any[]>([]);//total messages
+    const [files,setfiles] = useState<any[]>([]);//store files
+    const scrollreflocal =  useRef<any>(); //scroll component
 
-    const [showModal, setModal] = useState<boolean>(false);
+    const [showModal, setModal] = useState<boolean>(false);//modal controller
+
+    const [flag,setflag] = useState<boolean>(false);
+    
 
     const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-    // const changeIntervalRef = useRef(null);
-    // const [toUser] = useState<ChatUserType>({
-    //     id: admin.id,
-    //     name: admin.name,
-        
-    // });
+
+    /**
+     * Auto scroll to Bottom
+     */
+    const scrollBottom = () => {
+        if (scrollreflocal.current !== null) {
+            scrollreflocal.current.scrollIntoView();
+        }
+    }
+
+    /**
+     * 2 July 2022 format date 
+     */
     const getDateStr = (timedate : any) => {
         const year = timedate.getFullYear();
         const monthnum = timedate.getMonth();
@@ -277,17 +300,33 @@ const ChatArea = ({ selectedUser, admin, setUser, user }: ChatAreaProps) => {
         id : admin.id,
         name : admin.name
     }
-    useEffect(() => {
-        fetchData()
-    },[admin,selectedUser])
 
+    useEffect(() => {
+        
+        fetchData();
+    },[admin]);
+
+    /**
+     * Fetch messages in real time
+     */
     useEffect(() => {
         const timer = setTimeout(() => {
             fetchData();
         },100)
-        return () => clearTimeout(timer);
-    },[chatHistory])
+        return () => {
 
+            clearTimeout(timer);
+        };
+        
+    },[chatHistory]);
+    
+    useEffect(() => {
+        scrollBottom();
+    },[flag])
+    /**
+     * Body of get message data
+     * @returns 
+     */
     const fetchData = () => {
         if (selectedUser == undefined) return;
         const chatId = selectedUser.id;
@@ -295,21 +334,18 @@ const ChatArea = ({ selectedUser, admin, setUser, user }: ChatAreaProps) => {
         if (chatId != '') {
              fetchemailurl = `https://api.chat-api.com/instance${API_Key.instance}/messages?chatId=${chatId}@c.us&token=${API_Key.token}`;
         }else{
-            console.log(22);
              fetchemailurl = `https://api.chat-api.com/instance${API_Key.instance}/messages?token=${API_Key.token}`;
         }
         fetch(fetchemailurl)
         .then((res)=> res.json())
         .then((json)=>{
             const total = [...json.messages];
-            // const lastMessage = total[total.length - 1].body;
             let from : ChatUserType;
             let to : ChatUserType;
             let messages : MessageItem[] = [];
             let dates : string[] = [];
             total.sort((a : any,b : any) => a.time - b.time);
             for (let i = 0; i < total.length; i++) {
-                // set time
                 const time = total[i].time;
 
                 const timedate = new Date(time*1000);
@@ -317,11 +353,15 @@ const ChatArea = ({ selectedUser, admin, setUser, user }: ChatAreaProps) => {
                 
                 let timespan = getDateStr(timedate);
                 let hour = timedate.getHours();
-                let min = timedate.getMinutes();
+                let min = String(timedate.getMinutes());
                 let tmp = " AM";
+                let hourtxt = String(hour);
                 if (hour > 12) {
                     hour -= 12;
                     tmp = " PM";
+                }
+                if (min.length == 1) {
+                    min = "0" + min;
                 }
 
                 if (getDateStr(timedate) == getDateStr(nowdate)) {
@@ -349,7 +389,7 @@ const ChatArea = ({ selectedUser, admin, setUser, user }: ChatAreaProps) => {
                     id : i,
                     from : from,
                     to : to,
-                    sendOn : hour + " : " + min + tmp,
+                    sendOn : hourtxt + " : " + min + tmp,
                     messages  : [{
                         type : total[i].type == 'chat' ? 'text' : 'file',
                         value : total[i].body,
@@ -369,13 +409,22 @@ const ChatArea = ({ selectedUser, admin, setUser, user }: ChatAreaProps) => {
                 });
             }
             
+            const tmp = [...chatHistory];
+            console.log(tmp);
+            if (chatHistory.length == 0) {
+                setflag(true);
+            }else{
+                if (chatmessages[chatmessages.length - 1].messages.length != tmp[tmp.length - 1].messages.length) {
+                    setflag(true);
+                }else{
+                    setflag(false)
+                }
+            }
             setChatHistory(chatmessages);
-            setreal(json.messages)
         })
     }
     
     const onFileUpload = (files : any) => {
-        console.log(files);
         setfiles(files);
     }
 
@@ -384,8 +433,8 @@ const ChatArea = ({ selectedUser, admin, setUser, user }: ChatAreaProps) => {
      */
     const getMessagesForUser = useCallback(() => {
         if (selectedUser) {
-            setLoading(true);
             setTimeout(() => {
+                fetchData();
                 // const modifiedChatHistory = [...chatHistory].map((record) => {
                 //     const test = {
                 //         id: record.id,
@@ -406,9 +455,9 @@ const ChatArea = ({ selectedUser, admin, setUser, user }: ChatAreaProps) => {
         }
     }, [selectedUser]);
 
-    useEffect(() => {
-        getMessagesForUser();
-    }, [getMessagesForUser]);
+    // useEffect(() => {
+    //     getMessagesForUser();
+    // }, [getMessagesForUser]);
 
     /*
      * form validation schema
@@ -418,6 +467,8 @@ const ChatArea = ({ selectedUser, admin, setUser, user }: ChatAreaProps) => {
             newMessage: yup.string().required('אנא רשום את הודעתך'),
         })
     );
+
+    
 
     /*
      * form methods
@@ -499,40 +550,47 @@ const ChatArea = ({ selectedUser, admin, setUser, user }: ChatAreaProps) => {
         reset();
     };
 
-    const sendfile = () => {
+    const sendfile = async () => {
+        
+        for (let i = 0; i < files.length; i++) {
+            const dData = {body : files[i],filename : files[i]['name'], phone : selectedUser.id};
+            const formData = new FormData();
+            dData['body'] = await getBase64(files[i]);
+            send(dData);
+        }
+        
+    }
+
+    const send = async (senddata : any) => {
         const fetchUrl = `https://api.chat-api.com/instance${API_Key.instance}/sendFile?token=${API_Key.token}`;
-        const dData = {body : files[0],filename : "1.jpg", phone : selectedUser.id};
-        const formData = new FormData();
-    
-        // Update the formData object
-        formData.append("myFile",files[0]);
-        formData.append("filename","1.jpg");
-        formData.append("phone",selectedUser.id == undefined ? "" : selectedUser.id);
-        console.log(selectedUser.id);
-        console.log(JSON.stringify(formData));
-        fetch(fetchUrl, {
+
+        const result = await fetch(fetchUrl, {
             method: 'POST', // *GET, POST, PUT, DELETE, etc.
             mode: 'cors', // no-cors, *cors, same-origin
             cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
             credentials: 'same-origin', // include, *same-origin, omit
             headers: {
-            //   'Content-Type': 'application/json'
-              'Content-Type': 'application/x-www-form-urlencoded',
+              'Content-Type': 'application/json'
+            //   'Content-Type': 'application/x-www-form-urlencoded',
             //   'Content-Type': 'multipart/form-data',
 
             },
             redirect: 'follow', // manual, *follow, error
             referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
-            body: formData  // body data type must match "Content-Type" header
-          })
-            .then((response) => response.json())
-            .then((result) => {
-                console.log('Success:', result);
-            })
-            .catch((error) => {
-                console.error('Error:', error);
-            });
+            body: JSON.stringify(senddata)  // body data type must match "Content-Type" header
+          });
+          console.log(result);
+            
     }
+
+    const getBase64 = async (file : any) => {
+        return new Promise((resolve, reject) => {
+          const reader = new FileReader();
+          reader.readAsDataURL(file);
+          reader.onload = () => resolve(reader.result);
+          reader.onerror = error => reject(error);
+        });
+      }
 
     return (
         <>
@@ -542,7 +600,6 @@ const ChatArea = ({ selectedUser, admin, setUser, user }: ChatAreaProps) => {
                     <ChatHeader selectedUser={selectedUser} />
 
                     <div className="mt-1">
-                        {/* handle listed messages */}
                         <Scrollbar style={{ height: '509px', width: '100%' }}>
                             <ul className="conversation-list px-0 h-100">
                                 {(chatHistory || []).map((item, index) => {
@@ -564,25 +621,26 @@ const ChatArea = ({ selectedUser, admin, setUser, user }: ChatAreaProps) => {
                                     );
                                 })}
                             </ul>
+                            <div ref={scrollreflocal}></div>
                         </Scrollbar>
                         {/* handle submited message */}
                         <div className="mt-2 bg-light p-3 rounded">
                             <form noValidate name="chat-form" id="chat-form" onSubmit={handleSubmit(sendChatMessage)}>
-                                <div className="row"> 
+                                <div className="row">
                                     <div className="col-sm-auto" >
                                         <div className="btn-group">
                                             {/* <Link to="#" className="btn btn-light">
-                                                <i className="bi bi-emoji-smile fs-18"></i>
-                                            </Link>
-                                            <div className="btn btn-light" onClick={() => setModal(true)}>
-                                                <i className="bi bi-paperclip fs-18"></i>
-                                            </div>
-                                            <Link to="#" className="btn btn-light">
                                                 <i className="bi bi-camera fs-18"></i>
                                             </Link> */}
                                             <button type="submit" className="btn btn-success chat-send">
                                                 <i className="uil uil-message"></i>
                                             </button>
+                                            {/* <Link to="#" className="btn btn-light">
+                                                <i className="bi bi-emoji-smile fs-18"></i>
+                                            </Link> */}
+                                            <div className="btn btn-light" onClick={() => setModal(true)}>
+                                                <i className="bi bi-paperclip fs-18"></i>
+                                            </div>
                                         </div>
                                     </div>
                                     <div className="col mb-2 mb-sm-0">
@@ -598,7 +656,6 @@ const ChatArea = ({ selectedUser, admin, setUser, user }: ChatAreaProps) => {
                                             dir="rtl"
                                         />
                                     </div>
-                                   
                                 </div>
                             </form>
                         </div>
@@ -607,7 +664,7 @@ const ChatArea = ({ selectedUser, admin, setUser, user }: ChatAreaProps) => {
             </Card>
             <Modal show={showModal} onHide={() => setModal(false)} centered>
                 <Modal.Header onHide={() => setModal(false)} closeButton>
-                    <Modal.Title as="h5">Error modal</Modal.Title>
+                    <Modal.Title as="h5">Adding File</Modal.Title>
                 </Modal.Header>
                 <Modal.Body className="text-center">
                     <FileUploader

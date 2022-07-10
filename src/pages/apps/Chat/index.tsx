@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState,useRef } from 'react';
 import { Row, Col } from 'react-bootstrap';
 
 import { API_Key } from '../../../config/index';
@@ -10,13 +10,19 @@ import ChatUsers from './ChatUsers';
 import ChatArea from './ChatArea';
 // dummy data
 import { USERS, ChatUserType } from './data';
+import { useCallback } from 'react';
 
 // ChatApp
 const ChatApp = () => {
     const [selectedUser, setSelectedUser] = useState<ChatUserType>({});
-    const [admin, setadmin] = useState<ChatUserType>({});
-    const [USER, setUSER] = useState<ChatUserType[]>([]); // static users
-    const [user, setUser] = useState<ChatUserType[]>([]); // dynamic users
+    const [admin,setadmin] = useState<ChatUserType>({});
+    const [USER,setUSER] = useState<ChatUserType[]>([]);
+    const [user, setUser] = useState<ChatUserType[]>([]);
+
+    const [flag,setflag] = useState<boolean>(false);
+    
+
+    const scrollref =  useRef<any>(); 
     
     /**
      * On user change
@@ -52,12 +58,11 @@ const ChatApp = () => {
     }
 
     const getUsers = () => {
-        const fetchemailurl = `https://api.chat-api.com/instance${API_Key.instance}/messages?token=${API_Key.token}&limit=1000`;
+        const fetchemailurl = `https://api.chat-api.com/instance${API_Key.instance}/messages?limit=0&token=${API_Key.token}`;
         fetch(fetchemailurl)
         .then((res)=> res.json())
         .then((json)=>{
             const total = [...json.messages];
-            console.log(total);
             let userdata : ChatUserType[] = [];
             let tempdata = [];
             total.sort((a : any, b : any) => b.time - a.time);
@@ -123,7 +128,6 @@ const ChatApp = () => {
     }
 
     const search = (text: string) => {
-        console.log(text);
         setUser(text ? [...USER].filter((u) => u.name!.toLowerCase().indexOf(text.toLowerCase()) >= 0) : [...USER]);
     };
 
@@ -139,7 +143,7 @@ const ChatApp = () => {
 
             <Row>
                 <Col lg={7} xxl={9}>
-                    <ChatArea selectedUser={selectedUser} setUser={setUser} user={user} admin={admin}/>
+                    <ChatArea selectedUser={selectedUser} setUser={setUser} user={user} admin={admin} scrollref={scrollref} />
                 </Col>
                 <Col lg={5} xxl={3}>
                     <ChatUsers admin={admin} user={user} onUserSelect={onUserChange} onSearch = {search}/>
