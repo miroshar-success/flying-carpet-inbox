@@ -142,6 +142,19 @@ const UserMessage = ({ message, toUser }: UserMessageProps) => {
         return !!pattern.test(str);
       }
 
+      const download = async (imageSrc : any) => {
+        const image = await fetch(imageSrc)
+        const imageBlog = await image.blob()
+        const imageURL = URL.createObjectURL(imageBlog)
+
+        const link = document.createElement('a')
+        link.href = imageURL
+        link.download = 'image file name here'
+        document.body.appendChild(link)
+        link.click()
+        document.body.removeChild(link)
+    }
+
     return (
         <>
             {(message.messages || []).map((item, index) => {
@@ -204,9 +217,9 @@ const UserMessage = ({ message, toUser }: UserMessageProps) => {
                                                     <p className="mb-0">{item.value.size}</p>
                                                 </Col>
                                                 <Col className="col-auto">
-                                                    <Link to={item.value} className="ps-3 fs-24">
+                                                    <div className="ps-3 fs-24" onClick={() => download(item.value)}>
                                                         <i className="bi bi-arrow-down-square"></i>
-                                                    </Link>
+                                                    </div>
                                                 </Col>
                                             </Row>
                                         </div>
