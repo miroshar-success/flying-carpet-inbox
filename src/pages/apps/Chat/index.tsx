@@ -14,10 +14,9 @@ import { USERS, ChatUserType } from './data';
 // ChatApp
 const ChatApp = () => {
     const [selectedUser, setSelectedUser] = useState<ChatUserType>({});
-    const [admin,setadmin] = useState<ChatUserType>({});
-    const [USER,setUSER] = useState<ChatUserType[]>([]);
-    const [user, setUser] = useState<ChatUserType[]>([]);
-
+    const [admin, setadmin] = useState<ChatUserType>({});
+    const [USER, setUSER] = useState<ChatUserType[]>([]); // static users
+    const [user, setUser] = useState<ChatUserType[]>([]); // dynamic users
     
     /**
      * On user change
@@ -53,11 +52,12 @@ const ChatApp = () => {
     }
 
     const getUsers = () => {
-        const fetchemailurl = `https://api.chat-api.com/instance${API_Key.instance}/messages?token=${API_Key.token}`;
+        const fetchemailurl = `https://api.chat-api.com/instance${API_Key.instance}/messages?token=${API_Key.token}&limit=1000`;
         fetch(fetchemailurl)
         .then((res)=> res.json())
         .then((json)=>{
             const total = [...json.messages];
+            console.log(total);
             let userdata : ChatUserType[] = [];
             let tempdata = [];
             total.sort((a : any, b : any) => b.time - a.time);
@@ -138,11 +138,11 @@ const ChatApp = () => {
             />
 
             <Row>
-                <Col lg={5} xxl={3}>
-                    <ChatUsers admin={admin} user={user} onUserSelect={onUserChange} onSearch = {search}/>
-                </Col>
                 <Col lg={7} xxl={9}>
                     <ChatArea selectedUser={selectedUser} setUser={setUser} user={user} admin={admin}/>
+                </Col>
+                <Col lg={5} xxl={3}>
+                    <ChatUsers admin={admin} user={user} onUserSelect={onUserChange} onSearch = {search}/>
                 </Col>
             </Row>
         </>

@@ -22,15 +22,8 @@ interface ChatUsersProps {
 }
 
 // ChatUsers
-const ChatUsers = ({ onUserSelect,admin,user,onSearch }: ChatUsersProps) => {
-    console.log(user,admin);
-    // const [user, setUser] = useState<ChatUserType[]>(user);
-    const [selectedUser, setSelectedUser] = useState<ChatUserType>(user[1]);
+const ChatUsers = ({ onUserSelect, admin, user, onSearch }: ChatUsersProps) => {
     const [dropdownOpen, setDropdownOpen] = useState<boolean>(false);
-
-    
-    
-    
     /*
      * toggle apps-dropdown
      */
@@ -51,8 +44,8 @@ const ChatUsers = ({ onUserSelect,admin,user,onSearch }: ChatUsersProps) => {
      * @param {*} user
      */
     const activateUser = (user: ChatUserType) => {
-        setSelectedUser(user);
         if (onUserSelect) {
+            console.log(user);
             onUserSelect(user);
         }
     };
@@ -61,10 +54,21 @@ const ChatUsers = ({ onUserSelect,admin,user,onSearch }: ChatUsersProps) => {
         <>
             <Card>
                 <Card.Body>
-                    <div className="d-flex pb-2 border-bottom align-items-center">
-                        <img src={admin.avatar} className="me-2 rounded-circle" height="48" alt="" />
+                    <div className="d-flex pb-2 border-bottom align-items-center" dir="rtl">
+                        {admin.avatar ? (
+                                <img
+                                    src={admin.avatar}
+                                    alt=""
+                                    className="avatar-sm rounded-circle admin-avatar"
+                                />
+                            ) : (
+                                <div className="avatar-sm fw-bold d-inline-block admin-avatar">
+                                    <span className={`avatar-title rounded-circle bg-soft-success text-sucess`}>
+                                    </span>
+                                </div>
+                            )}
                         <div>
-                            <h5 className="my-0 fs-14">{(admin == undefined) ? "" : admin.name}</h5>
+                            <h5 className="my-0 fs-14" dir="ltr">{(admin == undefined) ? "" : admin.name}</h5>
                         </div>
 
                         <div className="flex-grow-1">
@@ -111,22 +115,23 @@ const ChatUsers = ({ onUserSelect,admin,user,onSearch }: ChatUsersProps) => {
                         <form className="chat-search">
                             <div className="chat-search-box">
                                 <div className="input-group">
-                                    <button className="btn input-group-text" type="submit">
-                                        <i className="uil uil-search"></i>
-                                    </button>
                                     <input
                                         type="search"
                                         className="form-control"
+                                        dir="rtl"
                                         placeholder="Search..."
                                         id="top-search"
                                         onKeyUp={(e: any) => onSearch(e.target.value)}
                                     />
+                                    <button className="btn input-group-text" type="submit">
+                                        <i className="uil uil-search"></i>
+                                    </button>
                                 </div>
                             </div>
                         </form>
                     </div>
 
-                    <div className="pe-2">
+                    <div>
                         <Scrollbar style={{ height: '549px', width: '100%' }}>
                             {(user || []).map((user, index) => {
                                 // console.log(user);
@@ -140,6 +145,27 @@ const ChatUsers = ({ onUserSelect,admin,user,onSearch }: ChatUsersProps) => {
                                         }}>
                                         <div
                                             className={classNames('d-flex', 'align-items-start', 'p-2')}>
+                                            <div className="w-100 overflow-hidden">
+                                                <h5 className="mt-0 mb-0 fs-14" dir="rtl">
+                                                    <span className="float-start text-muted fs-12">
+                                                        {user.lastMessageOn}
+                                                    </span>
+                                                    <span dir="ltr">{user.name}</span>
+                                                </h5>
+                                                <p className="mt-1 mb-0 text-muted fs-14" dir="rtl">
+                                                    {user.totalUnread !== 0 && (
+                                                        <span className="float-end badge bg-danger text-white">
+                                                            {user.totalUnread}
+                                                        </span>
+                                                    )}
+                                                    <span
+                                                        className={classNames('w-75', {
+                                                            'text-dark': user.totalUnread,
+                                                        })}>
+                                                        {user.lastMessage}
+                                                    </span>
+                                                </p>
+                                            </div>
                                             <div className="position-relative avatar-area">
                                                 <span
                                                     className={classNames('user-status', {
@@ -161,29 +187,7 @@ const ChatUsers = ({ onUserSelect,admin,user,onSearch }: ChatUsersProps) => {
                                                             </span>
                                                         </div>
                                                     )}
-                                            </div>
-
-                                            <div className="w-100 overflow-hidden">
-                                                <h5 className="mt-0 mb-0 fs-14">
-                                                    <span className="float-end text-muted fs-12">
-                                                        {user.lastMessageOn}
-                                                    </span>
-                                                    {user.name}
-                                                </h5>
-                                                <p className="mt-1 mb-0 text-muted fs-14">
-                                                    {user.totalUnread !== 0 && (
-                                                        <span className="float-end badge bg-danger text-white">
-                                                            {user.totalUnread}
-                                                        </span>
-                                                    )}
-                                                    <span
-                                                        className={classNames('w-75', {
-                                                            'text-dark': user.totalUnread,
-                                                        })}>
-                                                        {user.lastMessage}
-                                                    </span>
-                                                </p>
-                                            </div>
+                                            </div>                                            
                                         </div>
                                     </Link>
                                 );

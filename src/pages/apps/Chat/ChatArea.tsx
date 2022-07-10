@@ -31,6 +31,7 @@ interface ChatHeaderProps {
 }
 
 const ChatHeader = ({ selectedUser }: ChatHeaderProps) => {
+    console.log(selectedUser);
     // handle profile modal
     const [showProfileModal, setShowProfileModal] = useState<boolean>(false);
 
@@ -51,11 +52,25 @@ const ChatHeader = ({ selectedUser }: ChatHeaderProps) => {
 
     return (
         <>
-            <div className="d-flex pb-2 border-bottom align-items-center">
-                {/* <img src={""} className="me-2 rounded-circle" height="48" alt="" /> */}
+            <div className="d-flex pb-2 border-bottom align-items-center" dir="rtl">
+                {selectedUser && selectedUser.avatar ? (
+                    <img
+                        src={selectedUser.avatar}
+                        alt=""
+                        className="me-2 rounded-circle"
+                        height="48"
+                    />
+                ) : (
+                    <div className="avatar-sm fw-bold d-inline-block">
+                        <span
+                            className={`avatar-title rounded-circle bg-soft-success text-sucess`}>
+                        </span>
+                    </div>
+                )}
+                <img src={selectedUser == undefined ? "" : selectedUser.avatar} className="me-2 rounded-circle" height="48" alt="" />
                 <div>
-                    <h5 className="mt-0 mb-0 fs-14">{selectedUser == undefined ? "" : selectedUser.name}</h5>
-                    <p className="mb-0">Online</p>
+                    <h5 className="mt-0 mb-0 fs-14" dir="ltr">{selectedUser == undefined ? "" : selectedUser.name}</h5>
+                    <p className="mb-0">{selectedUser == undefined ? "" : selectedUser.userStatus}</p>
                 </div>
                 <div className="flex-grow-1">
                     <ul className="list-inline float-end mb-0">
@@ -232,11 +247,12 @@ interface ChatAreaProps {
 }
 
 // ChatArea
-const ChatArea = ({ selectedUser,admin,setUser,user }: ChatAreaProps) => {
+const ChatArea = ({ selectedUser, admin, setUser, user }: ChatAreaProps) => {
+    console.log(selectedUser);
     const [loading, setLoading] = useState<boolean>(false);
     const [chatHistory, setChatHistory] = useState<ChatMessage[]>([]);
-    const [real,setreal] = useState<any[]>([]);
-    const [files,setfiles] = useState<any[]>([]);
+    const [real, setreal] = useState<any[]>([]);
+    const [files, setfiles] = useState<any[]>([]);
 
     const [showModal, setModal] = useState<boolean>(false);
 
@@ -399,7 +415,7 @@ const ChatArea = ({ selectedUser,admin,setUser,user }: ChatAreaProps) => {
      */
     const schemaResolver = yupResolver(
         yup.object().shape({
-            newMessage: yup.string().required('Please enter your messsage'),
+            newMessage: yup.string().required('אנא רשום את הודעתך'),
         })
     );
 
@@ -526,6 +542,7 @@ const ChatArea = ({ selectedUser,admin,setUser,user }: ChatAreaProps) => {
                     <ChatHeader selectedUser={selectedUser} />
 
                     <div className="mt-1">
+                        {/* handle listed messages */}
                         <Scrollbar style={{ height: '509px', width: '100%' }}>
                             <ul className="conversation-list px-0 h-100">
                                 {(chatHistory || []).map((item, index) => {
@@ -548,22 +565,10 @@ const ChatArea = ({ selectedUser,admin,setUser,user }: ChatAreaProps) => {
                                 })}
                             </ul>
                         </Scrollbar>
-
+                        {/* handle submited message */}
                         <div className="mt-2 bg-light p-3 rounded">
                             <form noValidate name="chat-form" id="chat-form" onSubmit={handleSubmit(sendChatMessage)}>
-                                <div className="row">
-                                    <div className="col mb-2 mb-sm-0">
-                                        <FormInput
-                                            type="text"
-                                            name="newMessage"
-                                            className="border-0"
-                                            placeholder="Enter your text"
-                                            register={register}
-                                            key="newMessage"
-                                            errors={errors}
-                                            control={control}
-                                        />
-                                    </div>
+                                <div className="row"> 
                                     <div className="col-sm-auto" >
                                         <div className="btn-group">
                                             {/* <Link to="#" className="btn btn-light">
@@ -580,6 +585,20 @@ const ChatArea = ({ selectedUser,admin,setUser,user }: ChatAreaProps) => {
                                             </button>
                                         </div>
                                     </div>
+                                    <div className="col mb-2 mb-sm-0">
+                                        <FormInput
+                                            type="text"
+                                            name="newMessage"
+                                            className="border-0"
+                                            placeholder="אנא רשום את הודעתך"
+                                            register={register}
+                                            key="newMessage"
+                                            errors={errors}
+                                            control={control}
+                                            dir="rtl"
+                                        />
+                                    </div>
+                                   
                                 </div>
                             </form>
                         </div>
