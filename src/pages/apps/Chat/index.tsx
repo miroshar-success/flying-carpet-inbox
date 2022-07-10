@@ -84,14 +84,14 @@ const ChatApp = () => {
                         hour -= 12;
                         tmp = " PM";
                     }
-
+                    
                     let user : ChatUserType = {
                         id : total[i]['chatName'],
                         avatar : "",
                         name : total[i]['senderName'],
                         userStatus : "online",
                         lastMessage : lastMessage,
-                        lastMessageOn : hour + ":"+min +tmp
+                        lastMessageOn : hour + ":"+ (min < 10 ? "0" + min : min) +tmp
                     };
                     if (total[i]['fromMe'] == 1) {
                         user.name = total[i]['chatId'];

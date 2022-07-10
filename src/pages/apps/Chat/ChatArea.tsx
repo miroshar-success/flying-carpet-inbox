@@ -361,9 +361,6 @@ const ChatArea = ({ selectedUser,admin,setUser,user,scrollref }: ChatAreaProps) 
                     hour -= 12;
                     tmp = " PM";
                 }
-                if (hourtxt.length == 1) {
-                    hourtxt = '0'+hour;  
-                }
                 if (min.length == 1) {
                     min = "0" + min;
                 }
