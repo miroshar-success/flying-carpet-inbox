@@ -1,0 +1,46 @@
+{
+  "name": "dev-connector",
+  "version": "1.0.0",
+  "description": "A MERN stack social media app",
+  "main": "server.js",
+  "scripts": {
+    "client-install": "cd client && npm install ",
+    "install-all": "npm install && cd client && npm install",
+    "start": "node server.js",
+    "server": "nodemon server.js",
+    "client": "cd client && npm start ",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/petercr/dev-connector.git"
+  },
+  "keywords": [
+    "javascript",
+    "react",
+    "mongodb",
+    "express"
+  ],
+  "author": "Peter Cruckshank",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/petercr/dev-connector/issues"
+  },
+  "homepage": "https://github.com/petercr/dev-connector#readme",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.18.3",
+    "concurrently": "^4.1.0",
+    "cors": "^2.8.5",
+    "express": "^4.16.4",
+    "gravatar": "^1.8.0",
+    "jsonwebtoken": "^8.4.0",
+    "mongoose": "^5.4.1",
+    "passport": "^0.4.0",
+    "passport-jwt": "^4.0.0",
+    "validator": "^10.10.0"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.9"
+  }
+}
