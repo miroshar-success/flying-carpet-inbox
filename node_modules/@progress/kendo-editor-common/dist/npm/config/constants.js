@@ -1,0 +1,10 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.dataResizeDirImage = exports.dataResizeDirTable = exports.resizeHandle = exports.resizableWrap = exports.resizableAttr = exports.colgroupAttr = exports.rowTypeAttr = void 0;
+exports.rowTypeAttr = 'k-parent-node';
+exports.colgroupAttr = 'k-colgroup-data';
+exports.resizableAttr = 'k-resizable-node';
+exports.resizableWrap = 'k-editor-resize-wrap-element';
+exports.resizeHandle = 'k-editor-resize-handle';
+exports.dataResizeDirTable = 'data-dir-table-resize';
+exports.dataResizeDirImage = 'data-dir-image-resize';
