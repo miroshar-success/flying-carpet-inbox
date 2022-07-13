@@ -193,7 +193,7 @@ const UserMessage = ({ message, toUser }: UserMessageProps) => {
                                 )} */}
 
                                 {item.type === 'text' && (
-                                    <div className="ctext-wrap">
+                                    <div className="ctext-wrap" dir="rtl">
                                         {
                                             validURL(item.value) == true ? <a href={"http://"+item.value}>{item.value}</a> : item.value
                                         }
