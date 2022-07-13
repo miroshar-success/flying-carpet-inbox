@@ -16,8 +16,8 @@ stages:
     - script: |
         npm install
         cd client
-        npm install
-        npm run build
+        yarn install
+        yarn run build
       displayName: 'npm install and build'
     - task: ArchiveFiles@2
       inputs:
