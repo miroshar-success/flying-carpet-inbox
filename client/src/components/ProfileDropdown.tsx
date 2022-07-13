@@ -4,6 +4,8 @@ import { Dropdown } from 'react-bootstrap';
 import classNames from 'classnames';
 import FeatherIcon from 'feather-icons-react';
 
+import {APICore,setAuthorization} from '../helpers/api/apiCore';
+
 interface ProfileMenuItem {
     label: string;
     icon: string;
@@ -27,6 +29,12 @@ const ProfileDropdown = (props: ProfileDropdownProps) => {
         setDropdownOpen(!dropdownOpen);
     };
 
+    const logout = () =>{
+        const api = new APICore();
+        api.setLoggedInUser(null);
+        setAuthorization(null)
+    }
+
     return (
         <Dropdown show={dropdownOpen} onToggle={toggleDropdown}>
             <Dropdown.Toggle
@@ -49,6 +57,7 @@ const ProfileDropdown = (props: ProfileDropdownProps) => {
                             <React.Fragment key={i}>
                                 {i === props.menuItems.length - 1 && <div className="dropdown-divider"></div>}
                                 <Link
+                                    onClick={logout}
                                     to={item.redirectTo}
                                     className="dropdown-item notify-item"
                                     key={i + '-profile-menu'}>

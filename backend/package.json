@@ -6,8 +6,8 @@
   "scripts": {
     "client-install": "cd client && npm install ",
     "install-all": "npm install && cd client && npm install",
-    "start": "node server.js",
-    "server": "nodemon server.js",
+    "start": "node ./backend/server.js",
+    "server": "nodemon ./backend/server.js",
     "client": "cd client && npm start ",
     "dev": "concurrently \"npm run server\" \"npm run client\""
   },
@@ -28,6 +28,7 @@
   },
   "homepage": "https://github.com/petercr/dev-connector#readme",
   "dependencies": {
+    "axios": "^0.27.2",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.18.3",
     "concurrently": "^4.1.0",

@@ -10,18 +10,16 @@ stages:
     steps:
     - task: NodeTool@0
       inputs:
-        versionSpec: '16.x'
+        versionSpec: '14.x'
       displayName: 'Install Node.js'
 
     - script: |
-        npm install
-        cd client
         yarn install
         yarn run build
       displayName: 'npm install and build'
     - task: ArchiveFiles@2
       inputs:
-        rootFolderOrFile: '.'
+        rootFolderOrFile: 'build'
         includeRootFolder: false
         archiveType: 'zip'
         archiveFile: '$(Build.ArtifactStagingDirectory)/build.zip'

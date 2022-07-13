@@ -18,6 +18,13 @@ export interface ChatUserType {
     userStatus?: 'busy' | 'online' | 'away' | 'offline';
 }
 
+export interface ApiType {
+    id? : Number;
+    token? : String;
+    instance? : String;
+    phone? : string
+};
+
 export interface MessageItem {
     id: number;
     from: ChatUserType;

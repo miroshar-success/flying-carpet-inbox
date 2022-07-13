@@ -37,13 +37,23 @@ const api = new APICore();
 function* login({ payload: { email, password }, type }: UserData): SagaIterator {
     try {
         const response = yield call(loginApi, { email, password });
-        const user = response.data;
-        // NOTE - You can change this according to response format from your api
-        api.setLoggedInUser(user);
-        setAuthorization(user['token']);
-        yield put(authApiResponseSuccess(AuthActionTypes.LOGIN_USER, user));
+        console.log(response.message,response);
+        if (response.message != "" && response.message != undefined) {
+            yield put(authApiResponseError(AuthActionTypes.LOGIN_USER, response.message));
+            api.setLoggedInUser(null);
+            setAuthorization(null);
+        }else{
+            const user = response;
+            console.log(user);
+            // NOTE - You can change this according to response format from your api
+            api.setLoggedInUser(user);
+            setAuthorization(user['token']);
+            yield put(authApiResponseSuccess(AuthActionTypes.LOGIN_USER, user));
+        }
+      
     } catch (error: any) {
-        yield put(authApiResponseError(AuthActionTypes.LOGIN_USER, error));
+        const tmp = "Invalid credentials";
+        yield put(authApiResponseError(AuthActionTypes.LOGIN_USER, tmp));
         api.setLoggedInUser(null);
         setAuthorization(null);
     }
@@ -66,7 +76,8 @@ function* logout(): SagaIterator {
 function* signup({ payload: { fullname, email, password } }: UserData): SagaIterator {
     try {
         const response = yield call(signupApi, { fullname, email, password });
-        const user = response.data;
+        const user = response;
+        console.log(user);
         // api.setLoggedInUser(user);
         // setAuthorization(user['token']);
         yield put(authApiResponseSuccess(AuthActionTypes.SIGNUP_USER, user));

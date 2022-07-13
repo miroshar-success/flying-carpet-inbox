@@ -14,6 +14,10 @@ const ApiSchema = new Schema({
   instance : {
     type : String,
     required : true
+  },
+  phone : {
+    type : String,
+    required : true
   }
 });
 

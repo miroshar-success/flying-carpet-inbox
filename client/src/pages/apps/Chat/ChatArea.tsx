@@ -8,6 +8,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 
 import { API_Key } from '../../../config/index';
 import FileUploader from '../../../components/FileUploader';
+import { APICore } from "../../../helpers/api/apiCore";
 
 
 // components
@@ -20,7 +21,7 @@ import VideocallModal from './VideocallModal';
 import VoicecallModal from './VoicecallModal';
 
 // default data
-import { CHATHISTORY, ChatUserType, ChatMessage, MessageItem } from './data';
+import { CHATHISTORY, ChatUserType, ChatMessage, MessageItem,ApiType } from './data';
 
 // images
 import avatar1 from '../../../assets/images/users/avatar-2.jpg';
@@ -31,6 +32,10 @@ interface ChatHeaderProps {
 }
 
 const ChatHeader = ({ selectedUser }: ChatHeaderProps) => {
+
+    const apicore = new APICore;
+    const user = apicore.getLoggedInUser();
+
     // handle profile modal
     const [showProfileModal, setShowProfileModal] = useState<boolean>(false);
 
@@ -51,7 +56,7 @@ const ChatHeader = ({ selectedUser }: ChatHeaderProps) => {
 
     return (
         <>
-            <div className="d-flex pb-2 border-bottom align-items-center" dir="rtl">
+            <div className="d-flex pb-2 border-bottom align-items-center" dir='rtl'>
                 {selectedUser && selectedUser.avatar ? (
                     <img
                         src={selectedUser.avatar}
@@ -71,15 +76,22 @@ const ChatHeader = ({ selectedUser }: ChatHeaderProps) => {
                     <h5 className="mt-0 mb-0 fs-14" dir="ltr">{selectedUser == undefined ? "" : selectedUser.name}</h5>
                     <p className="mb-0">{selectedUser == undefined ? "" : selectedUser.userStatus}</p>
                 </div>
-                <div className="flex-grow-1">
-                    <ul className="list-inline float-end mb-0">
+                <div className="flex-grow-1" dir='ltr'>
+                    <ul className="list-inline mb-0" >
+                        {
+                            user.role == "Admin" ? <Dropdown as="li" className="list-inline-item fs-18 me-3">
+                                <Dropdown.Toggle id="dropdown-apps" as="a" className="cursor-pointer text-dark">
+                                    <i className="bi bi-telephone-plus" onClick={() => handleVoicelModalShow()}></i>
+                                </Dropdown.Toggle>
+                            </Dropdown> : ""
+                        }
+                        
                         {/* <Dropdown as="li" className="list-inline-item fs-18 me-3">
-                            <Dropdown.Toggle id="dropdown-apps" as="a" className="cursor-pointer text-dark">
-                                <i className="bi bi-telephone-plus" onClick={() => handleVoicelModalShow()}></i>
-                            </Dropdown.Toggle>
-                        </Dropdown>
-
-                        <Dropdown as="li" className="list-inline-item fs-18 me-3">
+                                <Dropdown.Toggle id="dropdown-apps" as="a" className="cursor-pointer text-dark">
+                                    <i className="bi bi-telephone-plus" onClick={() => handleVoicelModalShow()}></i>
+                                </Dropdown.Toggle>
+                            </Dropdown> */}
+                        {/* <Dropdown as="li" className="list-inline-item fs-18 me-3">
                             <Dropdown.Toggle id="dropdown-apps" as="a" className="cursor-pointer text-dark">
                                 <i className="bi bi-camera-video" onClick={() => handleVideocallModalShow()}></i>
                             </Dropdown.Toggle>
@@ -193,7 +205,7 @@ const UserMessage = ({ message, toUser }: UserMessageProps) => {
                                 )} */}
 
                                 {item.type === 'text' && (
-                                    <div className="ctext-wrap" dir="rtl">
+                                    <div className="ctext-wrap">
                                         {
                                             validURL(item.value) == true ? <a href={"http://"+item.value}>{item.value}</a> : item.value
                                         }
@@ -266,14 +278,15 @@ const UserMessage = ({ message, toUser }: UserMessageProps) => {
 
 interface ChatAreaProps {
     selectedUser: ChatUserType;
-    admin : ChatUserType;
+    // admin : ChatUserType;
     setUser : (value: ChatUserType[]) => void;
     user : ChatUserType[];
-    scrollref : any
+    scrollref : any,
+    currentAPI : ApiType
 }
 
 // ChatArea
-const ChatArea = ({ selectedUser,admin,setUser,user,scrollref }: ChatAreaProps) => {
+const ChatArea = ({ selectedUser,setUser,user,scrollref,currentAPI }: ChatAreaProps) => {
     const [loading, setLoading] = useState<boolean>(false);//show loading
     const [chatHistory, setChatHistory] = useState<ChatMessage[]>([]);//messages
     const [real,setreal] = useState<any[]>([]);//total messages
@@ -287,6 +300,7 @@ const ChatArea = ({ selectedUser,admin,setUser,user,scrollref }: ChatAreaProps) 
 
     const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
+    console.log(currentAPI);
     /**
      * Auto scroll to Bottom
      */
@@ -310,22 +324,21 @@ const ChatArea = ({ selectedUser,admin,setUser,user,scrollref }: ChatAreaProps) 
     }
 
     const toUser = {
-        id : admin.id,
-        name : admin.name
+        id : currentAPI.phone,
+        name : currentAPI.phone
     }
 
     useEffect(() => {
-        
         fetchData();
-    },[admin]);
+    },[currentAPI]);
 
     /**
      * Fetch messages in real time
      */
     useEffect(() => {
-        const timer = setTimeout(() => {
-            fetchData();
-        },100)
+        const timer = setTimeout(async () => {
+           await fetchData();
+        },500)
         return () => {
 
             clearTimeout(timer);
@@ -340,20 +353,26 @@ const ChatArea = ({ selectedUser,admin,setUser,user,scrollref }: ChatAreaProps) 
      * Body of get message data
      * @returns 
      */
-    const fetchData = () => {
-        if (selectedUser == undefined) return;
-        const chatId = selectedUser.id;
+    const fetchData = async () => {
+        console.log(currentAPI,"123");
+        // if (selectedUser == undefined) return;
+        let chatId;
         let fetchemailurl;
-        if (chatId != '') {
-             fetchemailurl = `https://api.chat-api.com/instance${API_Key.instance}/messages?chatId=${chatId}@c.us&token=${API_Key.token}&limit=0`;
+        if (selectedUser != undefined) {
+            chatId = selectedUser['id'];
+            
+             fetchemailurl = `https://api.chat-api.com/instance${currentAPI.instance}/messages?chatId=${chatId}@c.us&token=${currentAPI.token}&limit=0`;
+            //  console.log(chatId);
         }else{
-             fetchemailurl = `https://api.chat-api.com/instance${API_Key.instance}/messages?limit=0&token=${API_Key.token}`;
+            
+             fetchemailurl = `https://api.chat-api.com/instance${currentAPI.instance}/messages?limit=0&token=${currentAPI.token}`;
         }
-        fetch(fetchemailurl)
+        
+        await fetch(fetchemailurl)
         .then((res)=> res.json())
         .then((json)=>{
             const total = [...json.messages];
-            console.log(total);
+            // console.log(total);
             let from : ChatUserType;
             let to : ChatUserType;
             let messages : MessageItem[] = [];
@@ -391,6 +410,11 @@ const ChatArea = ({ selectedUser,admin,setUser,user,scrollref }: ChatAreaProps) 
                     name : total[i]['senderName'],
                     userStatus : "online"
                 }
+                let admin : ChatUserType = {
+                    id : currentAPI.phone,
+                    name : currentAPI.phone,
+                    userStatus : "online"
+                }
                 if(total[i]['fromMe'] == 1){
 
                     from = admin;
@@ -424,7 +448,6 @@ const ChatArea = ({ selectedUser,admin,setUser,user,scrollref }: ChatAreaProps) 
             }
             
             const tmp = [...chatHistory];
-            console.log(tmp);
             if (chatHistory.length == 0) {
                 setflag(true);
             }else{
@@ -436,6 +459,9 @@ const ChatArea = ({ selectedUser,admin,setUser,user,scrollref }: ChatAreaProps) 
             }
             setChatHistory(chatmessages);
         })
+        .catch(err => {
+            fetchData()
+        })
     }
     
     const onFileUpload = (files : any) => {
@@ -445,29 +471,29 @@ const ChatArea = ({ selectedUser,admin,setUser,user,scrollref }: ChatAreaProps) 
     /*
      *  Fetches the messages for selected user
      */
-    const getMessagesForUser = useCallback(() => {
-        if (selectedUser) {
-            setTimeout(() => {
-                fetchData();
-                // const modifiedChatHistory = [...chatHistory].map((record) => {
-                //     const test = {
-                //         id: record.id,
-                //         day: record.day,
-                //         messages: [...record.messages].filter(
-                //             (m) =>
-                //                 (m.to.id === admin.id && m.from.id === selectedUser.id) ||
-                //                 (admin.id === m.from.id && m.to.id === selectedUser.id)
-                //         ),
-                //     };
-                //     return test;
-                // });
-                // modifiedChatHistory.filter((mes) => mes.messages.length);
-                // setChatHistory([...modifiedChatHistory]);
-                // fetchData(selectedUser.id);
-                setLoading(false);
-            }, 750);
-        }
-    }, [selectedUser]);
+    // const getMessagesForUser = useCallback(() => {
+    //     if (selectedUser) {
+    //         setTimeout(() => {
+    //             fetchData();
+    //             // const modifiedChatHistory = [...chatHistory].map((record) => {
+    //             //     const test = {
+    //             //         id: record.id,
+    //             //         day: record.day,
+    //             //         messages: [...record.messages].filter(
+    //             //             (m) =>
+    //             //                 (m.to.id === admin.id && m.from.id === selectedUser.id) ||
+    //             //                 (admin.id === m.from.id && m.to.id === selectedUser.id)
+    //             //         ),
+    //             //     };
+    //             //     return test;
+    //             // });
+    //             // modifiedChatHistory.filter((mes) => mes.messages.length);
+    //             // setChatHistory([...modifiedChatHistory]);
+    //             // fetchData(selectedUser.id);
+    //             setLoading(false);
+    //         }, 750);
+    //     }
+    // }, [selectedUser]);
 
     // useEffect(() => {
     //     getMessagesForUser();

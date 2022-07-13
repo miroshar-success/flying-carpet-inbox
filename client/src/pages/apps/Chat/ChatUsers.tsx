@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Card, Dropdown } from 'react-bootstrap';
-import classNames from 'classnames';
+import classNames, { Value } from 'classnames';
+import FeatherIcons from 'feather-icons-react';
 
 import { API_Key } from '../../../config/index';
 
@@ -9,20 +10,23 @@ import { API_Key } from '../../../config/index';
 import Scrollbar from '../../../components/Scrollbar';
 
 // dummy data
-import { USERS, ChatUserType } from './data';
+import { USERS, ChatUserType,ApiType } from './data';
 
 // images
 import profilePic from '../../../assets/images/users/avatar-2.jpg';
 
 interface ChatUsersProps {
     onUserSelect: (value: ChatUserType) => void;
-    admin : ChatUserType;
+    // admin : ChatUserType;
     user : ChatUserType[];
-    onSearch : (value : string) => void
+    onSearch : (value : string) => void,
+    currentAPI : ApiType,
+    setCurrentAPI : (Value : ApiType) => void,
+    API : ApiType[]
 }
 
 // ChatUsers
-const ChatUsers = ({ onUserSelect, admin, user, onSearch }: ChatUsersProps) => {
+const ChatUsers = ({ onUserSelect, user, onSearch,currentAPI,setCurrentAPI,API }: ChatUsersProps) => {
     const [dropdownOpen, setDropdownOpen] = useState<boolean>(false);
     /*
      * toggle apps-dropdown
@@ -45,7 +49,6 @@ const ChatUsers = ({ onUserSelect, admin, user, onSearch }: ChatUsersProps) => {
      */
     const activateUser = (user: ChatUserType) => {
         if (onUserSelect) {
-            console.log(user);
             onUserSelect(user);
         }
     };
@@ -55,21 +58,43 @@ const ChatUsers = ({ onUserSelect, admin, user, onSearch }: ChatUsersProps) => {
             <Card>
                 <Card.Body>
                     <div className="d-flex pb-2 border-bottom align-items-center" dir="rtl">
-                        {admin.avatar ? (
-                                <img
-                                    src={admin.avatar}
-                                    alt=""
-                                    className="avatar-sm rounded-circle admin-avatar"
-                                />
-                            ) : (
-                                <div className="avatar-sm fw-bold d-inline-block admin-avatar">
-                                    <span className={`avatar-title rounded-circle bg-soft-success text-sucess`}>
-                                    </span>
-                                </div>
-                            )}
-                        <div>
+                        <Dropdown  className="mt-2 me-1">
+                                <Dropdown.Toggle  className="cursor-pointer">
+                                    {(currentAPI == undefined) ? "" : currentAPI.phone}
+                                    <i className="icon">
+                                        {/* <span>
+                                            {admin.avatar ? (
+                                                <img
+                                                    src={admin.avatar}
+                                                    alt=""
+                                                    className="avatar-sm rounded-circle admin-avatar"
+                                                />
+                                            ) : (
+                                                <div className="avatar-sm fw-bold d-inline-block admin-avatar">
+                                                    <span className={`avatar-title rounded-circle bg-soft-success text-sucess`}>
+                                                    </span>
+                                                </div>
+                                            )}
+                                        </span> */}
+                                        <FeatherIcons icon="chevron-down"></FeatherIcons>
+                                        
+                                    </i>
+                                </Dropdown.Toggle>
+                                <Dropdown.Menu>
+                                    {
+                                        API.map(api => <Dropdown.Item onClick={() => setCurrentAPI(api)}>{api.phone}</Dropdown.Item>)
+                                    }
+                                    {/* <Dropdown.Item href="#">Action</Dropdown.Item>
+                                    <Dropdown.Item href="#">Another action</Dropdown.Item>
+                                    <Dropdown.Item href="#">Something else here</Dropdown.Item>
+                                    <Dropdown.Divider />
+                                    <Dropdown.Item href="#">Separated link</Dropdown.Item> */}
+                                </Dropdown.Menu>
+                            </Dropdown>
+                        
+                        {/* <div>
                             <h5 className="my-0 fs-14" dir="ltr">{(admin == undefined) ? "" : admin.name}</h5>
-                        </div>
+                        </div> */}
 
                         <div className="flex-grow-1">
                             {/* <ul className="list-inline text-end mb-0">

@@ -9,15 +9,18 @@ import PageTitle from '../../../components/PageTitle';
 import ChatUsers from './ChatUsers';
 import ChatArea from './ChatArea';
 // dummy data
-import { USERS, ChatUserType } from './data';
+import { USERS, ChatUserType,ApiType } from './data';
 import { useCallback } from 'react';
+
 
 // ChatApp
 const ChatApp = () => {
     const [selectedUser, setSelectedUser] = useState<ChatUserType>({});
-    const [admin,setadmin] = useState<ChatUserType>({});
+    // const [admin,setadmin] = useState<ChatUserType>({});
     const [USER,setUSER] = useState<ChatUserType[]>([]);
     const [user, setUser] = useState<ChatUserType[]>([]);
+    const [API, setAPI] = useState<ApiType[]>([]);
+    const [currentAPI,setCurrentAPI] = useState<ApiType>({});
 
     const [flag,setflag] = useState<boolean>(false);
     
@@ -32,33 +35,25 @@ const ChatApp = () => {
     };
 
     useEffect(() => {
-        getMe();
-        getUsers();
+        getAPIS();
     },[])
+
+    useEffect(() => {
+        getUsers();
+    },[currentAPI])
 
     useEffect(() => {
         setSelectedUser(user[0])
 
     },[user])
 
-    const getMe = () => {
-        const fetchemailurl = `https://api.chat-api.com/instance${API_Key.instance}/me?token=${API_Key.token}`;
-        fetch(fetchemailurl)
-            .then((res) => res.json())
-            .then((json) => {
-                console.log(json);
-                let user : ChatUserType = {
-                    id : json.phone,
-                    name : json.phone,
-                    userStatus : "online",
-                    avatar : json.photo
-                }
-                setadmin(user);
-            })
-    }
 
     const getUsers = () => {
-        const fetchemailurl = `https://api.chat-api.com/instance${API_Key.instance}/messages?limit=0&token=${API_Key.token}`;
+        if (API.length == 0) return;
+        console.log(currentAPI);
+        const instance = currentAPI.instance;
+        const token = currentAPI.token;
+        const fetchemailurl = `https://api.chat-api.com/instance${instance}/messages?limit=0&token=${token}`;
         fetch(fetchemailurl)
         .then((res)=> res.json())
         .then((json)=>{
@@ -100,32 +95,27 @@ const ChatApp = () => {
                     userdata.push(user)
                 }
             }
-            //set lastmess
-            // for (let i = 0; i < userdata.length; i++) {
-            //     const temp = [...total.filter((item) => item.fromMe != 1 && item.chatName == userdata[i]['id'])];
-            //     if (temp.length > 0) {
-            //         if (temp[0]['type'] != "chat") {
-            //             userdata[i]['lastMessage'] = "Attached file";  
-            //         }else{
-            //             userdata[i]['lastMessage'] = temp[0].body;
-            //         }
-            //         const time = temp[0].time;
-            //         console.log(temp[0]);
-            //         const timedate = new Date(time*1000);
-            //         let hour = timedate.getHours();
-            //         let min = timedate.getMinutes();
-            //         let tmp = " AM";
-            //         if (hour > 12) {
-            //             hour -= 12;
-            //             tmp = " PM";
-            //         }
-            //         userdata[i]['lastMessageOn'] = hour + ":"+min +tmp;
-            //     }
-            // }
 
             setUSER(userdata);
             setUser(userdata);
         })
+        .catch(err=>{
+
+        })
+    }
+
+    const getAPIS = () => {
+        fetch("http://localhost:5000/api/apis/getAPI")
+            .then(res => res.json())
+            .then((json) => {
+                let total : ApiType[] = [];
+                for (let i = 0; i < json.length; i++) {
+                    let temp  = {id : json[i].id, token : json[i].token, instance : json[i].instance,phone : json[i].phone};
+                    total.push(temp)
+                }
+                setAPI(total);
+                setCurrentAPI(total[0]);
+            })
     }
 
     const search = (text: string) => {
@@ -144,10 +134,10 @@ const ChatApp = () => {
 
             <Row>
                 <Col lg={7} xxl={9}>
-                    <ChatArea selectedUser={selectedUser} setUser={setUser} user={user} admin={admin} scrollref={scrollref} />
+                    <ChatArea selectedUser={selectedUser} setUser={setUser} user={user}  scrollref={scrollref} currentAPI={currentAPI}/>
                 </Col>
                 <Col lg={5} xxl={3}>
-                    <ChatUsers admin={admin} user={user} onUserSelect={onUserChange} onSearch = {search}/>
+                    <ChatUsers  user={user} onUserSelect={onUserChange} onSearch = {search}  currentAPI={currentAPI} setCurrentAPI={setCurrentAPI} API = {API} />
                 </Col>
             </Row>
         </>

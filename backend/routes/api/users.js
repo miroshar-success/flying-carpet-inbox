@@ -45,7 +45,8 @@ router.post("/register", (req, res) => {
         fullname: req.body.fullname,
         email: req.body.email,
         avatar,
-        password: req.body.password
+        password: req.body.password,
+        level : 2
       });
 
       bcrypt.genSalt(10, (err, salt) => {
@@ -80,7 +81,7 @@ router.post("/login", (req, res) => {
     // Check for user
     if (!user) {
       errors.email = "User not found";
-      return res.status(401).json({'message': 'Username or password is incorrect'});
+      return res.status(401).json({'message': 'Username not allowed'});
     }
 
     // Check Password
@@ -95,7 +96,6 @@ router.post("/login", (req, res) => {
           keys.secretOrKey,
           { expiresIn: 3600 },
           (err, token) => {
-            console.log("server login!");
             const payUser = {
               id : 1,
               email : user.email,
@@ -103,16 +103,15 @@ router.post("/login", (req, res) => {
               password : user.password,
               firstName : user.fullname,
               lastName : "Test",
-              role : "Admin",
+              role : user.level == 1 ? "Admin" : "User",
               token : "Bear " + token
             }
-            console.log(payUser);
             res.json(payUser);
           }
         );
       } else {
         errors.password = "Password incorrect";
-        return res.status(400).json(errors);
+        return res.status(401).json({'message': "Password incorrect"});
       }
     });
   });

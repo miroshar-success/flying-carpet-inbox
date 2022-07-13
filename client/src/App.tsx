@@ -12,7 +12,7 @@ import './assets/scss/Theme.scss';
 // import './assets/scss/Theme-Dark.scss';
 
 // configure fake backend
-configureFakeBackend();
+// configureFakeBackend();
 
 const App = () => {
     return (

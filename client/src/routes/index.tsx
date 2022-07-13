@@ -125,7 +125,7 @@ const calendarAppRoutes: RoutesProps = {
     path: '/apps/calendar',
     name: 'Calendar',
     route: PrivateRoute,
-    roles: ['Admin'],
+    roles: ['Admin',"User"],
     icon: 'calendar',
     component: CalendarApp,
     header: 'Apps',
@@ -135,7 +135,7 @@ const chatAppRoutes: RoutesProps = {
     path: '/apps/chat',
     name: 'Chat',
     route: PrivateRoute,
-    roles: ['Admin'],
+    roles: ['Admin',"User"],
     icon: 'message-square',
     component: ChatApp,
 };
@@ -144,7 +144,7 @@ const emailAppRoutes: RoutesProps = {
     path: '/apps/email',
     name: 'Email',
     route: PrivateRoute,
-    roles: ['Admin'],
+    roles: ['Admin',"User"],
     icon: 'mail',
     children: [
         {
@@ -172,7 +172,7 @@ const projectAppRoutes: RoutesProps = {
     path: '/apps/projects',
     name: 'Projects',
     route: PrivateRoute,
-    roles: ['Admin'],
+    roles: ['Admin',"User"],
     icon: 'uil-briefcase',
 
     children: [
@@ -195,7 +195,7 @@ const taskAppRoutes: RoutesProps = {
     path: '/apps/tasks',
     name: 'Tasks',
     route: PrivateRoute,
-    roles: ['Admin'],
+    roles: ['Admin',"User"],
     icon: 'clipboard',
     children: [
         {
@@ -217,7 +217,7 @@ const fileAppRoutes: RoutesProps = {
     path: '/apps/file-manager',
     name: 'File Manager',
     route: PrivateRoute,
-    roles: ['Admin'],
+    roles: ['Admin',"User"],
     icon: 'folder-plus',
     component: FileManager,
 };
