@@ -23,7 +23,6 @@ router.get("/test", (req, res) => res.json({ msg: "Users works!!" }));
 // @desc    Register route
 // @access  Public
 router.post("/register", (req, res) => {
-  console.log("sdf");
   const { errors, isValid } = validateRegisterInput(req.body);
 
   // Check Validation
@@ -70,25 +69,25 @@ router.post("/login", (req, res) => {
   const { errors, isValid } = validateLoginInput(req.body);
   // Check Validation
   if (!isValid) {
-    return res.status(400).json(errors);
+    return res.status(401).json({message: 'Username or password is incorrect'});
   }
 
   const email = req.body.email;
   const password = req.body.password;
-
+  console.log("login");
   // Find user by email
   User.findOne({ email }).then(user => {
     // Check for user
     if (!user) {
       errors.email = "User not found";
-      return res.status(404).json(errors);
+      return res.status(401).json({'message': 'Username or password is incorrect'});
     }
 
     // Check Password
     bcrypt.compare(password, user.password).then(isMatch => {
       if (isMatch) {
         // User Matched
-        const payLoad = { id: user.id, name: user.name, avatar: user.avatar }; // Create JWT payload
+        const payLoad = { id: user.id, fullname: user.fullname, avatar: user.avatar }; // Create JWT payload
 
         // Sign Token
         jwt.sign(
@@ -96,10 +95,19 @@ router.post("/login", (req, res) => {
           keys.secretOrKey,
           { expiresIn: 3600 },
           (err, token) => {
-            res.json({
-              success: true,
-              token: "Bearer " + token
-            });
+            console.log("server login!");
+            const payUser = {
+              id : 1,
+              email : user.email,
+              username : user.fullname,
+              password : user.password,
+              firstName : user.fullname,
+              lastName : "Test",
+              role : "Admin",
+              token : "Bear " + token
+            }
+            console.log(payUser);
+            res.json(payUser);
           }
         );
       } else {
