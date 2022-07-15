@@ -529,7 +529,7 @@ const ChatArea = ({ selectedUser,setUser,user,scrollref,currentAPI }: ChatAreaPr
         const now = new Date();
         const nowstr = getDateStr(now);
 
-        const fetchUrl = `https://api.chat-api.com/instance${API_Key.instance}/sendMessage?token=${API_Key.token}`;
+        const fetchUrl = `https://api.chat-api.com/instance${currentAPI.instance}/sendMessage?token=${currentAPI.token}`;
         const dData = {body : values['newMessage'], phone : selectedUser.id};
 
         fetch(fetchUrl, {
@@ -603,7 +603,7 @@ const ChatArea = ({ selectedUser,setUser,user,scrollref,currentAPI }: ChatAreaPr
     }
 
     const send = async (senddata : any) => {
-        const fetchUrl = `https://api.chat-api.com/instance${API_Key.instance}/sendFile?token=${API_Key.token}`;
+        const fetchUrl = `https://api.chat-api.com/instance${currentAPI.instance}/sendFile?token=${currentAPI.token}`;
 
         const result = await fetch(fetchUrl, {
             method: 'POST', // *GET, POST, PUT, DELETE, etc.
