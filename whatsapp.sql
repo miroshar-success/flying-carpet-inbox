@@ -11,7 +11,7 @@
  Target Server Version : 40401
  File Encoding         : 65001
 
- Date: 13/07/2022 13:02:29
+ Date: 15/07/2022 04:30:58
 */
 
 
@@ -25,20 +25,20 @@ db.createCollection("apis");
 // Documents of apis
 // ----------------------------
 db.getCollection("apis").insert([ {
-    _id: ObjectId("62cdd23e2f28bdc08083ee04"),
-    id: NumberInt("1"),
+    _id: ObjectId("62d0d15f68c0a5530c09b75b"),
+    id: NumberInt("3"),
+    token: "off_KllvJh303Dr7qcmEtK3HTqYpAK",
+    instance: "445802",
+    phone: "972503112787",
+    __v: NumberInt("0")
+} ]);
+db.getCollection("apis").insert([ {
+    _id: ObjectId("62d0d4c5368c4d24ecf582cf"),
+    id: NumberInt("4"),
     token: "3px6cypvje3xsjmc",
     instance: "7827",
     phone: "972508087412",
     __v: NumberInt("0")
-} ]);
-db.getCollection("apis").insert([ {
-    _id: ObjectId("62ce844fad6f384d30d7e388"),
-    id: NumberInt("2"),
-    token: "off_KllvJh303Dr7qcmEtK3HTqYpAK",
-    instance: "445802",
-    __v: NumberInt("0"),
-    phone: "972503112787"
 } ]);
 
 // ----------------------------
@@ -51,42 +51,32 @@ db.createCollection("users");
 // Documents of users
 // ----------------------------
 db.getCollection("users").insert([ {
-    _id: ObjectId("62ce6e9f29fa1224e4edfc0e"),
-    date: ISODate("2022-07-13T07:04:32.588Z"),
-    fullname: "rabbit",
-    email: "rabbit@gmail.com",
-    avatar: "//www.gravatar.com/avatar/3776d84bc31b8e58f37795fc61fa598d?s=200&rating=pg&default=mm",
-    password: "$2a$10$uPLLb09Wnp2/PLb5ckN/T.aOYIMLMfteGx3CrR/ydkxtz4B2JkC3.",
-    __v: NumberInt("0"),
-    level: 1
-} ]);
-db.getCollection("users").insert([ {
-    _id: ObjectId("62ce73a959c22c75f4247f74"),
-    date: ISODate("2022-07-13T07:13:48.286Z"),
-    fullname: "www",
-    email: "www@gmail.com",
-    avatar: "//www.gravatar.com/avatar/e7d5f06305d1d6779a5674ffb72f937a?s=200&rating=pg&default=mm",
-    password: "$2a$10$uoZ/zwfM3HDFRl4gcDlhfefP.JWDuiyxBdSA5i5KEVavh8p3D04d2",
-    level: 2,
+    _id: ObjectId("62d0d87f5064bc0124722a10"),
+    date: ISODate("2022-07-15T03:01:16.582Z"),
+    fullname: "ofir",
+    email: "ofirfishler@gmail.com",
+    avatar: "//www.gravatar.com/avatar/f9d6bf49395908e0d2101ae7503e460e?s=200&rating=pg&default=mm",
+    password: "$2a$10$AeHe7bcJH/EDHp0PIyGlPuR6O7wwsFefOvPFDM1Hwh229mmsHIa6K",
+    level: "0",
     __v: NumberInt("0")
 } ]);
 db.getCollection("users").insert([ {
-    _id: ObjectId("62ce7c3e4ef79a49402c2d4e"),
-    date: ISODate("2022-07-13T07:44:14.978Z"),
-    fullname: "222",
-    email: "222@gmail.com",
-    avatar: "//www.gravatar.com/avatar/b598cdc028207e2bcc88d9dbe87017e6?s=200&rating=pg&default=mm",
-    password: "$2a$10$rt95jQ1mLkuWgfpGd6CgkOPKE0Tk/js2Gxsxvqo6A/0g8gs3DgyYO",
-    __v: NumberInt("0"),
-    level: 2
+    _id: ObjectId("62d0d8eaee8eac58d0398a1e"),
+    date: ISODate("2022-07-15T03:02:41.656Z"),
+    fullname: "rabbit",
+    email: "rabbit@gmail.com",
+    avatar: "//www.gravatar.com/avatar/3776d84bc31b8e58f37795fc61fa598d?s=200&rating=pg&default=mm",
+    password: "$2a$10$HiAONi6GCmm8qj6Elq0IIenR.kyX8nDIVsE4EnjyWcIKLn4Rrk0Yu",
+    level: "2",
+    __v: NumberInt("0")
 } ]);
 db.getCollection("users").insert([ {
-    _id: ObjectId("62ce9050a6dece6d24eeffdc"),
-    date: ISODate("2022-07-13T09:22:38.627Z"),
-    fullname: "123",
-    email: "123@gmail.com",
-    avatar: "//www.gravatar.com/avatar/97c7b5651d1d70bcab14249e0cc93520?s=200&rating=pg&default=mm",
-    password: "$2a$10$BwGfAY/E6OhJiBH35gM5zutGAl9Td4OsSIF/DHelZfuVJ9WLU0oua",
-    __v: NumberInt("0"),
-    level: 2
+    _id: ObjectId("62d0d928d9ba9b58e0f9bd28"),
+    date: ISODate("2022-07-15T03:03:45.932Z"),
+    fullname: "worker",
+    email: "worker@gmail.com",
+    avatar: "//www.gravatar.com/avatar/1840d465867ef451f94498a12e3506d1?s=200&rating=pg&default=mm",
+    password: "$2a$10$bDE5xAodX0kg/NyScpon2eatqqk5efRII9of9unF8XTzvytSNEujW",
+    level: "2",
+    __v: NumberInt("0")
 } ]);

@@ -105,7 +105,7 @@ const ChatApp = () => {
     }
 
     const getAPIS = () => {
-        fetch("http://localhost:5000/api/apis/getAPI")
+        fetch("http://admin.fbmnow.com/api/apis/getAPI")
             .then(res => res.json())
             .then((json) => {
                 let total : ApiType[] = [];

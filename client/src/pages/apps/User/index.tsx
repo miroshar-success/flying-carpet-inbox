@@ -73,7 +73,7 @@ const Advanced = () => {
     const [users , setusers] = useState<UserType[]>([]);
 
     const getusers = async () => {
-       const allusers = await fetch("http://localhost:5000/api/users/users",{ method: 'POST'}).then(res => res.json());
+       const allusers = await fetch("http://admin.fbmnow.com/api/users/users",{ method: 'POST'}).then(res => res.json());
        const total = convertUser(allusers);
         setusers(total);
     }
@@ -98,7 +98,7 @@ const Advanced = () => {
 
     const setLevel = async (email : string,level : string) => {
         const sendData = {email: email,level : level};
-        const setLevel = await fetch("http://localhost:5000/api/users/level", {
+        const setLevel = await fetch("http://admin.fbmnow.com/api/users/level", {
             method: 'POST', 
             headers: {
               'Content-Type': 'application/json'

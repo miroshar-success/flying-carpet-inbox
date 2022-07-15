@@ -85,7 +85,7 @@ const Advanced = () => {
     };
 
     const getapis = async () => {
-       const allapis = await fetch("http://localhost:5000/api/apis/getAPI").then(res => res.json());
+       const allapis = await fetch("http://admin.fbmnow.com/api/apis/getAPI").then(res => res.json());
        const total = convertUser(allapis);
        setapis(total);
     }
@@ -121,7 +121,7 @@ const Advanced = () => {
 
     const updateInstance = async () => {
         const sendData = {_Id : currentAPI,token : token,instance : instance};
-        const result = await fetch("http://localhost:5000/api/apis/updateAPI", {
+        const result = await fetch("http://admin.fbmnow.com/api/apis/updateAPI", {
             method: 'POST', 
             headers: {
               'Content-Type': 'application/json'
@@ -142,7 +142,7 @@ const Advanced = () => {
     const deleteInstance = async ( _Id : Number) => {
         const sendData = {_Id : _Id};
         console.log(sendData);
-        const result = await fetch("http://localhost:5000/api/apis/deleteAPI", {
+        const result = await fetch("http://admin.fbmnow.com/api/apis/deleteAPI", {
             method: 'POST', 
             headers: {
               'Content-Type': 'application/json'
@@ -157,7 +157,7 @@ const Advanced = () => {
 
     const insertInstance = async () => {
         const sendData = {token : token,instance : instance};
-        const result = await fetch("http://localhost:5000/api/apis/insertAPI", {
+        const result = await fetch("http://admin.fbmnow.com/api/apis/insertAPI", {
             method: 'POST', 
             headers: {
               'Content-Type': 'application/json'
