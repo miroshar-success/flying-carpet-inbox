@@ -19,6 +19,17 @@ stages:
         yarn run build
         cd ../
       displayName: 'npm install and build for client'
+    - script: |
+        cd backend
+        npm install
+        cd ../
+      displayName: 'npm install for backend'
+    - task: CopyFiles@2
+      inputs:
+        SourceFolder: '.'
+        Contents: 'backend/**'
+        TargetFolder: 'client/build'
+    
     - task: ArchiveFiles@2
       inputs:
         rootFolderOrFile: 'client/build'
@@ -27,18 +38,7 @@ stages:
         archiveFile: '$(Build.ArtifactStagingDirectory)/build.zip'
         replaceExistingArchive: true
 
-    - script: |
-        cd backend
-        npm install
-        cd ../
-      displayName: 'npm install for backend'
-    - task: ArchiveFiles@2
-      inputs:
-        rootFolderOrFile: 'backend'
-        includeRootFolder: true
-        archiveType: 'zip'
-        archiveFile: '$(Build.ArtifactStagingDirectory)/backend.zip'
-        replaceExistingArchive: true
+    
     - task: PublishPipelineArtifact@1
       inputs:
         targetPath: '$(Build.ArtifactStagingDirectory)'
