@@ -26,6 +26,7 @@ stages:
         archiveType: 'zip'
         archiveFile: '$(Build.ArtifactStagingDirectory)/build.zip'
         replaceExistingArchive: true
+
     - script: |
         cd backend
         npm install
@@ -53,11 +54,12 @@ stages:
       Parameters.IISDeploymentType: 'iISWebsite'
       Parameters.ActionIISWebsite: 'CreateOrUpdateWebsite'
       Parameters.WebsiteName: 'fcSharedInbox'
-      Parameters.Package: '$(Pipeline.Workspace)\fcSharedInbox\*.zip'
+      Parameters.Package: '$(Pipeline.Workspace)\fcSharedInbox\build.zip'
       Parameters.RemoveAdditionalFilesFlag: true
       Parameters.TakeAppOfflineFlag: true
       #Parameters.XmlTransformation: true
       #Parameters.XmlVariableSubstitution: true
+      Parameters.BackendPackage: '$(Pipeline.Workspace)\fcSharedInbox\backend.zip'
     environment:
       name: FcSharedInbox
       resourceType: VirtualMachine
@@ -77,4 +79,3 @@ stages:
               TakeAppOfflineFlag: $(Parameters.TakeAppOfflineFlag)
               #XmlTransformation: $(Parameters.XmlTransformation)
               #XmlVariableSubstitution: $(Parameters.XmlVariableSubstitution)            
-          
