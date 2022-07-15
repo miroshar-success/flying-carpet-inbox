@@ -85,16 +85,16 @@ const Notifications: NotificationItem[] = [
 
 // get the profilemenu
 const ProfileMenus = [
-    {
-        label: 'My Account',
-        icon: 'user',
-        redirectTo: '/',
-    },
-    {
-        label: 'Lock Screen',
-        icon: 'lock',
-        redirectTo: '/auth/lock-screen',
-    },
+    // {
+    //     label: 'My Account',
+    //     icon: 'user',
+    //     redirectTo: '/',
+    // },
+    // {
+    //     label: 'Lock Screen',
+    //     icon: 'lock',
+    //     redirectTo: '/auth/lock-screen',
+    // },
     {
         label: 'Logout',
         icon: 'log-out',
@@ -160,6 +160,8 @@ interface TopbarProps {
 }
 
 const Topbar = ({ hideLogo, navCssClasses, openLeftMenuCallBack, topbarDark }: TopbarProps) => {
+
+
     const dispatch = useDispatch<AppDispatch>();
 
     const [isopen, setIsopen] = useState<boolean>(false);
@@ -167,11 +169,11 @@ const Topbar = ({ hideLogo, navCssClasses, openLeftMenuCallBack, topbarDark }: T
     const navbarCssClasses: string = navCssClasses || '';
     const containerCssClasses: string = !hideLogo ? 'container-fluid' : '';
 
-    const { layoutType, leftSideBarType } = useSelector((state: RootState) => ({
+    const { layoutType, leftSideBarType,user } = useSelector((state: RootState) => ({
+        user : state.Auth.user,
         layoutType: state.Layout.layoutType,
         leftSideBarType: state.Layout.leftSideBarType,
     }));
-
     /**
      * Toggle the leftmenu when having mobile screen
      */
@@ -242,7 +244,7 @@ const Topbar = ({ hideLogo, navCssClasses, openLeftMenuCallBack, topbarDark }: T
                             <NotificationDropdown notifications={Notifications} />
                         </li> */}
                         <li className="dropdown notification-list topbar-dropdown">
-                            <ProfileDropdown profilePic={profilePic} menuItems={ProfileMenus} username={'Nik Patel'} />
+                            <ProfileDropdown profilePic={profilePic} menuItems={ProfileMenus} username={user.username} />
                         </li>
                         <li className="dropdown notification-list">
                             <button

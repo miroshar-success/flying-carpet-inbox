@@ -1,9 +1,13 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+
 import { Dropdown } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import FeatherIcon from 'feather-icons-react';
 
 import { getMenuItems } from '../helpers/menu';
+
+import { RootState, AppDispatch } from '../redux/store';
 
 // components
 import Scrollbar from '../components/Scrollbar';
@@ -13,8 +17,12 @@ import AppMenu from './Menu';
 // images
 import profileImg from '../assets/images/users/avatar-1.jpg';
 
+import { APICore } from "../helpers/api/apiCore";
+
+
 /* user box */
 const UserBox = () => {
+
     // get the profilemenu
     const ProfileMenus = [
         {
@@ -87,12 +95,22 @@ const UserBox = () => {
 
 /* sidebar content */
 const SideBarContent = () => {
+
+    
+    let menus = getMenuItems();
+
+    const { user } = useSelector((state: RootState) => ({
+        user : state.Auth.user
+    }));
+    if (user.role == "User") {
+        menus = menus.filter((menu) => menu.level == 2);
+    }
     return (
         <>
             <UserBox />
 
             <div id="sidebar-menu">
-                <AppMenu menuItems={getMenuItems()} />
+                <AppMenu menuItems={menus} />
             </div>
 
             <div className="clearfix" />

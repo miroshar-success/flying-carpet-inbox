@@ -78,13 +78,13 @@ const ChatHeader = ({ selectedUser }: ChatHeaderProps) => {
                 </div>
                 <div className="flex-grow-1" dir='ltr'>
                     <ul className="list-inline mb-0" >
-                        {
+                        {/* {
                             user.role == "Admin" ? <Dropdown as="li" className="list-inline-item fs-18 me-3">
                                 <Dropdown.Toggle id="dropdown-apps" as="a" className="cursor-pointer text-dark">
                                     <i className="bi bi-telephone-plus" onClick={() => handleVoicelModalShow()}></i>
                                 </Dropdown.Toggle>
                             </Dropdown> : ""
-                        }
+                        } */}
                         
                         {/* <Dropdown as="li" className="list-inline-item fs-18 me-3">
                                 <Dropdown.Toggle id="dropdown-apps" as="a" className="cursor-pointer text-dark">
@@ -460,13 +460,45 @@ const ChatArea = ({ selectedUser,setUser,user,scrollref,currentAPI }: ChatAreaPr
             setChatHistory(chatmessages);
         })
         .catch(err => {
-            fetchData()
+             fetchData()
         })
     }
     
     const onFileUpload = (files : any) => {
         setfiles(files);
     }
+
+    /*
+     *  Fetches the messages for selected user
+     */
+    // const getMessagesForUser = useCallback(() => {
+    //     if (selectedUser) {
+    //         setTimeout(() => {
+    //             fetchData();
+    //             // const modifiedChatHistory = [...chatHistory].map((record) => {
+    //             //     const test = {
+    //             //         id: record.id,
+    //             //         day: record.day,
+    //             //         messages: [...record.messages].filter(
+    //             //             (m) =>
+    //             //                 (m.to.id === admin.id && m.from.id === selectedUser.id) ||
+    //             //                 (admin.id === m.from.id && m.to.id === selectedUser.id)
+    //             //         ),
+    //             //     };
+    //             //     return test;
+    //             // });
+    //             // modifiedChatHistory.filter((mes) => mes.messages.length);
+    //             // setChatHistory([...modifiedChatHistory]);
+    //             // fetchData(selectedUser.id);
+    //             setLoading(false);
+    //         }, 750);
+    //     }
+    // }, [selectedUser]);
+
+    // useEffect(() => {
+    //     getMessagesForUser();
+    // }, [getMessagesForUser]);
+
     /*
      * form validation schema
      */
@@ -475,6 +507,9 @@ const ChatArea = ({ selectedUser,setUser,user,scrollref,currentAPI }: ChatAreaPr
             newMessage: yup.string().required('אנא רשום את הודעתך'),
         })
     );
+
+    
+
     /*
      * form methods
      */
@@ -514,6 +549,44 @@ const ChatArea = ({ selectedUser,setUser,user,scrollref,currentAPI }: ChatAreaPr
                 // props.history.push("/apps/email/inbox")
                 console.log(res);
           })
+
+        // let newUserMessages = [...chatHistory[chatHistory.length - 1].messages];
+        // newUserMessages.push({
+        //     id: chatHistory[chatHistory.length - 1].messages.length + 1,
+        //     from: toUser,
+        //     to: selectedUser,
+        //     messages: [{ type: 'text', value: values['newMessage'] }],
+        //     sendOn: new Date().getHours() + ':' + new Date().getMinutes(),
+        // });
+        // let modifiedChatHistory = [...chatHistory].map((record, index) => {
+        //     const test = {
+        //         id: record.id,
+        //         day: record.day,
+        //         messages: index === chatHistory.length - 1 ? newUserMessages : record.messages,
+        //     };
+        //     return test;
+        // });
+
+        // let check = [...chatHistory].filter((m) => m.day == nowstr);
+        // if (check.length == 0) {
+        //     newUserMessages = [];
+        //     newUserMessages.push({
+        //         id: 1,
+        //         from: toUser,
+        //         to: selectedUser,
+        //         messages: [{ type: 'text', value: values['newMessage'] }],
+        //         sendOn: new Date().getHours() + ':' + new Date().getMinutes(),
+        //     });
+        //     modifiedChatHistory = [...chatHistory];
+        //     modifiedChatHistory.push({
+        //         id : chatHistory.length,
+        //         day : nowstr,
+        //         messages : newUserMessages
+        //     });
+        // }
+
+        
+        // setChatHistory([...modifiedChatHistory]);
         reset();
     };
 
@@ -597,9 +670,15 @@ const ChatArea = ({ selectedUser,setUser,user,scrollref,currentAPI }: ChatAreaPr
                                 <div className="row">
                                     <div className="col-sm-auto" >
                                         <div className="btn-group">
+                                            {/* <Link to="#" className="btn btn-light">
+                                                <i className="bi bi-camera fs-18"></i>
+                                            </Link> */}
                                             <button type="submit" className="btn btn-success chat-send">
                                                 <i className="uil uil-message"></i>
                                             </button>
+                                            {/* <Link to="#" className="btn btn-light">
+                                                <i className="bi bi-emoji-smile fs-18"></i>
+                                            </Link> */}
                                             <div className="btn btn-light" onClick={() => setModal(true)}>
                                                 <i className="bi bi-paperclip fs-18"></i>
                                             </div>

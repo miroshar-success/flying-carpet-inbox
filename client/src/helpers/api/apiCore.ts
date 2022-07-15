@@ -111,6 +111,10 @@ class APICore {
      * post given data to url
      */
     create = (url: string, data: any) => {
+        console.log(url);
+        if (url == "/logout/") {
+            return axios.post(url,data);
+        }
         return fetch("http://localhost:5000/api"+url, {
             method: 'POST', // *GET, POST, PUT, DELETE, etc.
             mode: 'cors', // no-cors, *cors, same-originw

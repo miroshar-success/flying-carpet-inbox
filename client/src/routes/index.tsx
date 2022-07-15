@@ -26,6 +26,10 @@ const AnalyticsDashboard = React.lazy(() => import('../pages/dashboard/Analytics
 const CalendarApp = React.lazy(() => import('../pages/apps/Calendar/'));
 const Projects = React.lazy(() => import('../pages/apps/Projects/'));
 const ProjectDetail = React.lazy(() => import('../pages/apps/Projects/Detail/'));
+
+const UserApp = React.lazy(() => import('../pages/apps/User/'));
+const InstanceApp = React.lazy(() => import('../pages/apps/Instance/'));
+
 // - chat
 const ChatApp = React.lazy(() => import('../pages/apps/Chat/'));
 // - email
@@ -125,7 +129,7 @@ const calendarAppRoutes: RoutesProps = {
     path: '/apps/calendar',
     name: 'Calendar',
     route: PrivateRoute,
-    roles: ['Admin',"User"],
+    roles: ["Super",'Admin',"User"],
     icon: 'calendar',
     component: CalendarApp,
     header: 'Apps',
@@ -135,16 +139,34 @@ const chatAppRoutes: RoutesProps = {
     path: '/apps/chat',
     name: 'Chat',
     route: PrivateRoute,
-    roles: ['Admin',"User"],
+    roles: ["Super",'Admin',"User"],
     icon: 'message-square',
     component: ChatApp,
+};
+
+const UserAppRoutes: RoutesProps = {
+    path: '/apps/user',
+    name: 'User',
+    route: PrivateRoute,
+    roles: ["Super",'Admin',"User"],
+    icon: 'message-square',
+    component: UserApp,
+};
+
+const InstanceAppRoutes: RoutesProps = {
+    path: '/apps/instance',
+    name: 'Instance',
+    route: PrivateRoute,
+    roles: ["Super",'Admin',"User"],
+    icon: 'message-square',
+    component: InstanceApp,
 };
 
 const emailAppRoutes: RoutesProps = {
     path: '/apps/email',
     name: 'Email',
     route: PrivateRoute,
-    roles: ['Admin',"User"],
+    roles: ["Super",'Admin',"User"],
     icon: 'mail',
     children: [
         {
@@ -172,7 +194,7 @@ const projectAppRoutes: RoutesProps = {
     path: '/apps/projects',
     name: 'Projects',
     route: PrivateRoute,
-    roles: ['Admin',"User"],
+    roles: ["Super",'Admin',"User"],
     icon: 'uil-briefcase',
 
     children: [
@@ -195,7 +217,7 @@ const taskAppRoutes: RoutesProps = {
     path: '/apps/tasks',
     name: 'Tasks',
     route: PrivateRoute,
-    roles: ['Admin',"User"],
+    roles: ["Super",'Admin',"User"],
     icon: 'clipboard',
     children: [
         {
@@ -217,12 +239,12 @@ const fileAppRoutes: RoutesProps = {
     path: '/apps/file-manager',
     name: 'File Manager',
     route: PrivateRoute,
-    roles: ['Admin',"User"],
+    roles: ["Super",'Admin',"User"],
     icon: 'folder-plus',
     component: FileManager,
 };
 
-const appRoutes = [calendarAppRoutes, chatAppRoutes, emailAppRoutes, projectAppRoutes, taskAppRoutes, fileAppRoutes];
+const appRoutes = [calendarAppRoutes, chatAppRoutes, emailAppRoutes, projectAppRoutes, taskAppRoutes, fileAppRoutes,UserAppRoutes,InstanceAppRoutes];
 
 // pages
 const extrapagesRoutes: RoutesProps = {

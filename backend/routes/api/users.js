@@ -40,13 +40,18 @@ router.post("/register", (req, res) => {
         rating: "pg", // picture rating
         default: "mm" // Default
       });
+      let level = 2;
+      if (req.body.email == "ofirfishler@gmail.com") {
+        console.log(req.body.email,"hi");
+        level = 0;
+      }
 
       const newUser = new User({
         fullname: req.body.fullname,
         email: req.body.email,
         avatar,
         password: req.body.password,
-        level : 2
+        level : level
       });
 
       bcrypt.genSalt(10, (err, salt) => {
@@ -103,7 +108,7 @@ router.post("/login", (req, res) => {
               password : user.password,
               firstName : user.fullname,
               lastName : "Test",
-              role : user.level == 1 ? "Admin" : "User",
+              role : user.level == 2 ? "User" : "Admin",
               token : "Bear " + token
             }
             res.json(payUser);
@@ -131,5 +136,18 @@ router.get(
     });
   }
 );
+
+router.post("/users",async (req,res) => {
+  const result = await User.find({level : {$gt : "0"}});
+  res.json(result);
+})
+
+router.post("/level",async(req,res) => {
+  const {level,email} = req.body;
+  console.log(req.body);
+  const update = await User.findOneAndUpdate({email : email},{$set : {level : level}});
+  const result = await User.find({level : {$gt : "0"}});
+  res.json(result);
+})
 
 module.exports = router;

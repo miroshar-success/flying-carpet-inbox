@@ -11,6 +11,7 @@ export interface MenuItemTypes {
     parentKey?: string;
     target?: string;
     children?: MenuItemTypes[];
+    level? : Number
 }
 
 const MENU_ITEMS: MenuItemTypes[] = [
@@ -36,20 +37,39 @@ const MENU_ITEMS: MenuItemTypes[] = [
     //     ],
     // },
     // { key: 'apps', label: 'Apps', isTitle: true },
-    // {
-    //     key: 'apps-calendar',
-    //     label: 'Calendar',
-    //     isTitle: false,
-    //     icon: 'calendar',
-    //     url: '/apps/calendar',
-    // },
+    
     {
         key: 'apps-chat',
         label: 'Chat',
         isTitle: false,
         icon: 'message-square',
         url: '/apps/chat',
+        level : 2,
     },
+    {
+        key: 'apps-user',
+        label: 'User',
+        isTitle: false,
+        icon: 'message-square',
+        url: '/apps/user',
+        level : 1,
+    },
+    {
+        key: 'apps-instance',
+        label: 'Instance',
+        isTitle: false,
+        icon: 'message-square',
+        url: '/apps/instance',
+        level : 1,
+    },
+    // {
+    //     key: 'apps-calendar',
+    //     label: 'Users',
+    //     isTitle: false,
+    //     icon: 'calendar',
+    //     url: '/apps/calendar',
+    //     level : 1,
+    // },
     // {
     //     key: 'apps-email',
     //     label: 'Email',
@@ -118,10 +138,11 @@ const MENU_ITEMS: MenuItemTypes[] = [
     // },
     // {
     //     key: 'apps-file-manager',
-    //     label: 'File Manager',
+    //     label: 'Instance',
     //     isTitle: false,
     //     icon: 'file-plus',
     //     url: '/apps/file-manager',
+    //     level : 1
     // },
     // { key: 'custom', label: 'Custom', isTitle: true },
     // {
@@ -390,20 +411,39 @@ const HORIZONTAL_MENU_ITEMS: MenuItemTypes[] = [
         label: 'Apps',
         isTitle: true,
         children: [
-            // {
-            //     key: 'apps-calendar',
-            //     label: 'Calendar',
-            //     isTitle: false,
-            //     url: '/apps/calendar',
-            //     parentKey: 'apps',
-            // },
+            
             {
                 key: 'apps-chat',
                 label: 'Chat',
                 isTitle: false,
                 url: '/apps/chat',
                 parentKey: 'apps',
+                level : 2
             },
+            {
+                key: 'apps-user',
+                label: 'User',
+                isTitle: false,
+                icon: 'message-square',
+                url: '/apps/user',
+                level : 1,
+            },
+            {
+                key: 'apps-instance',
+                label: 'Instance',
+                isTitle: false,
+                icon: 'message-square',
+                url: '/apps/instance',
+                level : 1,
+            },
+            // {
+            //     key: 'apps-calendar',
+            //     label: 'Users',
+            //     isTitle: false,
+            //     url: '/apps/calendar',
+            //     parentKey: 'apps',
+            //     level : 1
+            // },
             // {
             //     key: 'apps-email',
             //     label: 'Email',
@@ -472,10 +512,11 @@ const HORIZONTAL_MENU_ITEMS: MenuItemTypes[] = [
             // },
             // {
             //     key: 'apps-file-manager',
-            //     label: 'File Manager',
+            //     label: 'Instance',
             //     isTitle: false,
             //     url: '/apps/file-manager',
             //     parentKey: 'apps',
+            //     level : 1
             // },
         ],
     },
@@ -704,14 +745,7 @@ const TWO_COl_MENU_ITEMS: MenuItemTypes[] = [
         label: 'Apps',
         isTitle: true,
         children: [
-            // {
-            //     key: 'apps-calendar',
-            //     label: 'Calendar',
-            //     isTitle: false,
-            //     icon: 'calendar',
-            //     url: '/apps/calendar',
-            //     parentKey: 'apps',
-            // },
+           
             {
                 key: 'apps-chat',
                 label: 'Chat',
@@ -719,7 +753,33 @@ const TWO_COl_MENU_ITEMS: MenuItemTypes[] = [
                 icon: 'message-square',
                 url: '/apps/chat',
                 parentKey: 'apps',
+                level : 2,
             },
+            {
+                key: 'apps-user',
+                label: 'User',
+                isTitle: false,
+                icon: 'message-square',
+                url: '/apps/user',
+                level : 1,
+            },
+            {
+                key: 'apps-instance',
+                label: 'Instance',
+                isTitle: false,
+                icon: 'message-square',
+                url: '/apps/instance',
+                level : 1,
+            },
+            // {
+            //     key: 'apps-calendar',
+            //     label: 'Users',
+            //     isTitle: false,
+            //     icon: 'calendar',
+            //     url: '/apps/calendar',
+            //     parentKey: 'apps',
+            //     level : 1
+            // },
             // {
             //     key: 'apps-email',
             //     label: 'Email',
@@ -791,11 +851,12 @@ const TWO_COl_MENU_ITEMS: MenuItemTypes[] = [
             // },
             // {
             //     key: 'apps-file-manager',
-            //     label: 'File Manager',
+            //     label: 'Instance',
             //     isTitle: false,
             //     icon: 'file-plus',
             //     url: '/apps/file-manager',
             //     parentKey: 'apps',
+            //     level : 1
             // },
         ],
     },

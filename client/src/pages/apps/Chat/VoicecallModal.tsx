@@ -19,7 +19,8 @@ const VoicecallModal = ({ show, handleClose }: VoicecallModalProps) => {
 
     const [instance, setInstance] = useState<String>("");
     const [token,setToken] = useState<String>("");
-    const [flag, setflag] = useState<boolean>(false)
+    const [flag, setflag] = useState<boolean>(false);
+    const [mes , setmes] = useState<String>("");
 
     const insertToken = () => {
         const data = {instance : instance, token : token};
@@ -38,7 +39,8 @@ const VoicecallModal = ({ show, handleClose }: VoicecallModalProps) => {
           })
           .then(res => res.json())
           .then(json => {
-            setflag(true)
+            setflag(true);
+            setmes(json.message);
           })
     }
 
@@ -51,7 +53,7 @@ const VoicecallModal = ({ show, handleClose }: VoicecallModalProps) => {
             </Modal.Header>
             <Modal.Body className="pt-0 text-left">
                 {
-                    flag == true ? <Alert>Insert Success!</Alert> : ""
+                    flag == true ? <Alert>{mes}</Alert> : ""
                 }
                 
                 <Form.Group className="mb-3">
