@@ -21,7 +21,7 @@ stages:
       displayName: 'npm install and build for client'
     - task: ArchiveFiles@2
       inputs:
-        rootFolderOrFile: '/client/build'
+        rootFolderOrFile: 'client/build'
         includeRootFolder: false
         archiveType: 'zip'
         archiveFile: '$(Build.ArtifactStagingDirectory)/build.zip'
@@ -33,7 +33,7 @@ stages:
       displayName: 'npm install for backend'
     - task: ArchiveFiles@2
       inputs:
-        rootFolderOrFile: '/backend'
+        rootFolderOrFile: 'backend'
         includeRootFolder: false
         archiveType: 'zip'
         archiveFile: '$(Build.ArtifactStagingDirectory)/backend.zip'
