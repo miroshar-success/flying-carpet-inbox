@@ -1,4 +1,4 @@
-ctrigger:
+trigger:
 - main
 stages:
 - stage: Build
