@@ -1,4 +1,4 @@
-trigger:
+ctrigger:
 - main
 stages:
 - stage: Build
@@ -34,7 +34,7 @@ stages:
     - task: ArchiveFiles@2
       inputs:
         rootFolderOrFile: 'backend'
-        includeRootFolder: false
+        includeRootFolder: true
         archiveType: 'zip'
         archiveFile: '$(Build.ArtifactStagingDirectory)/backend.zip'
         replaceExistingArchive: true
@@ -53,7 +53,7 @@ stages:
       Parameters.IISDeploymentType: 'iISWebsite'
       Parameters.ActionIISWebsite: 'CreateOrUpdateWebsite'
       Parameters.WebsiteName: 'fcSharedInbox'
-      Parameters.Package: '$(Pipeline.Workspace)\fcSharedInbox\build.zip'
+      Parameters.Package: '$(Pipeline.Workspace)\fcSharedInbox\*.zip'
       Parameters.RemoveAdditionalFilesFlag: true
       Parameters.TakeAppOfflineFlag: true
       #Parameters.XmlTransformation: true
