@@ -1,5 +1,7 @@
 trigger:
 - main
+variables:
+- group: secrets-fcSharedInbox
 stages:
 - stage: Build
   jobs:
@@ -79,3 +81,4 @@ stages:
               TakeAppOfflineFlag: $(Parameters.TakeAppOfflineFlag)
               #XmlTransformation: $(Parameters.XmlTransformation)
               #XmlVariableSubstitution: $(Parameters.XmlVariableSubstitution)            
+              JSONFiles: backend/config/data.json
