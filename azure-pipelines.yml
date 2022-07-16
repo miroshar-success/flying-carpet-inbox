@@ -71,6 +71,10 @@ stages:
           steps:
           - download: current
             artifact: fcSharedInbox
+          - task: CmdLine@2
+            inputs:
+              script: 'sc stop fcSharedInboxBackend'
+              failOnStderr: true
           - task: IISWebAppDeploymentOnMachineGroup@0
             displayName: 'IIS Web App Deploy'
             inputs:
@@ -82,3 +86,7 @@ stages:
               #XmlTransformation: $(Parameters.XmlTransformation)
               #XmlVariableSubstitution: $(Parameters.XmlVariableSubstitution)            
               JSONFiles: backend/config/data.json
+          - task: CmdLine@2
+            inputs:
+              script: 'sc start fcSharedInboxBackend'
+              failOnStderr: true
