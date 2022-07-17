@@ -105,9 +105,9 @@ const Login = () => {
                     </Link>
                 </div>
 
-                <h6 className="h5 mb-0 mt-3" dir="rtl">{t('?????? ?????!')}</h6>
+                <h6 className="h5 mb-0 mt-3" dir="rtl">{t('ברוכים הבאים!')}</h6>
                 <p className="text-muted mt-1 mb-4" dir="rtl">
-                    {t('??? ??? ?? ????? ????? ??????? ????? ????? ??????')}
+                    {t('אנא הזן את כתובת המייל והכניסה לכנסה לפאנל הניהול')}
                 </p>
 
                 {error && (
@@ -124,7 +124,7 @@ const Login = () => {
                     <FormInput
                         type="email"
                         name="email"
-                        label={t('????? ????')}
+                        label={t('כתובת מייל')}
                         startIcon={<FeatherIcons icon={'mail'} className="icon-dual" />}
                         placeholder={t('hello@coderthemes.com')}
                         containerClass={'mb-3'}
@@ -132,7 +132,7 @@ const Login = () => {
                     <FormInput
                         type="password"
                         name="password"
-                        label={t('?????')}
+                        label={t('סיסמה')}
                         startIcon={<FeatherIcons icon={'lock'} className="icon-dual" />}
                         action={
                             <Link to="/auth/forget-password" className="float-end text-muted text-unline-dashed ms-1">
@@ -145,14 +145,14 @@ const Login = () => {
                     <FormInput
                         type="checkbox"
                         name="checkbox"
-                        label={t('???? ????')}
+                        label={t('זכור אותי')}
                         containerClass={'mb-3'}
                         defaultChecked
                     />
 
                     <div className="mb-3 text-center d-grid">
                         <Button type="submit" disabled={loading}>
-                            {t('?????')}
+                            {t('היכנס')}
                         </Button>
                     </div>
                 </VerticalForm>
