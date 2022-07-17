@@ -8,9 +8,29 @@ const passport = require("passport");
 const axios = require("axios");
 
 const APIs = require("../../modules/Api");
+const User = require("../../modules/User");
 
 
-router.get("/getAPI",async (req,res) => {
+
+router.post("/getAPI",async (req,res) => {
+    const {email} = req.body;
+    
+    if (email == "" || email == undefined) {
+        const result = await APIs.find({});
+        return res.json([]);
+    }
+    const user = await User.findOne({email});
+    const instances = user.instances;
+    const level = user.level;
+    if (level == 0) {
+        const result = await APIs.find({});
+        return res.json(result);
+    }
+    const result = await APIs.find({instance : {$in : instances}});
+    res.json(result);
+})
+
+router.get("/getAllAPI",async (req,res) => {
     const result = await APIs.find({});
     res.json(result);
 })
@@ -26,8 +46,7 @@ router.post("/insertAPI",async (req,res) => {
         }
       ] );
     const _ID = cnt[0]['maxQ'] + 1;
-    console.log(cnt,_ID);
-    const {token,instance} = req.body;
+    const {token,instance,name} = req.body;
     let fetchdata;
     let phone = "";
     try{
@@ -43,7 +62,8 @@ router.post("/insertAPI",async (req,res) => {
         id : _ID,
         token : req.body.token,
         instance : req.body.instance,
-        phone : phone
+        phone : phone,
+        name : name
     });
     const save = await newAPI.save();
     const result = await APIs.find({});

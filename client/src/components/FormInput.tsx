@@ -204,7 +204,6 @@ const FormInput = ({
 }: FormInputProps) => {
     // handle input type
     const comp = type === 'textarea' ? 'textarea' : type === 'select' ? 'select' : 'input';
-
     return (
         <>
             {type === 'hidden' ? (

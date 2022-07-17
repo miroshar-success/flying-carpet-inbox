@@ -72,7 +72,7 @@ const HorizontalLayout = ({ children }: HorizontalLayoutProps) => {
             }
         }
     };
-
+    console.log("Hori!",children);
     return (
         <>
             <div id="wrapper">

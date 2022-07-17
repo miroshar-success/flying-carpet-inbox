@@ -9,6 +9,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { API_Key } from '../../../config/index';
 import FileUploader from '../../../components/FileUploader';
 import { APICore } from "../../../helpers/api/apiCore";
+import { Markup } from 'interweave';
 
 
 // components
@@ -145,13 +146,33 @@ interface UserMessageProps {
 const UserMessage = ({ message, toUser }: UserMessageProps) => {
 
     const  validURL = (str : string) => {
-        let pattern = new RegExp('^(https?:\\/\\/)?'+ // protocol
-          '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'+ // domain name
-          '((\\d{1,3}\\.){3}\\d{1,3}))'+ // OR ip (v4) address
-          '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ // port and path
-          '(\\?[;&a-z\\d%_.~+=-]*)?'+ // query string
-          '(\\#[-a-z\\d_]*)?$','i'); // fragment locator
-        return !!pattern.test(str);
+        let pattern = new RegExp("([a-zA-Z0-9]+://)?([a-zA-Z0-9_]+:[a-zA-Z0-9_]+@)?([a-zA-Z0-9.-]+\\.[A-Za-z]{2,4})(:[0-9]+)?(/.*)?"); // fragment locator
+        let searchtext = pattern.exec(str);
+        let totalurls : string[] = [];
+        let newText = str;
+        if (searchtext) {
+            for (let i = 0; i < searchtext.length; i++) {
+                const test = searchtext[i];
+                let cnt = 0;
+                if (test != undefined) {
+                    for (let k = 0; k < totalurls.length; k++) {
+                        if (totalurls[k].indexOf(test) != -1) {
+                            break;
+                        }
+                        cnt ++;
+                    }
+                    if (cnt == totalurls.length) {
+                        totalurls.push(test)
+                    }
+                }
+               
+                
+            }
+            for (let j = 0; j < totalurls.length; j++) {
+                newText = str.replace(totalurls[j], "<a href='"+totalurls[j]+"'>"+totalurls[j]+"</a>");  
+            }
+        }
+        return newText;
       }
 
       const download = async (imageSrc : any) => {
@@ -206,9 +227,7 @@ const UserMessage = ({ message, toUser }: UserMessageProps) => {
 
                                 {item.type === 'text' && (
                                     <div className="ctext-wrap" dir="rtl">
-                                        {
-                                            validURL(item.value) == true ? <a href={"http://"+item.value}>{item.value}</a> : item.value
-                                        }
+                                        <Markup content={validURL(item.value) }/>
                                         
                                     </div>
                                 )}
@@ -300,7 +319,6 @@ const ChatArea = ({ selectedUser,setUser,user,scrollref,currentAPI }: ChatAreaPr
 
     const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
-    console.log(currentAPI);
     /**
      * Auto scroll to Bottom
      */
@@ -324,8 +342,8 @@ const ChatArea = ({ selectedUser,setUser,user,scrollref,currentAPI }: ChatAreaPr
     }
 
     const toUser = {
-        id : currentAPI.phone,
-        name : currentAPI.phone
+        id : currentAPI ? currentAPI.phone : '',
+        name : currentAPI ? currentAPI.phone : '',
     }
 
     useEffect(() => {
@@ -354,10 +372,11 @@ const ChatArea = ({ selectedUser,setUser,user,scrollref,currentAPI }: ChatAreaPr
      * @returns 
      */
     const fetchData = async () => {
-        console.log(currentAPI,"123");
-        // if (selectedUser == undefined) return;
         let chatId;
         let fetchemailurl;
+        if (currentAPI == '' || currentAPI == undefined) {
+            return;
+        }
         if (selectedUser != undefined) {
             chatId = selectedUser['id'];
             
@@ -460,7 +479,7 @@ const ChatArea = ({ selectedUser,setUser,user,scrollref,currentAPI }: ChatAreaPr
             setChatHistory(chatmessages);
         })
         .catch(err => {
-             fetchData()
+            //  fetchData()
         })
     }
     
@@ -620,7 +639,6 @@ const ChatArea = ({ selectedUser,setUser,user,scrollref,currentAPI }: ChatAreaPr
             referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
             body: JSON.stringify(senddata)  // body data type must match "Content-Type" header
           });
-          console.log(result);
             
     }
 
@@ -668,22 +686,6 @@ const ChatArea = ({ selectedUser,setUser,user,scrollref,currentAPI }: ChatAreaPr
                         <div className="mt-2 bg-light p-3 rounded">
                             <form noValidate name="chat-form" id="chat-form" onSubmit={handleSubmit(sendChatMessage)}>
                                 <div className="row">
-                                    <div className="col-sm-auto" >
-                                        <div className="btn-group">
-                                            {/* <Link to="#" className="btn btn-light">
-                                                <i className="bi bi-camera fs-18"></i>
-                                            </Link> */}
-                                            <button type="submit" className="btn btn-success chat-send">
-                                                <i className="uil uil-message"></i>
-                                            </button>
-                                            {/* <Link to="#" className="btn btn-light">
-                                                <i className="bi bi-emoji-smile fs-18"></i>
-                                            </Link> */}
-                                            <div className="btn btn-light" onClick={() => setModal(true)}>
-                                                <i className="bi bi-paperclip fs-18"></i>
-                                            </div>
-                                        </div>
-                                    </div>
                                     <div className="col mb-2 mb-sm-0">
                                         <FormInput
                                             type="text"
@@ -697,6 +699,24 @@ const ChatArea = ({ selectedUser,setUser,user,scrollref,currentAPI }: ChatAreaPr
                                             dir="rtl"
                                         />
                                     </div>
+                                    <div className="col-sm-auto" >
+                                        <div className="btn-group">
+                                            {/* <Link to="#" className="btn btn-light">
+                                                <i className="bi bi-camera fs-18"></i>
+                                            </Link> */}
+                                            <div className="btn btn-light" onClick={() => setModal(true)}>
+                                                <i className="bi bi-paperclip fs-18"></i>
+                                            </div>
+                                            <button type="submit" className="btn btn-success chat-send">
+                                                <i className="uil uil-left-arrow-from-left"></i>
+                                            </button>
+                                            {/* <Link to="#" className="btn btn-light">
+                                                <i className="bi bi-emoji-smile fs-18"></i>
+                                            </Link> */}
+                                            
+                                        </div>
+                                    </div>
+                                    
                                 </div>
                             </form>
                         </div>

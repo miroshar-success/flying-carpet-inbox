@@ -130,14 +130,14 @@
         }
     }
     .conversation-text {
-        float: left;
+        float: right;
         font-size: 13px;
         margin-left: 12px;
         width: 80%;
     }
     .odd {
         .conversation-text {
-            float: right !important;
+            float: left !important;
             text-align: right !important;
             width: 70% !important;
         }

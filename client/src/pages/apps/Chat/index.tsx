@@ -1,6 +1,7 @@
 import React, { useEffect, useState,useRef } from 'react';
 import { Row, Col } from 'react-bootstrap';
-
+import { useSelector, useDispatch } from 'react-redux';
+import { RootState, AppDispatch } from '../../../redux/store';
 import { API_Key } from '../../../config/index';
 
 // components
@@ -18,13 +19,18 @@ const ChatApp = () => {
     const [selectedUser, setSelectedUser] = useState<ChatUserType>({});
     // const [admin,setadmin] = useState<ChatUserType>({});
     const [USER,setUSER] = useState<ChatUserType[]>([]);
-    const [user, setUser] = useState<ChatUserType[]>([]);
+    const [users, setUser] = useState<ChatUserType[]>([]);
     const [API, setAPI] = useState<ApiType[]>([]);
     const [currentAPI,setCurrentAPI] = useState<ApiType>({});
 
     const [flag,setflag] = useState<boolean>(false);
     
-
+    const { user, userLoggedIn, loading, error } = useSelector((state: RootState) => ({
+        user: state.Auth.user,
+        loading: state.Auth.loading,
+        error: state.Auth.error,
+        userLoggedIn: state.Auth.userLoggedIn,
+    }));
     const scrollref =  useRef<any>(); 
     
     /**
@@ -43,9 +49,9 @@ const ChatApp = () => {
     },[currentAPI])
 
     useEffect(() => {
-        setSelectedUser(user[0])
+        setSelectedUser(users[0])
 
-    },[user])
+    },[users])
 
 
     const getUsers = () => {
@@ -105,14 +111,16 @@ const ChatApp = () => {
     }
 
     const getAPIS = () => {
-        fetch("http://admin.fbmnow.com/api/apis/getAPI")
+        const sendData = {email : user.email}
+        fetch("http://admin.fbmnow.com/api/apis/getAPI",{method : "POST",headers : {"Content-Type" : "application/json"},body: JSON.stringify(sendData)})
             .then(res => res.json())
             .then((json) => {
                 let total : ApiType[] = [];
                 for (let i = 0; i < json.length; i++) {
-                    let temp  = {id : json[i].id, token : json[i].token, instance : json[i].instance,phone : json[i].phone};
+                    let temp  = {id : json[i].id, token : json[i].token, instance : json[i].instance,phone : json[i].phone,name : json[i].name};
                     total.push(temp)
                 }
+                console.log(total);
                 setAPI(total);
                 setCurrentAPI(total[0]);
             })
@@ -132,13 +140,16 @@ const ChatApp = () => {
                 title={'Chat'}
             />
 
-            <Row>
-                <Col lg={7} xxl={9}>
-                    <ChatArea selectedUser={selectedUser} setUser={setUser} user={user}  scrollref={scrollref} currentAPI={currentAPI}/>
-                </Col>
+            <Row style={{direction : "rtl"}}>
+                
                 <Col lg={5} xxl={3}>
-                    <ChatUsers  user={user} onUserSelect={onUserChange} onSearch = {search}  currentAPI={currentAPI} setCurrentAPI={setCurrentAPI} API = {API} />
+                    <ChatUsers  user={users} onUserSelect={onUserChange} onSearch = {search}  currentAPI={currentAPI} setCurrentAPI={setCurrentAPI} API = {API} />
                 </Col>
+                <Col lg={7} xxl={9}>
+                    <ChatArea selectedUser={selectedUser} setUser={setUser} user={users}  scrollref={scrollref} currentAPI={currentAPI}/>
+                </Col>
+                
+                
             </Row>
         </>
     );

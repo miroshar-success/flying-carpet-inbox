@@ -18,7 +18,7 @@ import { LayoutActionType } from './actions';
 import { getLayoutConfigs } from '../../utils';
 
 const INIT_STATE = {
-    layoutType: LayoutTypes.LAYOUT_VERTICAL,
+    layoutType: LayoutTypes.LAYOUT_HORIZONTAL,
     layoutWidth: LayoutWidth.LAYOUT_WIDTH_FLUID,
     menuPosition: MenuPositions.MENU_POSITION_FIXED,
     leftSideBarTheme: SideBarTheme.LEFT_SIDEBAR_THEME_LIGHT,

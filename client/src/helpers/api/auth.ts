@@ -23,4 +23,9 @@ function forgotPassword(params: { email: string }) {
     return api.create(`${baseUrl}`, params);
 }
 
+function reset(params: { email: string }) {
+    const baseUrl = '/reset/';
+    return api.create(`${baseUrl}`, params);
+}
+
 export { login, logout, signup, forgotPassword };

@@ -15,6 +15,7 @@ const ForgetPassword = React.lazy(() => import('../pages/auth/ForgetPassword'));
 const Register = React.lazy(() => import('../pages/auth/Register'));
 const LockScreen = React.lazy(() => import('../pages/auth/LockScreen'));
 
+const ProfileSetting = React.lazy(() => import('../pages/auth/ProfileSetting'));
 // landing
 const Landing = React.lazy(() => import('../pages/landing/'));
 
@@ -452,6 +453,12 @@ const authRoutes: RoutesProps[] = [
         path: '/auth/logout',
         name: 'Logout',
         component: Logout,
+        route: Route,
+    },
+    {
+        path: '/auth/profilesetting',
+        name: 'ProfileSetting',
+        component: ProfileSetting,
         route: Route,
     },
 ];

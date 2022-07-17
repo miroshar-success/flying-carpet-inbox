@@ -9,6 +9,7 @@ import FeatherIcons from 'feather-icons-react';
 
 // actions
 import { resetAuth, loginUser } from '../../redux/actions';
+import '../../assets/scss/Theme.scss';
 
 // store
 import { RootState, AppDispatch } from '../../redux/store';
@@ -87,7 +88,7 @@ const Login = () => {
 
     return (
         <>
-            {userLoggedIn || user ? <Redirect to={redirectUrl}></Redirect> : null}
+             {userLoggedIn && user ? <Redirect to={redirectUrl}></Redirect> : null}
 
             <AuthLayout bottomLinks={<BottomLink />}>
                 <div className="auth-logo mx-auto">
@@ -104,9 +105,9 @@ const Login = () => {
                     </Link>
                 </div>
 
-                <h6 className="h5 mb-0 mt-3">{t('Welcome back!')}</h6>
-                <p className="text-muted mt-1 mb-4">
-                    {t('Enter your email address and password to access admin panel.')}
+                <h6 className="h5 mb-0 mt-3" dir="rtl">{t('?????? ?????!')}</h6>
+                <p className="text-muted mt-1 mb-4" dir="rtl">
+                    {t('??? ??? ?? ????? ????? ??????? ????? ????? ??????')}
                 </p>
 
                 {error && (
@@ -118,11 +119,12 @@ const Login = () => {
                 <VerticalForm<UserData>
                     onSubmit={onSubmit}
                     resolver={schemaResolver}
+                    defaultValues={{ email: 'shreyu@coderthemes.com', password: 'test' }}
                     formClass="authentication-form">
                     <FormInput
                         type="email"
                         name="email"
-                        label={t('Email Address')}
+                        label={t('????? ????')}
                         startIcon={<FeatherIcons icon={'mail'} className="icon-dual" />}
                         placeholder={t('hello@coderthemes.com')}
                         containerClass={'mb-3'}
@@ -130,7 +132,7 @@ const Login = () => {
                     <FormInput
                         type="password"
                         name="password"
-                        label={t('Password')}
+                        label={t('?????')}
                         startIcon={<FeatherIcons icon={'lock'} className="icon-dual" />}
                         action={
                             <Link to="/auth/forget-password" className="float-end text-muted text-unline-dashed ms-1">
@@ -143,22 +145,22 @@ const Login = () => {
                     <FormInput
                         type="checkbox"
                         name="checkbox"
-                        label={t('Remember me')}
+                        label={t('???? ????')}
                         containerClass={'mb-3'}
                         defaultChecked
                     />
 
                     <div className="mb-3 text-center d-grid">
                         <Button type="submit" disabled={loading}>
-                            {t('Log In')}
+                            {t('?????')}
                         </Button>
                     </div>
                 </VerticalForm>
 
-                <div className="py-3 text-center">
+                {/* <div className="py-3 text-center">
                     <span className="fs-16 fw-bold">{t('OR')}</span>
-                </div>
-                <Row>
+                </div> */}
+                {/* <Row>
                     <Col xs={12} className="text-center">
                         <Link to="#" className="btn btn-white mb-2 mb-sm-0 me-1">
                             <i className="uil uil-google icon-google me-2"></i>
@@ -169,7 +171,7 @@ const Login = () => {
                             {t('With Facebook')}
                         </Link>
                     </Col>
-                </Row>
+                </Row> */}
             </AuthLayout>
         </>
     );

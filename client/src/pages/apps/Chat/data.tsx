@@ -22,7 +22,8 @@ export interface ApiType {
     id? : Number;
     token? : String;
     instance? : String;
-    phone? : string
+    phone? : string;
+    name? : string;
 };
 
 export interface MessageItem {

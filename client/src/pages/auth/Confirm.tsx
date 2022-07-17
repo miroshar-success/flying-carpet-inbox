@@ -126,9 +126,10 @@ const BottomLink = () => {
             <Col xs={12} className="text-center">
                 <p className="text-muted">
                     {t('Back to')}{' '}
-                    <Link to={'/auth/login'} className="text-primary fw-bold ms-1">
+                    <a href='/auth/login'>{t('Login')}</a>
+                    {/* <Link to={'/auth/login'} className="text-primary fw-bold ms-1">
                         {t('Login')}
-                    </Link>
+                    </Link> */}
                 </p>
             </Col>
         </Row>

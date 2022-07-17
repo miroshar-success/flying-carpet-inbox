@@ -90,11 +90,11 @@ const ProfileMenus = [
     //     icon: 'user',
     //     redirectTo: '/',
     // },
-    // {
-    //     label: 'Lock Screen',
-    //     icon: 'lock',
-    //     redirectTo: '/auth/lock-screen',
-    // },
+    {
+        label: 'Profile',
+        icon: 'lock',
+        redirectTo: '/auth/profilesetting',
+    },
     {
         label: 'Logout',
         icon: 'log-out',
@@ -244,7 +244,7 @@ const Topbar = ({ hideLogo, navCssClasses, openLeftMenuCallBack, topbarDark }: T
                             <NotificationDropdown notifications={Notifications} />
                         </li> */}
                         <li className="dropdown notification-list topbar-dropdown">
-                            <ProfileDropdown profilePic={profilePic} menuItems={ProfileMenus} username={user.username} />
+                            <ProfileDropdown profilePic={user.avatar} menuItems={ProfileMenus} username={user.username} />
                         </li>
                         <li className="dropdown notification-list">
                             <button
@@ -290,7 +290,7 @@ const Topbar = ({ hideLogo, navCssClasses, openLeftMenuCallBack, topbarDark }: T
                         </li>
 
                         <li className="dropdown d-none d-xl-block">
-                            <CreateNew otherOptions={otherOptions} />
+                            {/* <CreateNew otherOptions={otherOptions} /> */}
                         </li>
                     </ul>
                 </div>

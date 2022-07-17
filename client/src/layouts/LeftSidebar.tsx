@@ -22,7 +22,9 @@ import { APICore } from "../helpers/api/apiCore";
 
 /* user box */
 const UserBox = () => {
-
+    const { user } = useSelector((state: RootState) => ({
+        user : state.Auth.user
+    }));
     // get the profilemenu
     const ProfileMenus = [
         {
@@ -63,17 +65,17 @@ const UserBox = () => {
 
     return (
         <div className="user-box text-center">
-            <img src={profileImg} alt="" title="Mat Helme" className="rounded-circle avatar-md" />
+            <img src={user.avatar} alt="" title="Mat Helme" className="rounded-circle avatar-md" />
             <Dropdown show={dropdownOpen} onToggle={toggleDropdown}>
                 <Dropdown.Toggle
                     id="dropdown-notification"
                     as="a"
                     onClick={toggleDropdown}
                     className="cursor-pointer text-dark h5 mt-2 mb-1 d-block">
-                    Nik Patel
+                    {user.username}
                 </Dropdown.Toggle>
                 <Dropdown.Menu className="user-pro-dropdown m-0">
-                    {/* <div onClick={toggleDropdown}> */}
+                    <div onClick={toggleDropdown}>
                     {(ProfileMenus || []).map((item, index) => {
                         return (
                             <React.Fragment key={index + '-profile-menu'}>
@@ -85,17 +87,16 @@ const UserBox = () => {
                             </React.Fragment>
                         );
                     })}
-                    {/* </div> */}
+                    </div>
                 </Dropdown.Menu>
             </Dropdown>
-            <p className="text-muted">Admin Head</p>
+            {/* <p className="text-muted">Admin Head</p> */}
         </div>
     );
 };
 
 /* sidebar content */
 const SideBarContent = () => {
-
     
     let menus = getMenuItems();
 

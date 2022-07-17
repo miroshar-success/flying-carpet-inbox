@@ -60,7 +60,7 @@ const ChatUsers = ({ onUserSelect, user, onSearch,currentAPI,setCurrentAPI,API }
                     <div className="d-flex pb-2 border-bottom align-items-center" dir="rtl">
                         <Dropdown  className="mt-2 me-1">
                                 <Dropdown.Toggle  className="cursor-pointer">
-                                    {(currentAPI == undefined) ? "" : currentAPI.phone}
+                                    {(currentAPI == undefined) ? "" : currentAPI.name}
                                     <i className="icon">
                                         {/* <span>
                                             {admin.avatar ? (
@@ -82,7 +82,7 @@ const ChatUsers = ({ onUserSelect, user, onSearch,currentAPI,setCurrentAPI,API }
                                 </Dropdown.Toggle>
                                 <Dropdown.Menu>
                                     {
-                                        API.map(api => <Dropdown.Item onClick={() => setCurrentAPI(api)}>{api.phone}</Dropdown.Item>)
+                                        API.map(api => <Dropdown.Item onClick={() => setCurrentAPI(api)}>{api.name}</Dropdown.Item>)
                                     }
                                     {/* <Dropdown.Item href="#">Action</Dropdown.Item>
                                     <Dropdown.Item href="#">Another action</Dropdown.Item>

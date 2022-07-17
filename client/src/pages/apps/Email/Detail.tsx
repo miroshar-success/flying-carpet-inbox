@@ -255,7 +255,7 @@ const EmailDetail = (props : any) => {
                                                 toolbarClassName="toolbarClassName"
                                                 wrapperClassName="wrapperClassName mb-3 card"
                                                 editorClassName="editorClassName px-2 pt-0"
-                                                editorStyle={{ minHeight: '300px' }}
+                                                editorStyle={{ minHeight: '300px',outerHeight: "700px",overflow : "auto" }}
                                                 onEditorStateChange={onEditorStateChange}
                                             />
                                         </div>

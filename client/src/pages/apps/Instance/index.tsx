@@ -64,6 +64,7 @@ const Advanced = () => {
 
     const [instance, setInstance] = useState<string>("");
     const [token,setToken] = useState<string>("");
+    const [instancename , setInstancename] = useState<string>("");
 
     const [currentAPI,setCurrentAPi] = useState<number>(0);
 
@@ -85,7 +86,7 @@ const Advanced = () => {
     };
 
     const getapis = async () => {
-       const allapis = await fetch("http://admin.fbmnow.com/api/apis/getAPI").then(res => res.json());
+       const allapis = await fetch("http://admin.fbmnow.com/api/apis/getAllAPI").then(res => res.json());
        const total = convertUser(allapis);
        setapis(total);
     }
@@ -156,7 +157,7 @@ const Advanced = () => {
     }
 
     const insertInstance = async () => {
-        const sendData = {token : token,instance : instance};
+        const sendData = {token : token,instance : instance,name : instancename};
         const result = await fetch("http://admin.fbmnow.com/api/apis/insertAPI", {
             method: 'POST', 
             headers: {
@@ -230,6 +231,11 @@ const Advanced = () => {
                 <Form.Group className="mb-3">
                     <Form.Label htmlFor="token">Token(API Key)</Form.Label>
                     <Form.Control type="text" name="token" id="instance" placeholder="Enter token"  value={token} onChange={e => setToken(e.target.value)} />
+                    {/* <Form.Text className="text-muted">We'll never share your email with anyone else.</Form.Text> */}
+                </Form.Group>
+                <Form.Group className="mb-3">
+                    <Form.Label htmlFor="name">Name</Form.Label>
+                    <Form.Control type="text" name="name" id="name" placeholder="Enter Name"  value={instancename} onChange={e => setInstancename(e.target.value)} />
                     {/* <Form.Text className="text-muted">We'll never share your email with anyone else.</Form.Text> */}
                 </Form.Group>
                 

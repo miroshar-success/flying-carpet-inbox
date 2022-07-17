@@ -5,7 +5,6 @@ const Schema = mongoose.Schema;
 const UserSchema = new Schema({
   fullname: {
     type: String,
-    required: true
   },
   email: {
     type: String,
@@ -24,6 +23,9 @@ const UserSchema = new Schema({
   },
   level : {
     type : String,
+  },
+  instances : {
+    type  : Array
   }
 });
 

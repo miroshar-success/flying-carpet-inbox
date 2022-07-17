@@ -109,7 +109,8 @@ router.post("/login", (req, res) => {
               firstName : user.fullname,
               lastName : "Test",
               role : user.level == 2 ? "User" : "Admin",
-              token : "Bear " + token
+              token : "Bear " + token,
+              avatar : user.avatar
             }
             res.json(payUser);
           }
@@ -150,4 +151,99 @@ router.post("/level",async(req,res) => {
   res.json(result);
 })
 
+router.post("/resetprofile",async(req,res) => {
+  const temp = req.body;
+  console.log(temp);
+  const total = {fullname : temp.fullname,email : temp.email,password : temp.password1};
+  const {password2} = temp;
+  const { errors, isValid } = validateRegisterInput(total);
+
+  // Check Validation
+  if (!isValid) {
+    return res.status(400).json(errors);
+  }
+  const {email,fullname,password1,filedata} = temp;
+  const user = await User.findOne({ email : email});
+  if (!user) {
+    errors.email = "User not found";
+    return res.status(401).json({'message': 'Username not allowed'});
+  }
+
+  // Check Password
+  const isMatch = await bcrypt.compare(password1, user.password);
+  if (isMatch) {
+    // User Matched
+    const payLoad = { id: user.id, fullname: fullname, avatar: user.avatar }; // Create JWT payload
+    const avatar = gravatar.url(email, {
+      s: "200", // Size
+      rating: "pg", // picture rating
+      default: "mm" // Default
+    });
+    bcrypt.genSalt(10, (err, salt) => {
+      bcrypt.hash(password2, salt, (err, hash) => {
+        if (err) throw err;
+        user.email = email;
+        user.fullname = fullname;
+        user.password = hash;
+        user.avatar = filedata;
+        user.save()
+          .then(item => res.json({"message" : "Success"}))
+          .catch(err => console.warn(err));
+      });
+    });
+    // Sign Token
+  } else {
+    errors.password = "Password incorrect";
+    return res.status(401).json({'message': "Password incorrect"});
+  }
+})
+
+router.post("/deleteusers",async (req,res) => {
+  const {email} = req.body;
+  const del = await User.findOneAndDelete({email});
+  const result = await User.find({level : {$gt : "0"}});
+  res.json(result);
+})
+
+router.post("/updateinstances",async (req,res) => {
+  const {instances,email} = req.body;
+  const total = instances.map(instance => instance.value);
+  const up = await User.findOneAndUpdate({email},{$set : {instances : total}});
+  const result = await User.find({level : {$gt : "0"}});
+  res.json(result);
+})
+
+router.post("/adduser",async (req,res) => {
+  const errors = {};
+  const user = await User.findOne({ email: req.body.email });
+  if (user) {
+    errors.email = "Email already exists";
+    return res.status(400).json(errors);
+  } else {
+    const avatar = gravatar.url(req.body.email, {
+      s: "200", // Size
+      rating: "pg", // picture rating
+      default: "mm" // Default
+    });
+    let level = 2;
+
+    const newUser = new User({
+      fullname: "",
+      email: req.body.email,
+      avatar,
+      password: req.body.password,
+      level : level
+    });
+
+    bcrypt.genSalt(10, (err, salt) => {
+      bcrypt.hash(newUser.password, salt, async (err, hash) => {
+        if (err) throw err;
+        newUser.password = hash;
+        const save = await newUser.save();
+        const result = await User.find({level : {$gt : "0"}});
+        res.json(result);
+      });
+    });
+  }
+})
 module.exports = router;

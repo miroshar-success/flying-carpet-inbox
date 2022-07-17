@@ -10,9 +10,8 @@ import './assets/scss/Theme.scss';
 
 // For Dark import Theme-Dark.scss
 // import './assets/scss/Theme-Dark.scss';
-
 // configure fake backend
-// configureFakeBackend();
+configureFakeBackend();
 
 const App = () => {
     return (

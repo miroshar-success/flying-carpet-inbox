@@ -34,13 +34,13 @@ const AuthLayout = ({ bottomLinks, children }: AccountLayoutProps) => {
                                             <div className="auth-page-sidebar">
                                                 <div className="overlay"></div>
                                                 <div className="auth-user-testimonial">
-                                                    <p className="fs-24 fw-bold text-white mb-1">
+                                                    {/* <p className="fs-24 fw-bold text-white mb-1">
                                                         {t('I simply love it!')}
                                                     </p>
                                                     <p className="lead">
                                                         "{t("It's a elegent templete. I love it very much!")}"
                                                     </p>
-                                                    <p>- {t('Admin User')}</p>
+                                                    <p>- {t('Admin User')}</p> */}
                                                 </div>
                                             </div>
                                         </Col>

@@ -52,7 +52,7 @@ const MenuItemWithChildren = ({
         if (toggleMenu) toggleMenu(item, status);
         return false;
     };
-
+    console.log(activeMenuItems,"Hi");
     return (
         <Tag className={classNames('dropdown', className, activeMenuItems!.includes(item.key) ? 'active' : '')}>
             <Link
