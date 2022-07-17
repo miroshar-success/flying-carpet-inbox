@@ -168,8 +168,7 @@ const ChatUsers = ({ onUserSelect, user, onSearch,currentAPI,setCurrentAPI,API }
                                         onClick={(e: any) => {
                                             activateUser(user);
                                         }}>
-                                        <div
-                                            className={classNames('d-flex', 'align-items-start', 'p-2')}>
+                                        <div className={classNames('d-flex', 'align-items-start', 'p-2')} dir="ltr">
                                             <div className="w-100 overflow-hidden">
                                                 <h5 className="mt-0 mb-0 fs-14" dir="rtl">
                                                     <span className="float-start text-muted fs-12" dir="ltr">

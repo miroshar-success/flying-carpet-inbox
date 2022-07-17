@@ -132,12 +132,7 @@ const Login = () => {
                         type="password"
                         name="password"
                         label={t('סיסמה')}
-                        startIcon={<FeatherIcons icon={'lock'} className="icon-dual" />}
-                        action={
-                            <Link to="/auth/forget-password" className="float-end text-muted text-unline-dashed ms-1">
-                                {t('Forgot your password?')}
-                            </Link>
-                        }
+                        startIcon={<FeatherIcons icon={'lock'} className="icon-dual" />}                        
                         placeholder={t('Enter your Password')}
                         containerClass={'mb-3'}></FormInput>
 
