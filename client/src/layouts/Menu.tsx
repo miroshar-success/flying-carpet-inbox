@@ -33,7 +33,7 @@ const MenuItemWithChildren = ({ item, linkClassName, subMenuClassNames, activeMe
         if (toggleMenu) toggleMenu(item, status);
         return false;
     };
-
+    console.log("Menu");
     return (
         <li className={classNames({ 'menuitem-active': open })}>
             <Link

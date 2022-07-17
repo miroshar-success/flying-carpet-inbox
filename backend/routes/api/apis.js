@@ -71,7 +71,7 @@ router.post("/insertAPI",async (req,res) => {
 })
 
 router.post("/updateAPI",async (req,res) => {
-    const {_Id,token,instance} = req.body;
+    const {_Id,token,instance,name} = req.body;
     let fetchdata;
     try{
         fetchdata = await axios.get(`https://api.chat-api.com/instance${instance}/me?token=${token}`);
@@ -79,7 +79,7 @@ router.post("/updateAPI",async (req,res) => {
        return res.json({message : "not correct"});
     }
     const phone = fetchdata.data.phone;
-    const update = await APIs.findOneAndUpdate({id : _Id},{$set : {token : token, instance : instance,phone:phone}});
+    const update = await APIs.findOneAndUpdate({id : _Id},{$set : {token : token, instance : instance,phone:phone,name:name}});
     const result = await APIs.find({});
     res.json(result);
 })

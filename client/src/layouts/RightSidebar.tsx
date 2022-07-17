@@ -47,7 +47,7 @@ const RightSideBar = (props: RightSideBarProps) => {
             document.removeEventListener('mousedown', handleOtherClick, false);
         };
     }, [handleOtherClick]);
-
+    console.log("Right");
     return (
         <React.Fragment>
             <div className="right-bar" ref={rightBarNodeRef}>

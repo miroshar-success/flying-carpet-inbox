@@ -197,7 +197,7 @@ const Topbar = ({ hideLogo, navCssClasses, openLeftMenuCallBack, topbarDark }: T
             dispatch(changeSidebarType(SideBarTypes.LEFT_SIDEBAR_TYPE_CONDENSED));
         if (leftSideBarType === 'condensed') dispatch(changeSidebarType(SideBarTypes.LEFT_SIDEBAR_TYPE_DEFAULT));
     };
-
+    console.log("Top");
     return (
         <React.Fragment>
             <div className={`navbar-custom ${navbarCssClasses}`}>
@@ -246,13 +246,13 @@ const Topbar = ({ hideLogo, navCssClasses, openLeftMenuCallBack, topbarDark }: T
                         <li className="dropdown notification-list topbar-dropdown">
                             <ProfileDropdown profilePic={user.avatar} menuItems={ProfileMenus} username={user.username} />
                         </li>
-                        <li className="dropdown notification-list">
+                        {/* <li className="dropdown notification-list">
                             <button
                                 className="nav-link right-bar-toggle arrow-none btn btn-link shadow-none"
                                 onClick={handleRightSideBar}>
                                 <FeatherIcon icon="settings" />
                             </button>
-                        </li>
+                        </li> */}
                     </ul>
 
                     <ul className="list-unstyled topnav-menu topnav-menu-left m-0">

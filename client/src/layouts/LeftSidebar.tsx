@@ -97,6 +97,7 @@ const UserBox = () => {
 
 /* sidebar content */
 const SideBarContent = () => {
+    console.log("111");
     
     let menus = getMenuItems();
 
@@ -104,6 +105,7 @@ const SideBarContent = () => {
         user : state.Auth.user
     }));
     if (user.role == "User") {
+        console.log(menus);
         menus = menus.filter((menu) => menu.level == 2);
     }
     return (
@@ -144,7 +146,7 @@ const LeftSidebar = ({ isCondensed }: LeftSidebarProps) => {
             document.removeEventListener('mousedown', handleOtherClick, false);
         };
     }, []);
-
+    console.log("Left");
     return (
         <React.Fragment>
             <div className="left-side-menu" ref={menuNodeRef}>

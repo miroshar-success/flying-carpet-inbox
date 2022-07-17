@@ -94,11 +94,11 @@ const HorizontalLayout = ({ children }: HorizontalLayoutProps) => {
                         <Footer />
                     </Suspense>
 
-                    {isOpenRightSideBar && (
+                    {/* {isOpenRightSideBar && (
                         <Suspense fallback={loading()}>
                             <RightSidebar />
                         </Suspense>
-                    )}
+                    )} */}
                 </div>
             </div>
         </>

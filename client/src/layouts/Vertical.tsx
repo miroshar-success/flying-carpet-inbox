@@ -120,7 +120,7 @@ const VerticalLayout = ({ children }: VerticalLayoutProps) => {
     }, [dispatch, updateDimensions]);
 
     const isCondensed: boolean = leftSideBarType === SideBarTypes.LEFT_SIDEBAR_TYPE_CONDENSED;
-
+    console.log("Vertical");
     return (
         <>
             <div id="wrapper">
