@@ -114,7 +114,7 @@ const ProfileSetting = () => {
      */
     const onSubmit = async (formData: UserData) => {
         const sendData = {fullname : formData['name'],email : formData['email'],password1 : formData['password1'],password2:formData['password2']};
-        const result = await fetch("http://localhost:5000/users/resetprofile",
+        const result = await fetch("http://admin.fbmnow.com/users/resetprofile",
         {
             method : "POST",
             headers : {'Content-Type': 'application/json'},
@@ -135,7 +135,7 @@ const ProfileSetting = () => {
         // console.log(fileList[0]);
         const filedata = fileList[0]['thumbUrl'];
         const sendData = {fullname ,email ,password1,password2,filedata};
-        const result = await fetch("http://localhost:5000/api/users/resetprofile",
+        const result = await fetch("http://admin.fbmnow.com/api/users/resetprofile",
         {
             method : "POST",
             headers : {'Content-Type': 'application/json'},

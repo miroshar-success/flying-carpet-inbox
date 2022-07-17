@@ -115,7 +115,7 @@ class APICore {
         if (url == "/logout/") {
             return axios.post(url,data);
         }
-        return fetch("http://localhost:5000/api"+url, {
+        return fetch("http://admin.fbmnow.com/api"+url, {
             method: 'POST', // *GET, POST, PUT, DELETE, etc.
             mode: 'cors', // no-cors, *cors, same-originw
             cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached

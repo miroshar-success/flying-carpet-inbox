@@ -24,7 +24,7 @@ const VoicecallModal = ({ show, handleClose }: VoicecallModalProps) => {
 
     const insertToken = () => {
         const data = {instance : instance, token : token};
-        fetch("http://localhost:5000/api/apis/insertAPI", {
+        fetch("http://admin.fbmnow.com/api/apis/insertAPI", {
             method: 'POST', // *GET, POST, PUT, DELETE, etc.
             mode: 'cors', // no-cors, *cors, same-origin
             cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
