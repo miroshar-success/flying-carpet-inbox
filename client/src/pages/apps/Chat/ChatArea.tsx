@@ -280,7 +280,7 @@ const UserMessage = ({ message, toUser }: UserMessageProps) => {
                                 )} */}
                             </div>
                             {index === message.messages.length - 1 && (
-                                <p className="text-muted fs-12 mb-0 mt-1">
+                                <p className="text-muted fs-12 mb-0 mt-1" dir="ltr">
                                     {message.sendOn}
                                     {message.from.id === toUser.id && (
                                         <i className="bi bi-check2-all ms-1 text-success"></i>
