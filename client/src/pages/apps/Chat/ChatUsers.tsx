@@ -139,7 +139,10 @@ const ChatUsers = ({ onUserSelect, user, onSearch,currentAPI,setCurrentAPI,API }
                     <div>
                         <form className="chat-search">
                             <div className="chat-search-box">
-                                <div className="input-group">
+                                <div className="input-group">                                    
+                                    <button className="btn input-group-text" type="submit">
+                                        <i className="uil uil-search"></i>
+                                    </button>
                                     <input
                                         type="search"
                                         className="form-control"
@@ -148,9 +151,6 @@ const ChatUsers = ({ onUserSelect, user, onSearch,currentAPI,setCurrentAPI,API }
                                         id="top-search"
                                         onKeyUp={(e: any) => onSearch(e.target.value)}
                                     />
-                                    <button className="btn input-group-text" type="submit">
-                                        <i className="uil uil-search"></i>
-                                    </button>
                                 </div>
                             </div>
                         </form>
