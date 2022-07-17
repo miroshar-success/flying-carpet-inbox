@@ -271,7 +271,7 @@ const HorizontalForm = () => {
     );
 
     const methods = useForm<UserData2>({
-        defaultValues: { email2: 'shreyu@coderthemes.com' },
+        defaultValues: { email2: '' },
         resolver: schemaResolver2,
     });
     const {
