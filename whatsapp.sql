@@ -25,20 +25,20 @@ db.createCollection("apis");
 // Documents of apis
 // ----------------------------
 db.getCollection("apis").insert([ {
-    _id: ObjectId("62d0d15f68c0a5530c09b75b"),
-    id: NumberInt("3"),
+    _id: ObjectId("62d1805f4b29000082000e92"),
+    id: NumberLong("3"),
     token: "off_KllvJh303Dr7qcmEtK3HTqYpAK",
     instance: "445802",
     phone: "972503112787",
-    __v: NumberInt("0")
+    name: "werwerw"
 } ]);
 db.getCollection("apis").insert([ {
-    _id: ObjectId("62d0d4c5368c4d24ecf582cf"),
-    id: NumberInt("4"),
-    token: "3px6cypvje3xsjmc",
+    _id: ObjectId("62d1806d4b29000082000e93"),
+    id: NumberLong("4"),
     instance: "7827",
     phone: "972508087412",
-    __v: NumberInt("0")
+    token: "3px6cypvje3xsjmc",
+    name: 7827
 } ]);
 
 // ----------------------------

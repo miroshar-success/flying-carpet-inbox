@@ -6,8 +6,8 @@
   "scripts": {
     "client-install": "cd client && npm install ",
     "install-all": "npm install && cd client && npm install",
-    "start": "node ./backend/server.js",
-    "server": "nodemon ./backend/server.js",
+    "start": "node ./server.js",
+    "server": "nodemon ./server.js",
     "client": "cd client && npm start ",
     "dev": "concurrently \"npm run server\" \"npm run client\""
   },
