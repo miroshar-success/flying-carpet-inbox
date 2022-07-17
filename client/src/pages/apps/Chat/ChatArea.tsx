@@ -226,7 +226,7 @@ const UserMessage = ({ message, toUser }: UserMessageProps) => {
                                 )} */}
 
                                 {item.type === 'text' && (
-                                    <div className="ctext-wrap" dir="rtl">
+                                    <div className="ctext-wrap">
                                         <Markup content={validURL(item.value) }/>
                                         
                                     </div>

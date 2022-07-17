@@ -389,21 +389,24 @@ const HORIZONTAL_MENU_ITEMS: MenuItemTypes[] = [
     {
         key: 'apps-chat',
         label: 'Chat',
-        isTitle: true,
+        isTitle: false,
         url: '/apps/chat',
-        level : 1
+        parentKey: 'apps',
+        level : 2
     },
     {
         key: 'apps-user',
         label: 'User',
-        isTitle: true,
+        isTitle: false,
+        icon: 'message-square',
         url: '/apps/user',
         level : 1,
     },
     {
         key: 'apps-instance',
         label: 'Instance',
-        isTitle: true,
+        isTitle: false,
+        icon: 'message-square',
         url: '/apps/instance',
         level : 1,
     },

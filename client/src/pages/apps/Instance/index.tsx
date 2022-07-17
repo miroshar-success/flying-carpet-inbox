@@ -27,9 +27,14 @@ const columns = [
         sort: false,
     },
     {
+        Header : "Name",
+        accessor : "name"
+    },
+    {
         Header : 'Action',
         accessor : 'action',
-    }
+    },
+    
 ];
 
 const sizePerPageList = [
@@ -51,6 +56,7 @@ interface apiType  {
     id : Number;
     token : String;
     instance : String;
+    name : String;
 }
 
 const Advanced = () => {
@@ -79,6 +85,7 @@ const Advanced = () => {
         setmes("");
         setInstance(api.instance);
         setToken(api.token);
+        setInstancename(api.name);
         setCurrentAPi(api.id);
         setEditType(type);
         handleShow();
@@ -86,7 +93,7 @@ const Advanced = () => {
     };
 
     const getapis = async () => {
-       const allapis = await fetch("http://admin.fbmnow.com/api/apis/getAllAPI").then(res => res.json());
+       const allapis = await fetch("http://localhost:5000/api/apis/getAllAPI").then(res => res.json());
        const total = convertUser(allapis);
        setapis(total);
     }
@@ -98,6 +105,7 @@ const Advanced = () => {
                 id : api.id,
                 token : api.token,
                 instance : api.instance,
+                name : api.name,
                 action : <>
                             <Button className='btn-sm' onClick={() => openModal(1,api)}> Update</Button>
                             <Button className='btn-sm' onClick={() => deleteInstance(api.id)}> Delete</Button>
@@ -121,8 +129,8 @@ const Advanced = () => {
     }
 
     const updateInstance = async () => {
-        const sendData = {_Id : currentAPI,token : token,instance : instance};
-        const result = await fetch("http://admin.fbmnow.com/api/apis/updateAPI", {
+        const sendData = {_Id : currentAPI,token : token,instance : instance,name : instancename};
+        const result = await fetch("http://localhost:5000/api/apis/updateAPI", {
             method: 'POST', 
             headers: {
               'Content-Type': 'application/json'
@@ -143,7 +151,7 @@ const Advanced = () => {
     const deleteInstance = async ( _Id : Number) => {
         const sendData = {_Id : _Id};
         console.log(sendData);
-        const result = await fetch("http://admin.fbmnow.com/api/apis/deleteAPI", {
+        const result = await fetch("http://localhost:5000/api/apis/deleteAPI", {
             method: 'POST', 
             headers: {
               'Content-Type': 'application/json'
@@ -158,7 +166,7 @@ const Advanced = () => {
 
     const insertInstance = async () => {
         const sendData = {token : token,instance : instance,name : instancename};
-        const result = await fetch("http://admin.fbmnow.com/api/apis/insertAPI", {
+        const result = await fetch("http://localhost:5000/api/apis/insertAPI", {
             method: 'POST', 
             headers: {
               'Content-Type': 'application/json'

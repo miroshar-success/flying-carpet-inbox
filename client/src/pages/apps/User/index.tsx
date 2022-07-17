@@ -122,7 +122,7 @@ const Advanced = () => {
 
     const getusers = async () => {
         console.log(user.email);
-       const allusers = await fetch("http://admin.fbmnow.com/api/users/users",{ method: 'POST'}).then(res => res.json());
+       const allusers = await fetch("http://localhost:5000/api/users/users",{ method: 'POST'}).then(res => res.json());
        const total = convertUser(allusers);
         setusers(total);
         
@@ -130,7 +130,7 @@ const Advanced = () => {
     }
 
     const getinstances = async () => {
-       const allapis = await fetch("http://admin.fbmnow.com/api/apis/getAllAPI").then(res => res.json());
+       const allapis = await fetch("http://localhost:5000/api/apis/getAllAPI").then(res => res.json());
         const total = allapis.map((api : any,index : number) => {
             return {
                 value : api.instance,
@@ -143,7 +143,7 @@ const Advanced = () => {
 
     const deleteusers = async (email : string) => {
         const sendData = {email};
-        const result = await fetch("http://admin.fbmnow.com/api/users/deleteusers",{method : "POST",headers : {'Content-Type': 'application/json'},body : JSON.stringify(sendData)}).then(res => res.json());
+        const result = await fetch("http://localhost:5000/api/users/deleteusers",{method : "POST",headers : {'Content-Type': 'application/json'},body : JSON.stringify(sendData)}).then(res => res.json());
         const total = convertUser(result);
         setusers(total);
     }
@@ -183,7 +183,7 @@ const Advanced = () => {
 
     const onChangeMultipleSelection = async (newValue: any,email : string) => {
         const sendData = {instances : newValue,email : email};
-        const updateinstances = await fetch("http://admin.fbmnow.com/api/users/updateinstances", {
+        const updateinstances = await fetch("http://localhost:5000/api/users/updateinstances", {
             method: 'POST', 
             headers: {
               'Content-Type': 'application/json'
@@ -198,7 +198,7 @@ const Advanced = () => {
 
     const setLevel = async (email : string,level : string) => {
         const sendData = {email: email,level : level};
-        const setLevel = await fetch("http://admin.fbmnow.com/api/users/level", {
+        const setLevel = await fetch("http://localhost:5000/api/users/level", {
             method: 'POST', 
             headers: {
               'Content-Type': 'application/json'
@@ -222,7 +222,7 @@ const Advanced = () => {
 
     const onSubmit = async () => {
         console.log(useremail,password);
-        const newuser = await fetch("http://admin.fbmnow.com/api/users/adduser", {
+        const newuser = await fetch("http://localhost:5000/api/users/adduser", {
             method: 'POST', 
             headers: {
               'Content-Type': 'application/json'

@@ -139,10 +139,7 @@ const ChatUsers = ({ onUserSelect, user, onSearch,currentAPI,setCurrentAPI,API }
                     <div>
                         <form className="chat-search">
                             <div className="chat-search-box">
-                                <div className="input-group">                                    
-                                    <button className="btn input-group-text" type="submit">
-                                        <i className="uil uil-search"></i>
-                                    </button>
+                                <div className="input-group">
                                     <input
                                         type="search"
                                         className="form-control"
@@ -151,6 +148,9 @@ const ChatUsers = ({ onUserSelect, user, onSearch,currentAPI,setCurrentAPI,API }
                                         id="top-search"
                                         onKeyUp={(e: any) => onSearch(e.target.value)}
                                     />
+                                    <button className="btn input-group-text" type="submit">
+                                        <i className="uil uil-search"></i>
+                                    </button>
                                 </div>
                             </div>
                         </form>
@@ -168,7 +168,8 @@ const ChatUsers = ({ onUserSelect, user, onSearch,currentAPI,setCurrentAPI,API }
                                         onClick={(e: any) => {
                                             activateUser(user);
                                         }}>
-                                        <div className={classNames('d-flex', 'align-items-start', 'p-2')} dir="ltr">
+                                        <div
+                                            className={classNames('d-flex', 'align-items-start', 'p-2')}>
                                             <div className="w-100 overflow-hidden">
                                                 <h5 className="mt-0 mb-0 fs-14" dir="rtl">
                                                     <span className="float-start text-muted fs-12" dir="ltr">

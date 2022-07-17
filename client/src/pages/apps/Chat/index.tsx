@@ -112,7 +112,7 @@ const ChatApp = () => {
 
     const getAPIS = () => {
         const sendData = {email : user.email}
-        fetch("http://admin.fbmnow.com/api/apis/getAPI",{method : "POST",headers : {"Content-Type" : "application/json"},body: JSON.stringify(sendData)})
+        fetch("http://localhost:5000/api/apis/getAPI",{method : "POST",headers : {"Content-Type" : "application/json"},body: JSON.stringify(sendData)})
             .then(res => res.json())
             .then((json) => {
                 let total : ApiType[] = [];

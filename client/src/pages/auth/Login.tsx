@@ -62,6 +62,7 @@ const Login = () => {
     }));
 
     useEffect(() => {
+        console.log(67);
         dispatch(resetAuth());
     }, [dispatch]);
 
@@ -85,7 +86,7 @@ const Login = () => {
 
     const location = useLocation<LocationState>();
     const redirectUrl = location.state && location.state.from ? location.state.from.pathname : '/';
-
+    console.log(userLoggedIn,user,redirectUrl);
     return (
         <>
              {userLoggedIn && user ? <Redirect to={redirectUrl}></Redirect> : null}
@@ -105,8 +106,8 @@ const Login = () => {
                     </Link>
                 </div>
 
-                <h6 className="h5 mb-0 mt-3" dir="rtl">{t('ברוכים הבאים!')}</h6>
-                <p className="text-muted mt-1 mb-4" dir="rtl">
+                <h6 className="h5 mb-0 mt-3" style={{direction : "rtl"}}>{t('ברוכים הבאים!')}</h6>
+                <p className="text-muted mt-1 mb-4" style={{direction : "rtl"}}>
                     {t('אנא הזן את כתובת המייל והכניסה לכנסה לפאנל הניהול')}
                 </p>
 
@@ -119,6 +120,7 @@ const Login = () => {
                 <VerticalForm<UserData>
                     onSubmit={onSubmit}
                     resolver={schemaResolver}
+                    defaultValues={{ email: 'shreyu@coderthemes.com', password: 'test' }}
                     formClass="authentication-form">
                     <FormInput
                         type="email"
@@ -132,7 +134,12 @@ const Login = () => {
                         type="password"
                         name="password"
                         label={t('סיסמה')}
-                        startIcon={<FeatherIcons icon={'lock'} className="icon-dual" />}                        
+                        startIcon={<FeatherIcons icon={'lock'} className="icon-dual" />}
+                        action={
+                            <Link to="/auth/forget-password" className="float-end text-muted text-unline-dashed ms-1">
+                                {t('Forgot your password?')}
+                            </Link>
+                        }
                         placeholder={t('Enter your Password')}
                         containerClass={'mb-3'}></FormInput>
 
