@@ -22,11 +22,13 @@ interface ChatUsersProps {
     onSearch : (value : string) => void,
     currentAPI : ApiType,
     setCurrentAPI : (Value : ApiType) => void,
-    API : ApiType[]
+    API : ApiType[];
+    viewflag : boolean,
+    setviewflag : (value : boolean) => void
 }
 
 // ChatUsers
-const ChatUsers = ({ onUserSelect, user, onSearch,currentAPI,setCurrentAPI,API }: ChatUsersProps) => {
+const ChatUsers = ({ onUserSelect, user, onSearch,currentAPI,setCurrentAPI,API,viewflag,setviewflag }: ChatUsersProps) => {
     const [dropdownOpen, setDropdownOpen] = useState<boolean>(false);
     /*
      * toggle apps-dropdown
@@ -48,6 +50,7 @@ const ChatUsers = ({ onUserSelect, user, onSearch,currentAPI,setCurrentAPI,API }
      * @param {*} user
      */
     const activateUser = (user: ChatUserType) => {
+        setviewflag(true);
         if (onUserSelect) {
             onUserSelect(user);
         }

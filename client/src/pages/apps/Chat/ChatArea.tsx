@@ -30,10 +30,12 @@ import { format } from 'path';
 
 interface ChatHeaderProps {
     selectedUser: ChatUserType;
+    viewflag : boolean;
+    setviewflag : (value : boolean) => void
 }
 
-const ChatHeader = ({ selectedUser }: ChatHeaderProps) => {
-
+const ChatHeader = ({ selectedUser,viewflag,setviewflag }: ChatHeaderProps) => {
+    const mobileflag = !(window.screen.width > 750);
     const apicore = new APICore;
     const user = apicore.getLoggedInUser();
 
@@ -79,13 +81,13 @@ const ChatHeader = ({ selectedUser }: ChatHeaderProps) => {
                 </div>
                 <div className="flex-grow-1" dir='ltr'>
                     <ul className="list-inline mb-0" >
-                        {/* {
-                            user.role == "Admin" ? <Dropdown as="li" className="list-inline-item fs-18 me-3">
+                        {
+                            (mobileflag && viewflag) ? <Dropdown as="li" className="list-inline-item fs-18 me-3">
                                 <Dropdown.Toggle id="dropdown-apps" as="a" className="cursor-pointer text-dark">
-                                    <i className="bi bi-telephone-plus" onClick={() => handleVoicelModalShow()}></i>
+                                    <i className="bi-arrow-return-left" onClick={() => setviewflag(false)}></i>
                                 </Dropdown.Toggle>
                             </Dropdown> : ""
-                        } */}
+                        }
                         
                         {/* <Dropdown as="li" className="list-inline-item fs-18 me-3">
                                 <Dropdown.Toggle id="dropdown-apps" as="a" className="cursor-pointer text-dark">
@@ -301,11 +303,13 @@ interface ChatAreaProps {
     setUser : (value: ChatUserType[]) => void;
     user : ChatUserType[];
     scrollref : any,
-    currentAPI : ApiType
+    currentAPI : ApiType,
+    viewflag : boolean,
+    setviewflag : (value : boolean) => void
 }
 
 // ChatArea
-const ChatArea = ({ selectedUser,setUser,user,scrollref,currentAPI }: ChatAreaProps) => {
+const ChatArea = ({ selectedUser,setUser,user,scrollref,currentAPI,viewflag,setviewflag }: ChatAreaProps) => {
     const [loading, setLoading] = useState<boolean>(false);//show loading
     const [chatHistory, setChatHistory] = useState<ChatMessage[]>([]);//messages
     const [real,setreal] = useState<any[]>([]);//total messages
@@ -656,7 +660,7 @@ const ChatArea = ({ selectedUser,setUser,user,scrollref,currentAPI }: ChatAreaPr
             <Card>
                 <Card.Body>
                     {loading && <Loader />}
-                    <ChatHeader selectedUser={selectedUser} />
+                    <ChatHeader selectedUser={selectedUser} viewflag={viewflag} setviewflag={setviewflag}/>
 
                     <div className="mt-1">
                         <Scrollbar style={{ height: '509px', width: '100%' }}>

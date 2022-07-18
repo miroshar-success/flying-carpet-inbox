@@ -31,6 +31,10 @@ const ChatApp = () => {
         error: state.Auth.error,
         userLoggedIn: state.Auth.userLoggedIn,
     }));
+
+    const [viewflag ,setviewflag] = useState<boolean>(false);
+    const [mobile, setmobile] = useState<boolean>(false);
+
     const scrollref =  useRef<any>(); 
     
     /**
@@ -42,6 +46,9 @@ const ChatApp = () => {
 
     useEffect(() => {
         getAPIS();
+        if (window.screen.width < 750) {
+            setmobile(true);
+        }
     },[])
 
     useEffect(() => {
@@ -52,6 +59,9 @@ const ChatApp = () => {
         setSelectedUser(users[0])
 
     },[users])
+
+    
+    
 
 
     const getUsers = () => {
@@ -142,11 +152,11 @@ const ChatApp = () => {
 
             <Row style={{direction : "rtl"}}>
                 
-                <Col lg={5} xxl={3}>
-                    <ChatUsers  user={users} onUserSelect={onUserChange} onSearch = {search}  currentAPI={currentAPI} setCurrentAPI={setCurrentAPI} API = {API} />
+                <Col lg={5} xxl={3} style={{display : !(mobile && viewflag) ? "" : "none"}}>
+                    <ChatUsers  user={users} onUserSelect={onUserChange} viewflag={viewflag}  setviewflag={setviewflag} onSearch = {search}  currentAPI={currentAPI} setCurrentAPI={setCurrentAPI} API = {API} />
                 </Col>
-                <Col lg={7} xxl={9}>
-                    <ChatArea selectedUser={selectedUser} setUser={setUser} user={users}  scrollref={scrollref} currentAPI={currentAPI}/>
+                <Col lg={7} xxl={9}   style={{display : !mobile || viewflag ? "" : "none"}}>
+                    <ChatArea selectedUser={selectedUser} setUser={setUser} user={users}  viewflag={viewflag} setviewflag={setviewflag}  scrollref={scrollref} currentAPI={currentAPI}/>
                 </Col>
                 
                 
