@@ -384,7 +384,7 @@ const ChatArea = ({ selectedUser,setUser,user,scrollref,currentAPI,viewflag,setv
         if (selectedUser != undefined) {
             chatId = selectedUser['id'];
             
-             fetchemailurl = `https://api.chat-api.com/instance${currentAPI.instance}/messages?chatId=${chatId}@c.us&token=${currentAPI.token}&limit=0`;
+             fetchemailurl = `https://api.chat-api.com/instance${currentAPI.instance}/messages?chatId=${chatId}@c.us&token=${currentAPI.token}&limit=40`;
             //  console.log(chatId);
         }else{
             
@@ -483,7 +483,7 @@ const ChatArea = ({ selectedUser,setUser,user,scrollref,currentAPI,viewflag,setv
             setChatHistory(chatmessages);
         })
         .catch(err => {
-            //  fetchData()
+             fetchData()
         })
     }
     
@@ -491,40 +491,7 @@ const ChatArea = ({ selectedUser,setUser,user,scrollref,currentAPI,viewflag,setv
         setfiles(files);
     }
 
-    /*
-     *  Fetches the messages for selected user
-     */
-    // const getMessagesForUser = useCallback(() => {
-    //     if (selectedUser) {
-    //         setTimeout(() => {
-    //             fetchData();
-    //             // const modifiedChatHistory = [...chatHistory].map((record) => {
-    //             //     const test = {
-    //             //         id: record.id,
-    //             //         day: record.day,
-    //             //         messages: [...record.messages].filter(
-    //             //             (m) =>
-    //             //                 (m.to.id === admin.id && m.from.id === selectedUser.id) ||
-    //             //                 (admin.id === m.from.id && m.to.id === selectedUser.id)
-    //             //         ),
-    //             //     };
-    //             //     return test;
-    //             // });
-    //             // modifiedChatHistory.filter((mes) => mes.messages.length);
-    //             // setChatHistory([...modifiedChatHistory]);
-    //             // fetchData(selectedUser.id);
-    //             setLoading(false);
-    //         }, 750);
-    //     }
-    // }, [selectedUser]);
-
-    // useEffect(() => {
-    //     getMessagesForUser();
-    // }, [getMessagesForUser]);
-
-    /*
-     * form validation schema
-     */
+   
     const schemaResolver = yupResolver(
         yup.object().shape({
             newMessage: yup.string().required('אנא רשום את הודעתך'),
