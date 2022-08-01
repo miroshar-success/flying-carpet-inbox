@@ -384,7 +384,7 @@ const ChatArea = ({ selectedUser,setUser,user,scrollref,currentAPI,viewflag,setv
         if (selectedUser != undefined) {
             chatId = selectedUser['id'];
             
-             fetchemailurl = `https://api.chat-api.com/instance${currentAPI.instance}/messages?chatId=${chatId}@c.us&token=${currentAPI.token}&limit=40`;
+             fetchemailurl = `https://api.chat-api.com/instance${currentAPI.instance}/messages?chatId=${chatId}@c.us&token=${currentAPI.token}&limit=50`;
             //  console.log(chatId);
         }else{
             
